@@ -2,18 +2,18 @@
 \subsection{Klasyfikacja sceny}
 \begin{figure}
     \includegraphics[width=\textwidth]{images/scene_class.png}
-    \caption{Problem różrnorodności wewnątrzklasowej oraz wieloznaczności semantycznej \cite{zeng2021deep}.}
+    \caption{Problem różnorodności wewnątrzklasowej oraz wieloznaczności semantycznej \cite{zeng2021deep}.}
     \label{fig:scene-class}
 \end{figure}
 
-Zadanie klasyfikacji sceny polega na przyporządkowaniu kategorii miejsca w które przedstawia obraz. Istnieje duża różnica między klasyfikacja obrazka, a klasyfikacją sceny. Klasyfikacja obrazka jako taka zajmuje się przypodrządkowaniem klasy obiektu pierwszoplanowego, np. czy na obrazie znajduje się pies czy kot. Klasyfikacja sceny natomiast musi wziać pod uwagę wszytskie cechy obrazu, zarówno tła jak i pierwszego planu by określić odpowiednie miejsce.
+Zadanie klasyfikacji sceny polega na przyporządkowaniu kategorii miejsca w które przedstawia obraz. Istnieje duża różnica między klasyfikacja obrazka, a klasyfikacją sceny. Klasyfikacja obrazka jako taka zajmuje się przyporządkowaniem klasy obiektu pierwszoplanowego, np. czy na obrazie znajduje się pies czy kot. Klasyfikacja sceny natomiast musi wziąć pod uwagę wszystkie cechy obrazu, zarówno tła jak i pierwszego planu by określić odpowiednie miejsce.
 
-Zadanie klasyfikacji sceny jest trudne ze względu na problem różrnorodności wewnątrzklasowej oraz wieloznaczności semantycznej, co zostało przedstawione na rys. \ref{fig:scene-class}. Pierwszy z nich polega na fakcie, iż jedno miejsce moze zostać przedstawione w bardzo różnej konfiguracji m.in. oświetlenia, ekspozycji, obiektów zajdujących się na obrazie. Drugi jest związany z występowaniem tych samych obiektów dla różnych klas scen.
+Zadanie klasyfikacji sceny jest trudne ze względu na problem różnorodności wewnątrzklasowej oraz wieloznaczności semantycznej, co zostało przedstawione na rys. \ref{fig:scene-class}. Pierwszy z nich polega na fakcie, iż jedno miejsce moze zostać przedstawione w bardzo różnej konfiguracji m.in. oświetlenia, ekspozycji, obiektów znajdujących się na obrazie. Drugi jest związany z występowaniem tych samych obiektów dla różnych klas scen.
 
 \subsection{Segmentacja obrazu}
 \begin{figure}
     \includegraphics[width=\textwidth]{images/segment.png}
-    \caption{Segmentacja wewntątrz pomieszczeń \cite{zhang2018context}.}
+    \caption{Segmentacja wewnątrz pomieszczeń \cite{zhang2018context}.}
     \label{fig:segment}
   \end{figure}
 
@@ -22,23 +22,23 @@ Zadanie segmentacji obrazu to przyporządkowanie każdemu pikselowi etykiety (ry
 \section{Cel pracy}
 Celem pracy inżynierskiej są dwa zadania:
 \begin{itemize}
-    \item segmentacja środowiska wewntątrz budynku
+    \item segmentacja środowiska wewnątrz budynku
     \item klasyfikacja pomieszczeń
 \end{itemize}
 \section{Założenia}
-Praca zakłada wykonanie celów pracy w środowisku wewntątrz budynków, co więcej będzie to środowisko domowe. Pondato inferencja zostanie przeporwadzona na robocie Tiago, który jest wyposażony w kamerę Kinect.
+Praca zakłada wykonanie celów pracy w środowisku wewnątrz budynków, co więcej będzie to środowisko domowe. Ponadto inferencja zostanie przeprowadzona na robocie Tiago, który jest wyposażony w kamerę Kinect.
 \section{Motywacje}
 Istnieje wiele powodów dla których temat pracy jest warty uwagi.
 
-Po pierwsze rozwiązanie moze być wykorzystane w nawigacji robota. Wykrywanie przeszkód jest kluczowym aspektem możliwosci poruszania się robota. Zostanie ono podjęte przez zadanie segmentacji. Należy zwrócić uwagę, że robot powinien zachowywać sie ostrożniej w kuchni oraz w łazience. Ta informacja zostanie uzyskana poprzez klasyfikację sceny.
+Po pierwsze rozwiązanie moze być wykorzystane w nawigacji robota. Wykrywanie przeszkód jest kluczowym aspektem możliwości poruszania się robota. Zostanie ono podjęte przez zadanie segmentacji. Należy zwrócić uwagę, że robot powinien zachowywać sie ostrożniej w kuchni oraz w łazience. Ta informacja zostanie uzyskana poprzez klasyfikację sceny.
 
-Innym zastosowanie rozważanego rozwiązania jest pomoc dla osób niewidomych. Osoba niepełnosprawa mogłaby wówczas poruszać się po środowisku domowym z większą łatwością, mając na sobie kamerę oraz informaję o otaczajacej przestrzeni.
+Innym zastosowanie rozważanego rozwiązania jest pomoc dla osób niewidomych. Osoba niepełnosprawna mogłaby wówczas poruszać się po środowisku domowym z większą łatwością, mając na sobie kamerę oraz informację o otaczającej przestrzeni.
 
 \section{Zbiór danych}
 
-Zbiór danych powinien ściśle odpowiadać założenią postawionym w pracy. Inferencja wymaga użycia kamery Kinect. Zatem zbiór danych powiniem zawierać kategorie scen, segmentacje obrazow oraz najlepiej byc ujętym przr kamerę Kinect wersji pierwszej.
+Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Inferencja wymaga użycia kamery Kinect. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów oraz najlepiej byc ujętym przez kamerę Kinect wersji pierwszej.
 
-Po prześledzeniu wielu zbiorów danych udało sie sprostać powyzszym wymaganiom, uzyskując dwa podobne zbiory danych.
+Po prześledzeniu wielu zbiorów danych udało sie sprostać powyższym wymaganiom, uzyskując dwa podobne zbiory danych.
 
 \begin{table}[]
     \begin{adjustbox}{width=\columnwidth,center}
@@ -48,7 +48,7 @@ Po prześledzeniu wielu zbiorów danych udało sie sprostać powyzszym wymaganio
     SUN RGBD & 10 335   & 800              & 47           & \checkmark & 640 x 480     & 4            & x                         
     \end{tabular}
     \end{adjustbox}
-    \caption{Porówanie zbiorów danych \cite{song2015sun},\cite{silberman2012indoor}}
+    \caption{Porównanie zbiorów danych \cite{song2015sun},\cite{silberman2012indoor}}
     \label{tab:dataset}
 \end{table}
 
@@ -69,7 +69,7 @@ Porównanie zbiorów \texttt{NYUv2} oraz \texttt{SUN RGBD} przedstawiono w tabel
     \label{fig:old-school-arch}
 \end{figure}
 
-Artykuł ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation 2012 \cite{yao2012describing}'' dobrze ilustruje relacje segmentacji obrazu oraz klasyfikacji sceny. Aby odpowiednio sklasyfikować scenę należy obraz przedtsawić w postaci cech, a następnie na tej podstawie dopiero wnioskować. Artykuł \cite{yao2012describing} udowadnia, iż możliwe jest przeprowadzenie wnioskowania na podstawie segmentacji (rys. \ref{fig:old-school-arch}).
+Artykuł ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation 2012 \cite{yao2012describing}'' dobrze ilustruje relacje segmentacji obrazu oraz klasyfikacji sceny. Aby odpowiednio sklasyfikować scenę należy obraz przedstawić w postaci cech, a następnie na tej podstawie dopiero wnioskować. Artykuł \cite{yao2012describing} udowadnia, iż możliwe jest przeprowadzenie wnioskowania na podstawie segmentacji (rys. \ref{fig:old-school-arch}).
 
 \subsection{Metody oparte o głębokie uczenie}
 
@@ -79,9 +79,9 @@ Artykuł ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classi
     \label{fig:parrarel-arch}
 \end{figure}
 
-Wspołcześnie do zadań wizji komputerowań używa się głębokich sieci neuronowych z uwagi na ich duże zdolności generalizacji skomplikowanych przestrzeni. Celem każdej architektury jest odpowiednia ekstrakcja cech w sposób łatwo ekstrachowalny. Architektury różnią się zatem sposobem generalizacji, a dokładniej ułożeniem warst i ich parametrów. W ramach przeglądu literatury pochylono się nad różnymi metodami łączenia zadania segmentacji i klasyfikacji, ponieważ zadanie postawione w pracy, co do wiedzy autora, nie zostało wcześniej rozwiązane podobnymi metodami.
+Współcześnie do zadań wizji komputerowej używa się głębokich sieci neuronowych z uwagi na ich duże zdolności generalizacji skomplikowanych przestrzeni. Celem każdej architektury jest odpowiednia ekstrakcja cech w sposób łatwo ekstrahowalny. Architektury różnią się zatem sposobem generalizacji, a dokładniej ułożeniem warstw i ich parametrów. W ramach przeglądu literatury pochylono się nad różnymi metodami łączenia zadania segmentacji i klasyfikacji, ponieważ zadanie postawione w pracy, co do wiedzy autora, nie zostało wcześniej rozwiązane podobnymi metodami.
 
-Pierwszy artykuł ,,Let there be Color!: Joint End-to-end Learning of Global and Local Image Priors for Automatic Image Colorization with Simultaneous Classification 2016 \cite{iizuka2016let}'' rozwiązuje problem kolorowania obrazków jednak, przekształcony może być użyty w pracy. Tego można dokonać odrzucając ostatnią warstę konkatenacji w części segmentacyjnej (rys. \ref{fig:parrarel-arch}). Przedstawiona architekrura symultanicznie ekstrachuje cechy globalne oraz średniego poziomu, które odpowiednio służa klasyfikacji oraz segmentacji.
+Pierwszy artykuł ,,Let there be Color!: Joint End-to-end Learning of Global and Local Image Priors for Automatic Image Colorization with Simultaneous Classification 2016 \cite{iizuka2016let}'' rozwiązuje problem kolorowania obrazków jednak, przekształcony może być użyty w pracy. Tego można dokonać odrzucając ostatnią warstwę konkatenacji w części segmentacji (rys. \ref{fig:parrarel-arch}). Przedstawiona architektura symultanicznie ekstrahuję cechy globalne oraz średniego poziomu, które odpowiednio służą klasyfikacji oraz segmentacji.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{images/y-net.png}
@@ -97,6 +97,6 @@ Kolejnym artykułem jest ,,Y-Net: Joint Segmentation and Classification for Diag
     \caption{Prototyp rozwiązania.}
     \label{fig:prototype}
 \end{figure}
-W swoim rozwiązaniu chciabłym wykorzystać głebokie sieci neuronowe do realizacji celów pracy. Proponuję jako prototyp wykorzystac segmentację jako reprezentację cech wysokiej abstrakcji. Następnie na podstawie relacji opisanych wyżej cech zbudować klasyfikator w formie perceptronu wielowarstwowego. Na wyjściu zgodnie z rysunkiem \ref{fig:prototype} otrzymać mapę semantyczną oraz klasyfikację scen.
+W swoim rozwiązaniu chciałbym wykorzystać głębokie sieci neuronowe do realizacji celów pracy. Proponuję jako prototyp wykorzystując segmentację jako reprezentację cech wysokiej abstrakcji. Następnie na podstawie relacji opisanych wyżej cech zbudować klasyfikator w formie perceptronu wielowarstwowego. Na wyjściu zgodnie z rysunkiem \ref{fig:prototype} otrzymać mapę semantyczną oraz klasyfikację scen.
 
-W kolejnych iteracjach pracy chciałbym zbudować inne architektury, a ostatecznie porównać je, wybierajac achitekurę o największej skuteczności.
+W kolejnych iteracjach pracy chciałbym zbudować inne architektury, a ostatecznie porównać je, wybierając architekturę o największej skuteczności.
