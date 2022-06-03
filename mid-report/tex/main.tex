@@ -68,3 +68,35 @@ Porównanie zbiorów \texttt{NYUv2} oraz \texttt{SUN RGBD} przedstawiono w tabel
     \caption{Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation 2012 \cite{yao2012describing}.}
     \label{fig:old-school-arch}
 \end{figure}
+
+Artykuł ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation 2012 \cite{yao2012describing}'' dobrze ilustruje relacje segmentacji obrazu oraz klasyfikacji sceny. Aby odpowiednio sklasyfikować scenę należy obraz przedtsawić w postaci cech, a następnie na tej podstawie dopiero wnioskować. Artykuł \cite{yao2012describing} udowadnia, iż możliwe jest przeprowadzenie wnioskowania na podstawie segmentacji (rys. \ref{fig:old-school-arch}).
+
+\subsection{Metody oparte o głębokie uczenie}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{images/global-local-features.png}
+    \caption{Let there be Color!: Joint End-to-end Learning of Global and Local Image Priors for Automatic Image Colorization with Simultaneous Classification 2016 \cite{iizuka2016let}.}
+    \label{fig:parrarel-arch}
+\end{figure}
+
+Wspołcześnie do zadań wizji komputerowań używa się głębokich sieci neuronowych z uwagi na ich duże zdolności generalizacji skomplikowanych przestrzeni. Celem każdej architektury jest odpowiednia ekstrakcja cech w sposób łatwo ekstrachowalny. Architektury różnią się zatem sposobem generalizacji, a dokładniej ułożeniem warst i ich parametrów. W ramach przeglądu literatury pochylono się nad różnymi metodami łączenia zadania segmentacji i klasyfikacji, ponieważ zadanie postawione w pracy, co do wiedzy autora, nie zostało wcześniej rozwiązane podobnymi metodami.
+
+Pierwszy artykuł ,,Let there be Color!: Joint End-to-end Learning of Global and Local Image Priors for Automatic Image Colorization with Simultaneous Classification 2016 \cite{iizuka2016let}'' rozwiązuje problem kolorowania obrazków jednak, przekształcony może być użyty w pracy. Tego można dokonać odrzucając ostatnią warstę konkatenacji w części segmentacyjnej (rys. \ref{fig:parrarel-arch}). Przedstawiona architekrura symultanicznie ekstrachuje cechy globalne oraz średniego poziomu, które odpowiednio służa klasyfikacji oraz segmentacji.
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{images/y-net.png}
+    \caption{Y-Net: Joint Segmentation and Classification for Diagnosis of Breast Biopsy Images 2018 \cite{mehta2018net}.}
+    \label{fig:y-net}
+\end{figure}
+
+Kolejnym artykułem jest ,,Y-Net: Joint Segmentation and Classification for Diagnosis of Breast Biopsy Images 2018 \cite{mehta2018net}''. Jest to standardowa architektura segmentacji \texttt{U-Net} rozszerzona o gałąź klasyfikacyjną (rys. \ref{fig:y-net}). Rozwiązanie to jest na pewno ciekawe z punku widzenia modularności rozwiązania.
+
+\section{Zaproponowane rozwiązanie}
+\begin{figure}[h]
+    \includegraphics[width=\textwidth]{images/own-solution.png}
+    \caption{Prototyp rozwiązania.}
+    \label{fig:prototype}
+\end{figure}
+W swoim rozwiązaniu chciabłym wykorzystać głebokie sieci neuronowe do realizacji celów pracy. Proponuję jako prototyp wykorzystac segmentację jako reprezentację cech wysokiej abstrakcji. Następnie na podstawie relacji opisanych wyżej cech zbudować klasyfikator w formie perceptronu wielowarstwowego. Na wyjściu zgodnie z rysunkiem \ref{fig:prototype} otrzymać mapę semantyczną oraz klasyfikację scen.
+
+W kolejnych iteracjach pracy chciałbym zbudować inne architektury, a ostatecznie porównać je, wybierajac achitekurę o największej skuteczności.
