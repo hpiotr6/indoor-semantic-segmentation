@@ -6,9 +6,9 @@
     \label{fig:scene-class}
 \end{figure}
 
-Zadanie klasyfikacji sceny polega na przyporządkowaniu kategorii miejsca w które przedstawia obraz. Istnieje duża różnica między klasyfikacja obrazka, a klasyfikacją sceny. Klasyfikacja obrazka jako taka zajmuje się przyporządkowaniem klasy obiektu pierwszoplanowego, np. czy na obrazie znajduje się pies czy kot. Klasyfikacja sceny natomiast musi wziąć pod uwagę wszystkie cechy obrazu, zarówno tła jak i pierwszego planu by określić odpowiednie miejsce.
+Zadanie klasyfikacji sceny polega na przyporządkowaniu kategorii miejsca, w które przedstawia obraz. Istnieje duża różnica między klasyfikacja obrazka a klasyfikacją sceny. Klasyfikacja obrazka jako taka zajmuje się przyporządkowaniem klasy obiektu pierwszoplanowego, np. czy na obrazie znajduje się pies, czy kot. Klasyfikacja sceny natomiast musi wziąć pod uwagę wszystkie cechy obrazu, zarówno tła, jak i pierwszego planu, by określić odpowiednie miejsce.
 
-Zadanie klasyfikacji sceny jest trudne ze względu na problem różnorodności wewnątrzklasowej oraz wieloznaczności semantycznej, co zostało przedstawione na rys. \ref{fig:scene-class}. Pierwszy z nich polega na fakcie, iż jedno miejsce moze zostać przedstawione w bardzo różnej konfiguracji m.in. oświetlenia, ekspozycji, obiektów znajdujących się na obrazie. Drugi jest związany z występowaniem tych samych obiektów dla różnych klas scen.
+Zadanie klasyfikacji sceny jest trudne ze względu na problem różnorodności wewnątrz klasowej oraz wieloznaczności semantycznej, co zostało przedstawione na rys. \ref{fig:scene-class}. Pierwszy z nich polega na fakcie, iż jedno miejsce może zostać przedstawione w bardzo różnej konfiguracji m.in. oświetlenia, ekspozycji, obiektów znajdujących się na obrazie. Drugi jest związany z występowaniem tych samych obiektów dla różnych klas scen.
 
 \subsection{Segmentacja obrazu}
 \begin{figure}
@@ -28,17 +28,17 @@ Celem pracy inżynierskiej są dwa zadania:
 \section{Założenia}
 Praca zakłada wykonanie celów pracy w środowisku wewnątrz budynków, co więcej będzie to środowisko domowe. Ponadto inferencja zostanie przeprowadzona na robocie Tiago, który jest wyposażony w kamerę Kinect.
 \section{Motywacje}
-Istnieje wiele powodów dla których temat pracy jest warty uwagi.
+Istnieje wiele powodów, dla których temat pracy jest wart uwagi.
 
-Po pierwsze rozwiązanie moze być wykorzystane w nawigacji robota. Wykrywanie przeszkód jest kluczowym aspektem możliwości poruszania się robota. Zostanie ono podjęte przez zadanie segmentacji. Należy zwrócić uwagę, że robot powinien zachowywać sie ostrożniej w kuchni oraz w łazience. Ta informacja zostanie uzyskana poprzez klasyfikację sceny.
+Po pierwsze rozwiązanie może być wykorzystane w nawigacji robota. Wykrywanie przeszkód jest kluczowym aspektem możliwości poruszania się robota. Zostanie ono podjęte przez zadanie segmentacji. Należy zwrócić uwagę, że robot powinien zachowywać się ostrożniej w kuchni oraz w łazience. Ta informacja zostanie uzyskana poprzez klasyfikację sceny.
 
 Innym zastosowanie rozważanego rozwiązania jest pomoc dla osób niewidomych. Osoba niepełnosprawna mogłaby wówczas poruszać się po środowisku domowym z większą łatwością, mając na sobie kamerę oraz informację o otaczającej przestrzeni.
 
 \section{Zbiór danych}
 
-Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Inferencja wymaga użycia kamery Kinect. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów oraz najlepiej byc ujętym przez kamerę Kinect wersji pierwszej.
+Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Inferencja wymaga użycia kamery Kinect. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów oraz najlepiej być ujętym przez kamerę Kinect wersji pierwszej.
 
-Po prześledzeniu wielu zbiorów danych udało sie sprostać powyższym wymaganiom, uzyskując dwa podobne zbiory danych.
+Po prześledzeniu wielu zbiorów danych udało się sprostać powyższym wymaganiom, uzyskując dwa podobne zbiory danych.
 
 \begin{table}[]
     \begin{adjustbox}{width=\columnwidth,center}
@@ -52,7 +52,7 @@ Po prześledzeniu wielu zbiorów danych udało sie sprostać powyższym wymagani
     \label{tab:dataset}
 \end{table}
 
-Porównanie zbiorów \texttt{NYUv2} oraz \texttt{SUN RGBD} przedstawiono w tabeli \ref{tab:dataset}. Mimo liczbowej przewagi \texttt{SUN RGBD} pod wieloma względami, ostatecznie wybrano \texttt{NYUv2} z uwagi, że zbiór ten został zebrany dla pomieszczeń, w które nie są posprzątane. Fakt ten uznano, za kluczowy, iż uważano, że będzie przekładał się na lepsze rezultaty w naturalnych warunkach. \texttt{NYUv2} jest też chętniej cytowany niż texttt{SUN RGBD} (rys. \ref{fig:sun-vs-nyu}).
+Porównanie zbiorów \texttt{NYUv2} oraz \texttt{SUN RGBD} przedstawiono w tabeli \ref{tab:dataset}. Mimo liczbowej przewagi \texttt{SUN RGBD} pod wieloma względami ostatecznie wybrano \texttt{NYUv2} z uwagi, że zbiór ten został zebrany dla pomieszczeń, w które nie są posprzątane. Fakt ten uznano, za kluczowy, iż uważano, że będzie przekładał się na lepsze rezultaty w naturalnych warunkach. \texttt{NYUv2} jest też chętniej cytowany niż texttt{SUN RGBD} (rys. \ref{fig:sun-vs-nyu}).
 
 \begin{figure}
     \centering
@@ -69,7 +69,7 @@ Porównanie zbiorów \texttt{NYUv2} oraz \texttt{SUN RGBD} przedstawiono w tabel
     \label{fig:old-school-arch}
 \end{figure}
 
-Artykuł ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation 2012 \cite{yao2012describing}'' dobrze ilustruje relacje segmentacji obrazu oraz klasyfikacji sceny. Aby odpowiednio sklasyfikować scenę należy obraz przedstawić w postaci cech, a następnie na tej podstawie dopiero wnioskować. Artykuł \cite{yao2012describing} udowadnia, iż możliwe jest przeprowadzenie wnioskowania na podstawie segmentacji (rys. \ref{fig:old-school-arch}).
+Artykuł ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation 2012 \cite{yao2012describing}'' dobrze ilustruje relacje segmentacji obrazu oraz klasyfikacji sceny. Aby odpowiednio sklasyfikować scenę, należy obraz przedstawić w postaci cech, a następnie na tej podstawie dopiero wnioskować. Artykuł \cite{yao2012describing} udowadnia, iż możliwe jest przeprowadzenie wnioskowania na podstawie segmentacji (rys. \ref{fig:old-school-arch}).
 
 \subsection{Metody oparte o głębokie uczenie}
 
@@ -97,6 +97,6 @@ Kolejnym artykułem jest ,,Y-Net: Joint Segmentation and Classification for Diag
     \caption{Prototyp rozwiązania.}
     \label{fig:prototype}
 \end{figure}
-W swoim rozwiązaniu chciałbym wykorzystać głębokie sieci neuronowe do realizacji celów pracy. Proponuję jako prototyp wykorzystując segmentację jako reprezentację cech wysokiej abstrakcji. Następnie na podstawie relacji opisanych wyżej cech zbudować klasyfikator w formie perceptronu wielowarstwowego. Na wyjściu zgodnie z rysunkiem \ref{fig:prototype} otrzymać mapę semantyczną oraz klasyfikację scen.
+W swoim rozwiązaniu chciałbym wykorzystać głębokie sieci neuronowe do realizacji celów pracy. Proponuję jako prototyp wykorzystać segmentację jako reprezentację cech wysokiej abstrakcji. Następnie na podstawie relacji opisanych wyżej cech zbudować klasyfikator w formie perceptronu wielowarstwowego. Na wyjściu zgodnie z rysunkiem \ref{fig:prototype} otrzymać mapę semantyczną oraz klasyfikację scen.
 
 W kolejnych iteracjach pracy chciałbym zbudować inne architektury, a ostatecznie porównać je, wybierając architekturę o największej skuteczności.
