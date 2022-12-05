@@ -1,14 +1,19 @@
 import numpy as np
 import pandas as pd
+import plotly.express as px
 import pytorch_lightning as pl
 import seaborn as sns
 import segmentation_models_pytorch as smp
 import torch
 import torch.nn.functional as F
 import torchmetrics
+from matplotlib import pyplot as plt
 from torch import nn
 
 import wandb
+
+# from utils import vis
+from . import constants
 
 
 class LitSegmentation(pl.LightningModule):
@@ -17,7 +22,9 @@ class LitSegmentation(pl.LightningModule):
         self.ignore_index = 255
         # self.class_names = ["Road", "Grass", "Vegetation", "Sky", "Obstacle"]
         num_classes = 40
-        self.class_names = [str(i) for i in range(num_classes)]
+        # self.class_names = [str(i) for i in range(num_classes)]
+        self.class_names = constants.NYU_V2_classes
+        assert len(self.class_names) == num_classes
         self.learning_rate = learning_rate
 
         self.segmenter = smp.DeepLabV3(
@@ -39,56 +46,51 @@ class LitSegmentation(pl.LightningModule):
         self.set_metrics(num_classes)
 
     def set_metrics(self, num_classes):
-        metrics = torchmetrics.MetricCollection(
+        self.macro_metrics = torchmetrics.MetricCollection(
             [
-                torchmetrics.MetricCollection(
-                    [
-                        torchmetrics.classification.MulticlassAccuracy(
-                            num_classes=num_classes,
-                            average=None,
-                            ignore_index=self.ignore_index,
-                            validate_args=False,
-                        ),
-                        torchmetrics.classification.MulticlassJaccardIndex(
-                            num_classes=num_classes,
-                            average=None,
-                            ignore_index=self.ignore_index,
-                            validate_args=False,
-                        ),
-                    ],
+                torchmetrics.classification.MulticlassJaccardIndex(
+                    num_classes=num_classes,
+                    ignore_index=self.ignore_index,
+                    validate_args=False,
                 ),
-                torchmetrics.MetricCollection(
-                    [
-                        torchmetrics.classification.MulticlassJaccardIndex(
-                            num_classes=num_classes,
-                            ignore_index=self.ignore_index,
-                            validate_args=False,
-                        ),
-                        torchmetrics.classification.MulticlassAccuracy(
-                            num_classes=num_classes,
-                            ignore_index=self.ignore_index,
-                            validate_args=False,
-                        ),
-                    ],
-                    postfix="_macro",
+                torchmetrics.classification.MulticlassAccuracy(
+                    num_classes=num_classes,
+                    ignore_index=self.ignore_index,
+                    validate_args=False,
                 ),
-            ]  # type:ignore
+            ],
+            prefix="test/",
+            postfix="_macro",
         )
         # self.val_metrics = metrics.clone(prefix="val/")
-        self.test_metrics = metrics.clone(prefix="test/")
         # self.test_confusion_matrix_all = (
         #     torchmetrics.classification.MulticlassConfusionMatrix(
         #         num_classes, ignore_index=self.ignore_index, normalize="all"
         #     )
         # )
 
-        self.test_confusion_matrix_true = (
-            torchmetrics.classification.MulticlassConfusionMatrix(
-                num_classes,
-                ignore_index=self.ignore_index,
-                normalize="true",
-                validate_args=False,
-            )
+        self.micro_metrics = torchmetrics.MetricCollection(
+            [
+                torchmetrics.classification.MulticlassAccuracy(
+                    num_classes=num_classes,
+                    average=None,
+                    ignore_index=self.ignore_index,
+                    validate_args=False,
+                ),
+                torchmetrics.classification.MulticlassJaccardIndex(
+                    num_classes=num_classes,
+                    average=None,
+                    ignore_index=self.ignore_index,
+                    validate_args=False,
+                ),
+                torchmetrics.classification.MulticlassConfusionMatrix(
+                    num_classes,
+                    ignore_index=self.ignore_index,
+                    normalize="true",
+                    validate_args=False,
+                ),
+            ],
+            prefix="test/",
         )
 
     def training_step(self, batch, batch_idx):
@@ -121,31 +123,45 @@ class LitSegmentation(pl.LightningModule):
         targets = targets.long()
         predictions = self.segmenter(data)
 
-        output = self.test_metrics(predictions, targets)
-        multiclass_metrics = [
-            "test/MulticlassAccuracy",
-            "test/MulticlassJaccardIndex",
-        ]
-        splitted_metrics = self._split_n_drop(output, multiclass_metrics)
-        [self.log_dict(splitted_metric) for splitted_metric in splitted_metrics]
-        self.log_dict({key: val * 100 for key, val in output.items()})
-
-        # self.test_confusion_matrix_all.update(predictions, targets)
-        self.test_confusion_matrix_true.update(predictions, targets)
+        output = self.macro_metrics(predictions, targets)
+        self.log_dict(output)
+        self.micro_metrics.update(predictions, targets)
 
     def test_epoch_end(self, outputs) -> None:
         # self._get_confusion_matrix(self.test_confusion_matrix_all, "normalized_all")
-        self._get_confusion_matrix(self.test_confusion_matrix_true, "normalized_true")
+        micro_metrics = self.micro_metrics.compute()
+        metric_names = ["test/MulticlassAccuracy", "test/MulticlassJaccardIndex"]
+        self._log_micro_metrics(micro_metrics, metric_names)
+        self._log_confusion_matrix(micro_metrics["test/MulticlassConfusionMatrix"])
+        self.micro_metrics.reset()
 
-    def _get_confusion_matrix(self, confusion_metric, name):
-        cf_matrix = confusion_metric.compute()
+    def _log_micro_metrics(self, micro_metrics, metric_names):
+        frame = torch.vstack(
+            [micro_metrics[name] for name in metric_names],
+        ).cpu()
+        micro_metrics_df = pd.DataFrame(
+            frame, index=metric_names, columns=self.class_names
+        )
+
+        fig = px.line_polar(
+            micro_metrics_df.iloc[1].T.reset_index(),
+            r="test/MulticlassJaccardIndex",
+            theta="index",
+            line_close=True,
+        )
+        wandb.log({"Polar IOU": fig})
+        # self.logger.log_image(key="polar", images=[fig])
+        # self.logger.log_table(key="micro_metrics", dataframe=micro_metrics_df)
+
+    def _log_confusion_matrix(self, cf_matrix):
         matrix_df = pd.DataFrame(cf_matrix.cpu(), self.class_names, self.class_names)
         self.logger.log_table(key="conf", dataframe=matrix_df)
-        # matrix_df.to_csv(f"{self.logger.experiment._save_dir}.csv")
-        ax = sns.heatmap(matrix_df, annot=False)
-        ax.set(xlabel="Actual", ylabel="Predited")
-        self.logger.log_image(key="hm", images=[ax.get_figure()])
-        confusion_metric.reset()
+
+        fig = px.imshow(matrix_df, template="seaborn")
+        wandb.log({"Confusion Matrix": fig})
+        # ax = sns.heatmap(matrix_df, annot=False)
+        # ax.set(xlabel="Actual", ylabel="Predited")
+        # self.logger.log_image(key="hm", images=[ax.get_figure()])
 
     def _split_n_drop(self, output, multiclass_metrics):
         splitted_metrics = self._split_micro_metric(

@@ -47,7 +47,10 @@ val_batch = data.DataLoader(val_set, batch_size=3, shuffle=False, **batch_params
 #     # version="cityscapes",
 # )
 
-logger = pl.loggers.WandbLogger(project="my-test-proj")
+logger = pl.loggers.WandbLogger(
+    project="my-test-proj",
+    name="baseline",
+)
 early_stopping = pl.callbacks.EarlyStopping("val/loss")
 
 trainer = pl.Trainer(
