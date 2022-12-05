@@ -8,6 +8,8 @@ import torch.nn.functional as F
 import torchmetrics
 from torch import nn
 
+import wandb
+
 
 class LitSegmentation(pl.LightningModule):
     def __init__(self, learning_rate):
@@ -39,22 +41,22 @@ class LitSegmentation(pl.LightningModule):
     def set_metrics(self, num_classes):
         metrics = torchmetrics.MetricCollection(
             [
-                # torchmetrics.MetricCollection(
-                #     [
-                #         torchmetrics.classification.MulticlassAccuracy(
-                #             num_classes=num_classes,
-                #             average=None,
-                #             ignore_index=self.ignore_index,
-                #             validate_args=False,
-                #         ),
-                #         torchmetrics.classification.MulticlassJaccardIndex(
-                #             num_classes=num_classes,
-                #             average=None,
-                #             ignore_index=self.ignore_index,
-                #             validate_args=False,
-                #         ),
-                #     ],
-                # ),
+                torchmetrics.MetricCollection(
+                    [
+                        torchmetrics.classification.MulticlassAccuracy(
+                            num_classes=num_classes,
+                            average=None,
+                            ignore_index=self.ignore_index,
+                            validate_args=False,
+                        ),
+                        torchmetrics.classification.MulticlassJaccardIndex(
+                            num_classes=num_classes,
+                            average=None,
+                            ignore_index=self.ignore_index,
+                            validate_args=False,
+                        ),
+                    ],
+                ),
                 torchmetrics.MetricCollection(
                     [
                         torchmetrics.classification.MulticlassJaccardIndex(
@@ -82,7 +84,10 @@ class LitSegmentation(pl.LightningModule):
 
         self.test_confusion_matrix_true = (
             torchmetrics.classification.MulticlassConfusionMatrix(
-                num_classes, ignore_index=self.ignore_index, normalize="true"
+                num_classes,
+                ignore_index=self.ignore_index,
+                normalize="true",
+                validate_args=False,
             )
         )
 
@@ -99,9 +104,8 @@ class LitSegmentation(pl.LightningModule):
         data, targets = batch
         targets = targets.long()
         predictions = self.segmenter(data)
-        # predictions = predictions.unsqueeze(1)
-        # loss = self.loss_fn(preditions, targets, ignore_index=self.ignore_index)
         loss = self.loss_fn(predictions, targets)
+
         # output = self.val_metrics(predictions, targets)
         # multiclass_metrics = [
         #     "val/MulticlassAccuracy",
@@ -118,12 +122,12 @@ class LitSegmentation(pl.LightningModule):
         predictions = self.segmenter(data)
 
         output = self.test_metrics(predictions, targets)
-        # multiclass_metrics = [
-        #     "test/MulticlassAccuracy",
-        #     "test/MulticlassJaccardIndex",
-        # ]
-        # splitted_metrics = self._split_n_drop(output, multiclass_metrics)
-        # [self.log_dict(splitted_metric) for splitted_metric in splitted_metrics]
+        multiclass_metrics = [
+            "test/MulticlassAccuracy",
+            "test/MulticlassJaccardIndex",
+        ]
+        splitted_metrics = self._split_n_drop(output, multiclass_metrics)
+        [self.log_dict(splitted_metric) for splitted_metric in splitted_metrics]
         self.log_dict({key: val * 100 for key, val in output.items()})
 
         # self.test_confusion_matrix_all.update(predictions, targets)
@@ -136,9 +140,11 @@ class LitSegmentation(pl.LightningModule):
     def _get_confusion_matrix(self, confusion_metric, name):
         cf_matrix = confusion_metric.compute()
         matrix_df = pd.DataFrame(cf_matrix.cpu(), self.class_names, self.class_names)
-        ax = sns.heatmap(matrix_df, annot=True)
+        self.logger.log_table(key="conf", dataframe=matrix_df)
+        # matrix_df.to_csv(f"{self.logger.experiment._save_dir}.csv")
+        ax = sns.heatmap(matrix_df, annot=False)
         ax.set(xlabel="Actual", ylabel="Predited")
-        self.logger.experiment.add_figure(name, ax.get_figure())
+        self.logger.log_image(key="hm", images=[ax.get_figure()])
         confusion_metric.reset()
 
     def _split_n_drop(self, output, multiclass_metrics):
