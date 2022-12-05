@@ -41,15 +41,11 @@ val_batch = data.DataLoader(val_set, batch_size=3, shuffle=False, **batch_params
 # plt.imshow(train_set[0][1])
 # plt.show()
 
-# logger = pl.loggers.TensorBoardLogger(
-#     save_dir="logs",
-#     name="30.11/weird_tests",
-#     # version="cityscapes",
-# )
 
 logger = pl.loggers.WandbLogger(
     project="my-test-proj",
     name="baseline",
+    log_model=True,
 )
 early_stopping = pl.callbacks.EarlyStopping("val/loss")
 

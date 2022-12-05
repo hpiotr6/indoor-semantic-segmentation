@@ -38,6 +38,7 @@ class LitSegmentation(pl.LightningModule):
         self.loss_fn = smp.losses.LovaszLoss(
             mode="multiclass", ignore_index=self.ignore_index
         )
+        self.save_hyperparameters()
         # self.loss_fn = smp.losses.DiceLoss(
         #     mode="multiclass", ignore_index=self.ignore_index
         # )
@@ -62,12 +63,6 @@ class LitSegmentation(pl.LightningModule):
             prefix="test/",
             postfix="_macro",
         )
-        # self.val_metrics = metrics.clone(prefix="val/")
-        # self.test_confusion_matrix_all = (
-        #     torchmetrics.classification.MulticlassConfusionMatrix(
-        #         num_classes, ignore_index=self.ignore_index, normalize="all"
-        #     )
-        # )
 
         self.micro_metrics = torchmetrics.MetricCollection(
             [
@@ -108,14 +103,6 @@ class LitSegmentation(pl.LightningModule):
         predictions = self.segmenter(data)
         loss = self.loss_fn(predictions, targets)
 
-        # output = self.val_metrics(predictions, targets)
-        # multiclass_metrics = [
-        #     "val/MulticlassAccuracy",
-        #     "val/MulticlassJaccardIndex",
-        # ]
-        # splitted_metrics = self._split_n_drop(output, multiclass_metrics)
-        # [self.log_dict(splitted_metric) for splitted_metric in splitted_metrics]
-        # self.log_dict({key: val * 100 for key, val in output.items()})
         self.log_dict({"val/loss": loss})
 
     def test_step(self, batch, batch_idx):
@@ -150,8 +137,7 @@ class LitSegmentation(pl.LightningModule):
             line_close=True,
         )
         wandb.log({"Polar IOU": fig})
-        # self.logger.log_image(key="polar", images=[fig])
-        # self.logger.log_table(key="micro_metrics", dataframe=micro_metrics_df)
+        self.logger.log_table(key="micro_metrics", dataframe=micro_metrics_df)
 
     def _log_confusion_matrix(self, cf_matrix):
         matrix_df = pd.DataFrame(cf_matrix.cpu(), self.class_names, self.class_names)
@@ -159,9 +145,6 @@ class LitSegmentation(pl.LightningModule):
 
         fig = px.imshow(matrix_df, template="seaborn")
         wandb.log({"Confusion Matrix": fig})
-        # ax = sns.heatmap(matrix_df, annot=False)
-        # ax.set(xlabel="Actual", ylabel="Predited")
-        # self.logger.log_image(key="hm", images=[ax.get_figure()])
 
     def _split_n_drop(self, output, multiclass_metrics):
         splitted_metrics = self._split_micro_metric(
