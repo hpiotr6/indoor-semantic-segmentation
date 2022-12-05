@@ -31,34 +31,37 @@ mask_dir_test = os.path.join(PROJECT_DIR, "datasets", "test", "semantic_40")
 
 train_set = dataset.NYUv2SegmentationDataset(img_dir, mask_dir, transforms.t2)
 val_set = dataset.NYUv2SegmentationDataset(img_dir_test, mask_dir_test, transforms.t2)
+val_set = data.Subset(val_set, list(range(20)))
 
-batch_params = {"num_workers": 16, "pin_memory": True}
-train_batch = data.DataLoader(train_set, batch_size=8, shuffle=True, **batch_params)
-val_batch = data.DataLoader(val_set, batch_size=8, shuffle=False, **batch_params)
+batch_params = {"num_workers": 12, "pin_memory": False}
+train_batch = data.DataLoader(train_set, batch_size=3, shuffle=True, **batch_params)
+val_batch = data.DataLoader(val_set, batch_size=3, shuffle=False, **batch_params)
 
 # test_batch(train_batch)
 # plt.imshow(train_set[0][1])
 # plt.show()
 
-logger = pl.loggers.TensorBoardLogger(
-    save_dir="logs",
-    name="30.11/weird_tests",
-    # version="cityscapes",
-)
+# logger = pl.loggers.TensorBoardLogger(
+#     save_dir="logs",
+#     name="30.11/weird_tests",
+#     # version="cityscapes",
+# )
+
+logger = pl.loggers.WandbLogger(project="my-test-proj")
 early_stopping = pl.callbacks.EarlyStopping("val/loss")
 
 trainer = pl.Trainer(
     accelerator="gpu",
     devices=1,
-    max_epochs=2,
+    max_epochs=30,
     # max_steps=100,
     # val_check_interval=0.25,
     precision=16,
     log_every_n_steps=5,
     logger=logger,
     callbacks=[early_stopping],
-    # accumulate_grad_batches=3,
-    # overfit_batches=2
+    accumulate_grad_batches=3,
+    # overfit_batches=2,
 )
 model = LitSegmentation(1e-4)
 trainer.fit(
