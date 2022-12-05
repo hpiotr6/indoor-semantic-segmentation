@@ -2,9 +2,12 @@ import os
 from pathlib import Path
 
 import numpy as np
+import torch
 import torch.utils.data as data
 from matplotlib import pyplot as plt
 from PIL import Image
+
+from . import constants
 
 
 class NYUv2SegmentationDataset(data.Dataset):
@@ -34,6 +37,40 @@ class NYUv2SegmentationDataset(data.Dataset):
             image = transformed["image"]
             mask = transformed["mask"]
         return image, mask
+
+
+class NYUv2ClassificationDataset(data.Dataset):
+    def __init__(self, image_dir, scene_dir, transform=None):
+        self.transform = transform
+        self.image_dir = image_dir
+        self.scene_ids = constants.SCENE_IDS
+
+        self.images = sorted(os.listdir(image_dir))
+        self.scenes = self._read_scenes(scene_dir)
+
+    def _read_scenes(self, scene_dir) -> list:
+        scenes = []
+        for filename in os.listdir(scene_dir):
+            file_path = os.path.join(scene_dir, filename)
+
+            with open(file_path, "r") as f:
+                scene = f.readline()
+                scenes.append(scene)
+        return scenes
+
+    def __len__(self):
+        return len(self.scenes)
+
+    def __getitem__(self, index):
+        img_path = os.path.join(self.image_dir, self.images[index])
+        image = np.array(Image.open(img_path))
+        scene = self.scene_ids[self.scenes[index]]
+        if self.transform is not None:
+            transformed = self.transform(image=image)
+            image = transformed["image"]
+            scene = torch.tensor(scene)
+
+        return image, scene
 
 
 def test():
