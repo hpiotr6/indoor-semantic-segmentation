@@ -1,3 +1,5 @@
+import numpy as np
+
 NYU_V2_classes = [
     "otherprop",
     "wall",
@@ -70,3 +72,36 @@ SCENE_IDS = {
     "dinette": 25,
     "foyer": 26,
 }
+
+
+SCENE_MERGED = {
+    "bathroom": "bathroom",
+    "bedroom": "bedroom",
+    "living_room": "living_room",
+    "dining_room": "dining_room",
+    "dinette": "dining_room",
+    "kitchen": "kitchen",
+    "office": "office",
+    "office_kitchen": "office",
+    "conference_room": "office",
+    "reception_room": "office",
+    "printer_room": "office",
+    "home_office": "office",
+    "playroom": "other_indoor",
+    "indoor_balcony": "other_indoor",
+    "furniture_store": "other_indoor",
+    "home_storage": "other_indoor",
+    "laundry_room": "other_indoor",
+    "excercise_room": "other_indoor",
+    "student_lounge": "other_indoor",
+    "classroom": "other_indoor",
+    "bookstore": "other_indoor",
+    "study_room": "other_indoor",
+    "study": "other_indoor",
+    "basement": "other_indoor",
+    "cafe": "other_indoor",
+    "computer_lab": "other_indoor",
+    "foyer": "other_indoor",
+}
+
+SCENE_MERGED_IDS = {val: idx for idx, val in enumerate(set(SCENE_MERGED.values()))}

@@ -43,7 +43,9 @@ class NYUv2ClassificationDataset(data.Dataset):
     def __init__(self, image_dir, scene_dir, transform=None):
         self.transform = transform
         self.image_dir = image_dir
-        self.scene_ids = constants.SCENE_IDS
+        self.scene_ids = constants.SCENE_MERGED_IDS
+        # self.scene_ids = constants.SCENE_IDS
+        # constants.SCENE_IDS[constants.SCENE_MERGED]
 
         self.images = sorted(os.listdir(image_dir))
         self.scenes = self._read_scenes(scene_dir)
@@ -64,7 +66,10 @@ class NYUv2ClassificationDataset(data.Dataset):
     def __getitem__(self, index):
         img_path = os.path.join(self.image_dir, self.images[index])
         image = np.array(Image.open(img_path))
-        scene = self.scene_ids[self.scenes[index]]
+        scene = constants.SCENE_MERGED_IDS.get(
+            constants.SCENE_MERGED.get(self.scenes[index])
+        )
+        # scene = self.scene_ids[self.scenes[index]]
         if self.transform is not None:
             transformed = self.transform(image=image)
             image = transformed["image"]

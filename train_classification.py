@@ -2,7 +2,9 @@ import os
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import pytorch_lightning as pl
+import torch
 import torch.utils.data as data
 from matplotlib import pyplot as plt
 
@@ -27,18 +29,31 @@ scene_dir = os.path.join(PROJECT_DIR, "datasets", "train", "scene_class")
 img_dir_test = os.path.join(PROJECT_DIR, "datasets", "test", "rgb")
 scene_dir_test = os.path.join(PROJECT_DIR, "datasets", "test", "scene_class")
 
-train_set = dataset.NYUv2ClassificationDataset(img_dir, scene_dir, transforms.t2)
-# plt.imshow(train_set[0][0].permute(1, 2, 0))
-# plt.show()
-# print(train_set[0][1])
+train_set = dataset.NYUv2ClassificationDataset(
+    img_dir, scene_dir, transforms.transform_net
+)
+targets = [train_set[i][1] for i in range(len(train_set))]
+
+class_count = np.unique(targets, return_counts=True)[1]
+print(class_count)
+weight = 1.0 / class_count
+samples_weight = weight[targets]
+sampler = data.WeightedRandomSampler(samples_weight, len(samples_weight))
 val_set = dataset.NYUv2ClassificationDataset(
     img_dir_test, scene_dir_test, transforms.t2
 )
-# val_set = data.Subset(val_set, list(range(20)))
 
-batch_params = {"num_workers": 12, "pin_memory": False, "batch_size": 16}
-train_batch = data.DataLoader(train_set, shuffle=True, **batch_params)
+# # plt.imshow(train_set[0][0].permute(1, 2, 0))
+# # plt.show()
+# # print(train_set[0][1])
+# # val_set = data.Subset(val_set, list(range(20)))
+
+batch_params = {"num_workers": 12, "pin_memory": False, "batch_size": 8}
+train_batch = data.DataLoader(train_set, shuffle=True, sampler=None, **batch_params)
 val_batch = data.DataLoader(val_set, shuffle=False, **batch_params)
+
+
+# check_dataloader_distribution(train_batch)
 
 
 logger = pl.loggers.WandbLogger(
@@ -57,15 +72,15 @@ trainer = pl.Trainer(
     precision=16,
     # log_every_n_steps=5,
     logger=logger,
-    callbacks=[early_stopping],
+    # callbacks=[early_stopping],
     # accumulate_grad_batches=3,
-    # overfit_batches=2,
+    # overfit_batches=10,
 )
 model = LitClassification(1e-4)
 trainer.fit(
     model=model,
     train_dataloaders=train_batch,
-    val_dataloaders=[val_batch],
+    # val_dataloaders=[val_batch],
     # ckpt_path="/home/piotr/SensorsArticle2022/logs/23.11-max_real/version_0/checkpoints/epoch=19-step=300.ckpt",
 )
 trainer.test(model=model, dataloaders=val_batch, verbose=True)

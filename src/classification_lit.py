@@ -15,13 +15,21 @@ class LitClassification(pl.LightningModule):
     def __init__(self, learning_rate):
         super().__init__()
         self.learning_rate = learning_rate
-        self.class_names = constants.SCENE_IDS.keys()
-        self.num_classes = 27
+        self.class_names = constants.SCENE_MERGED_IDS.keys()
+
+        self.num_classes = len(self.class_names)
         self.ignore_index = None
-        self.classifier = classification_models.ImagenetTransferLearning()
-        self.loss_fn = smp.losses.LovaszLoss(
-            mode="multiclass", ignore_index=self.ignore_index
+        self.classifier = classification_models.ImagenetTransferLearning(
+            self.num_classes
         )
+        # print(self.classifier)
+        # self.classifier.feature_extractor[:7].eval()
+        # for param in self.classifier.feature_extractor[:7].parameters():
+        #     param.requires_grad = False
+        # self.loss_fn = smp.losses.LovaszLoss(
+        #     mode="multiclass", ignore_index=self.ignore_index
+        # )
+        self.loss_fn = torch.nn.CrossEntropyLoss()
         # self.accuracy = torchmetrics.Accuracy(average="macro", num_classes=27)
 
         self.set_metrics(self.num_classes)
@@ -127,4 +135,11 @@ class LitClassification(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
+        # optimizer = torch.optim.SGD(
+        #     self.parameters(),
+        #     lr=self.learning_rate,
+        #     momentum=0.9,
+        #     weight_decay=0.2,
+        #     nesterov=True
+        # )
         return optimizer

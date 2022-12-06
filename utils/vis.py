@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import torch
 import torchvision
 import torchvision.transforms.functional as F
@@ -58,3 +59,12 @@ def imshow_semantic(masks):
     inp = inp.numpy().transpose((1, 2, 0))
     # inp = np.clip(inp, 0, 255)
     plt.imshow(inp)
+
+
+def check_dataloader_distribution(train_batch):
+    ys = []
+    for batch in train_batch:
+        x, y = batch
+        ys.append(y)
+    values, counts = np.unique(torch.hstack(ys), return_counts=True)
+    pd.DataFrame(dict(values, counts))
