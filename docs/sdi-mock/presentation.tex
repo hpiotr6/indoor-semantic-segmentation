@@ -75,23 +75,37 @@
 \section*{Rozwiązanie problemu}
 \begin{frame}{Rozwiązanie problemu - przedstawienie architektury}
     \begin{figure}
-        \includegraphics[width=\textwidth]{images/my_arch.png}
+        \includegraphics[width=\textwidth]{images/cep_arch.png}
         \caption{Architektura sieci zastosowana w pracy inżynierskiej.}
     \end{figure}
 \end{frame}
 \section*{Próba kontrolna}
-\begin{frame}{Rozwiązanie problemu - klasyfikacja}
-    \begin{figure}
-        \includegraphics[width=\textwidth]{images/decoder-freezed.png}
-        \caption{Architektura sieci wyłącznie w zadaniu klasyfikacji.}
-    \end{figure}
+\begin{frame}{Rozwiązanie problemu}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=\textwidth]{images/decoder-freezed.png}
+                \caption{Architektura sieci wyłącznie w zadaniu klasyfikacji.}
+            \end{figure}
+            
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=\textwidth]{images/fc-freezed.png}
+                \caption{Architektura sieci wyłącznie w zadaniu segmentacji semantycznej.}
+            \end{figure}
+            
+        \end{column}
+    \end{columns}
+
 \end{frame}
-\begin{frame}{Rozwiązanie problemu - segmentacja}
-    \begin{figure}
-        \includegraphics[width=\textwidth]{images/fc-freezed.png}
-        \caption{Architektura sieci wyłącznie w zadaniu segmentacji semantycznej.}
-    \end{figure}
-\end{frame}
+% \begin{frame}{Rozwiązanie problemu - segmentacja}
+%     \begin{figure}
+%         \includegraphics[width=\textwidth]{images/fc-freezed.png}
+%         \caption{Architektura sieci wyłącznie w zadaniu segmentacji semantycznej.}
+%     \end{figure}
+% \end{frame}
 \section*{Próba badawcza}
 \begin{frame}{Rozwiązanie problemu}
     \begin{figure}
@@ -108,13 +122,13 @@
         
     \begin{figure}
         \includegraphics[width=\textwidth]{images/classification_polar_baseline.png}
-        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+        \caption{IoU\% dla każdej etykiety w zadaniu klasyfikacji.}
     \end{figure}
 \end{frame}
 \begin{frame}{Wyniki pracy - próba badawcza}
     \begin{figure}
         \includegraphics[width=\textwidth]{images/classification_polar.png}
-        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+        \caption{Porównanie IoU\% dla każdej z etykiet w zadaniu klasyfikacji}
     \end{figure}
 \end{frame}
 
@@ -123,21 +137,30 @@
         
     \begin{figure}
         \includegraphics[width=\textwidth]{images/segmentation_polar_baseline.png}
-        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+        \caption{IoU\% dla każdej etykiety w zadaniu segmentacji.}
     \end{figure}
 \end{frame}
 \begin{frame}{Wyniki pracy - próba badawcza}
     \begin{figure}
         \includegraphics[width=\textwidth]{images/segmentation_polar.png}
-        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+        \caption{Porównanie IoU\% dla każdej z etykiet w zadaniu segmentacji.}
     \end{figure}
 \end{frame}
 
 
-\begin{frame}{Wnioski i implikacje}
+\begin{frame}{Wnioski}
+    Ucznie wielozadaniowe pomaga osiągnać lepsze wyniki.
+    \begin{table}[]
+        \begin{tabular}{c|cc}
+        zadanie/{[}\%{]} & IoU jednozadaniowe & IoU wielozadaniowe \\ \hline
+        segmentacja      & 60.5               & 61.1  \footnotesize{\textbf{+0.6}}        \\
+        klasyfikacja     & 68.8               & 71.7  \footnotesize{\textbf{+2.9 }}        \\ \hline
+        średnia          & 64.7               & 66.4  \footnotesize{\textbf{+1.7 }}       
+        \end{tabular}
+        \end{table}
     
 \end{frame}
-\begin{frame}[allowframebreaks]{Bibliografia}
+\begin{frame}[plain, allowframebreaks,noframenumbering]{Bibliografia}
     
     \bibliography{presentation}
     \bibliographystyle{abbrv}
