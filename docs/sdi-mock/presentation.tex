@@ -21,17 +21,24 @@
     Instytut Automatyki i Informatyki Stosowanej}
     \titlegraphic{\centering\includegraphics[height=1cm]{images/eiti.pdf}}
     
-\begin{document}
-
-\maketitle
+    \begin{document}
+    
+    \maketitle
 \begin{frame}{Cele pracy}
     Zrozumienie środowiska wewnątrz budynków poprzez:
+    
+    \begin{itemize}
+        \item Klasyfikację pomieszczenia
+        \item Segmentację semantyczną
+    \end{itemize} 
+    
+\end{frame}
 
-   \begin{itemize}
-    \item Klasyfikację pomieszczenia
-    \item Segmentację semantyczną
-   \end{itemize} 
-
+\begin{frame}{Segmentacja semantyczna oraz klasyfikacja sceny }
+    \begin{figure}
+        \includegraphics[height=0.5\textheight]{images/segment2.png}
+        \caption{\cite{zhang2018context}.}
+    \end{figure}
 \end{frame}
 \begin{frame}{Motywacje pracy}
     \begin{itemize}
@@ -42,10 +49,17 @@
         \end{itemize}
         \item Przewodnik dla osób niewidomych
         \item Predykcja afordancji
+        \item Brak rozwiązań dotyczących jednoczesnego klasyfikowania pomieszczeń oraz segmentacji
         %  \item Poprawa działania całokształtu poprzez głębsze zrozuemienie otoczenia
     \end{itemize}
 \end{frame}
 \section[Przegląd rozwiązań]{Przegląd rozwiązań}
+\begin{frame}{Przegląd rozwiązań}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/blackbox.png}
+        \caption{Sieć neuronowa jako model czarnej skrzynki.}
+    \end{figure}
+\end{frame}
 \begin{frame}{Przegląd rozwiązań}
     \begin{figure}
         \includegraphics[width=\textwidth]{images/y-net.png}
@@ -58,12 +72,68 @@
         \caption{Let there be Color!: Joint End-to-end Learning of Global and Local Image Priors for Automatic Image Colorization with Simultaneous Classification 2016 \cite{iizuka2016let}.}
     \end{figure}
 \end{frame}
+\section*{Rozwiązanie problemu}
+\begin{frame}{Rozwiązanie problemu - przedstawienie architektury}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/my_arch.png}
+        \caption{Architektura sieci zastosowana w pracy inżynierskiej.}
+    \end{figure}
+\end{frame}
+\section*{Próba kontrolna}
+\begin{frame}{Rozwiązanie problemu - klasyfikacja}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/decoder-freezed.png}
+        \caption{Architektura sieci wyłącznie w zadaniu klasyfikacji.}
+    \end{figure}
+\end{frame}
+\begin{frame}{Rozwiązanie problemu - segmentacja}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/fc-freezed.png}
+        \caption{Architektura sieci wyłącznie w zadaniu segmentacji semantycznej.}
+    \end{figure}
+\end{frame}
+\section*{Próba badawcza}
 \begin{frame}{Rozwiązanie problemu}
-    
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/fully-unfreezed.png}
+        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+    \end{figure}
 \end{frame}
-\begin{frame}{Wyniki pracy}
     
+    
+    
+    
+    
+\begin{frame}{Wyniki pracy - próba kontrolna}
+        
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/classification_polar_baseline.png}
+        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+    \end{figure}
 \end{frame}
+\begin{frame}{Wyniki pracy - próba badawcza}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/classification_polar.png}
+        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}{Wyniki pracy - próba kontrolna}
+        
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/segmentation_polar_baseline.png}
+        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+    \end{figure}
+\end{frame}
+\begin{frame}{Wyniki pracy - próba badawcza}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{images/segmentation_polar.png}
+        \caption{Architektura sieci jako uczenie wielozadaniowego.}
+    \end{figure}
+\end{frame}
+
+
 \begin{frame}{Wnioski i implikacje}
     
 \end{frame}
@@ -94,24 +164,6 @@
 %         \end{frame}
 %     % ########################################################################################################
 %     \section[Wprowadzenie do tematyki pracy]{Wprowadzenie do tematyki pracy}
-%     % \subsection{Klasyfikacja sceny}
-%     \begin{frame}{Segmentacja semantyczna obrazu}
-%         \begin{figure}
-%             \includegraphics[width=\textwidth]{images/segment.png}
-%             \caption{Segmentacja wewntątrz pomieszczeń \cite{zhang2018context}.}
-%         \end{figure}
-        
-%     \end{frame}
-%     % ########################################################################################################
-    
-%     % \subsection{Klasyfikacja sceny}
-%     \begin{frame}{Klasyfikacja sceny}
-%         \begin{figure}
-%             \includegraphics[width=0.75\textwidth]{images/shopping_mall.png}
-%             \caption{\cite{zeng2021deep}.}
-%         \end{figure}
-        
-%     \end{frame}
 
 %     \begin{frame}{Klasyfikacja sceny}
 %         \begin{figure}
