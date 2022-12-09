@@ -36,15 +36,15 @@ val_set = data.Subset(val_set, list(range(20)))
 batch_params = {"num_workers": 12, "pin_memory": False}
 train_batch = data.DataLoader(train_set, batch_size=3, shuffle=True, **batch_params)
 val_batch = data.DataLoader(val_set, batch_size=3, shuffle=False, **batch_params)
-
+print(train_set[0][0].size())
 # test_batch(train_batch)
 # plt.imshow(train_set[0][1])
 # plt.show()
 
 
 logger = pl.loggers.WandbLogger(
-    project="my-test-proj",
-    name="baseline",
+    project="segmentation-09.12",
+    # name="baseline",
     log_model=True,
 )
 early_stopping = pl.callbacks.EarlyStopping("val/loss")
@@ -59,7 +59,7 @@ trainer = pl.Trainer(
     log_every_n_steps=5,
     logger=logger,
     callbacks=[early_stopping],
-    accumulate_grad_batches=3,
+    # accumulate_grad_batches=3,
     # overfit_batches=2,
 )
 model = LitSegmentation(1e-4)
