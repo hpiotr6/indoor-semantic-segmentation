@@ -8,7 +8,7 @@ import torchmetrics
 
 import wandb
 
-from . import classification_models, constants
+from . import classification_models, constants, metrics
 
 
 class LitClassification(pl.LightningModule):

@@ -23,7 +23,7 @@ class LitSegmentation(pl.LightningModule):
         # self.class_names = ["Road", "Grass", "Vegetation", "Sky", "Obstacle"]
         num_classes = 40
         # self.class_names = [str(i) for i in range(num_classes)]
-        self.class_names = constants.NYU_V2_classes
+        self.class_names = constants.NYU_V2_segmentation_classes
         assert len(self.class_names) == num_classes
         self.learning_rate = learning_rate
 

@@ -3,24 +3,26 @@ from pathlib import Path
 import pytorch_lightning as pl
 
 from src import multitask_datamod
-from src.multitask_lit import LitMultitask
+from src.multitask_lit import LitSegmentation
 
 if __name__ == "__main__":
     pl.seed_everything(42, workers=True)
 
     PROJECT_DIR = Path(__file__).resolve().parent
     dataloader_params = {"batch_size": 8, "num_workers": 12, "pin_memory": False}
-    data_module = multitask_datamod.MultitaskDataModule(PROJECT_DIR, dataloader_params)
+    data_module = multitask_datamod.SegmentationDataModule(
+        PROJECT_DIR, dataloader_params
+    )
 
     logger = pl.loggers.WandbLogger(
-        project="segmentation-09.12",
+        project="segmentation-12.12",
         # name="baseline",
         log_model=True,
     )
     trainer = pl.Trainer(
         accelerator="gpu",
         devices=1,
-        max_epochs=100,
+        max_epochs=1,
         # max_steps=100,
         # val_check_interval=0.25,
         precision=16,
@@ -30,7 +32,7 @@ if __name__ == "__main__":
         # accumulate_grad_batches=3,
         # overfit_batches=2,
     )
-    model = LitMultitask(learning_rate=1e-4)
+    model = LitSegmentation(learning_rate=1e-4)
     trainer.fit(
         model=model,
         datamodule=data_module

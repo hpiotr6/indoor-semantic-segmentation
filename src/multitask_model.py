@@ -1,7 +1,6 @@
+import segmentation_models_pytorch as smp
 import torch
 from torch import nn
-
-import segmentation_models_pytorch as smp
 
 
 class Encoder(nn.Module):
@@ -27,9 +26,10 @@ class Decoder(nn.Module):
 
 
 class MultitaskNet(nn.Module):
-    def __init__(self, scene_classes=7, segmentation_classes=27) -> None:
+    def __init__(
+        self, stage="multitask", scene_classes=7, segmentation_classes=27
+    ) -> None:
         super().__init__()
-
         segmentator = smp.DeepLabV3(
             encoder_weights="imagenet",
             classes=segmentation_classes,
@@ -50,15 +50,33 @@ class MultitaskNet(nn.Module):
             nn.Softmax(dim=1),
         )
 
-    def forward(self, x):
+        if stage == "classification":
+            self.forward = self.forward_classification
+        elif stage == "segmentation":
+            self.forward = self.forward_segmentation
+        elif stage == "multitask":
+            self.forward = self.forward_multitask
+        else:
+            raise KeyError()
+
+    def forward_multitask(self, x):
         representations = self.encoder(x)
-        # print(representations.size())
         segmentation_mask = self.decoder(representations)
         classification_label = self.classifier(representations)
         return segmentation_mask, classification_label
 
+    def forward_classification(self, x):
+        representations = self.encoder(x)
+        classification_label = self.classifier(representations)
+        return classification_label
+
+    def forward_segmentation(self, x):
+        representations = self.encoder(x)
+        segmentation_mask = self.decoder(representations)
+        return segmentation_mask
+
 
 # model = MultitaskNet()
-# print(model)
+# # print(model)
 # randnum = torch.rand((3, 3, 480, 640))
-# model(randnum)
+# x = model(randnum)

@@ -1,6 +1,6 @@
 import numpy as np
 
-NYU_V2_classes = [
+NYU_V2_segmentation_classes = [
     "otherprop",
     "wall",
     "floor",
