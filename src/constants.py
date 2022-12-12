@@ -42,6 +42,21 @@ NYU_V2_segmentation_classes = [
     "otherstructure",
     "otherfurniture",
 ]
+NYU_V2_segmentation_13classes = [
+    "window",
+    "bed",
+    "books",
+    "ceiling",
+    "chair",
+    "floor",
+    "furniture",
+    "objects",
+    "picture",
+    "sofa",
+    "table",
+    "tv",
+    "wall",
+]
 
 SCENE_IDS = {
     "bedroom": 0,

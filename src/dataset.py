@@ -15,10 +15,16 @@ class NYUv2SegmentationDataset(data.Dataset):
     def __init__(self, image_dir, mask_dir, transform=None):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
+        self.num_classes = int(Path(mask_dir).name.replace("semantic_", ""))
+        assert self.num_classes in [13, 40]
         self.transform = transform
         self.images = sorted(os.listdir(image_dir))
         self.masks = sorted(os.listdir(mask_dir))
         assert len(self.images) == len(self.masks)
+
+    def map_void(self, mask):
+        mask[mask == 0] = 255
+        mask[mask == self.num_classes] = 0
 
     def __len__(self):
         return len(self.images)
@@ -29,8 +35,7 @@ class NYUv2SegmentationDataset(data.Dataset):
         image = np.asarray(Image.open(img_path).convert("RGB"), dtype=np.float32)
         mask = np.asarray(Image.open(mask_path), dtype=np.float32)
 
-        mask[mask == 0] = 255
-        mask[mask == 40] = 0
+        self.map_void(mask)
         # assert len(np.unique(mask)) < 40, np.unique(mask)
 
         if self.transform is not None:

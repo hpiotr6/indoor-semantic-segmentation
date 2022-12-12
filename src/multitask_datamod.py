@@ -71,12 +71,15 @@ class ClassificationDataModule(pl.LightningDataModule):
 
 
 class SegmentationDataModule(pl.LightningDataModule):
-    def __init__(self, data_dir: str, kwargs):
+    def __init__(
+        self, data_dir: str, transforms=transforms.t2, num_classes=40, kwargs=None
+    ):
         super().__init__()
         self.data_dir = data_dir
         self.kwargs = kwargs
-        self.transforms = transforms.t2
+        self.transforms = transforms
         self.save_hyperparameters()
+        self.num_classes = num_classes
 
     def setup(self, stage: str):
         data_class = dataset.NYUv2SegmentationDataset
@@ -88,7 +91,7 @@ class SegmentationDataModule(pl.LightningDataModule):
     def get_dirs(self, stage: str):
         if stage not in ["train", "test"]:
             raise KeyError()
-        tasks = ["rgb", "semantic_40"]
+        tasks = ["rgb", f"semantic_{self.num_classes}"]
         return [os.path.join(self.data_dir, "datasets", stage, task) for task in tasks]
 
     def train_dataloader(self):
