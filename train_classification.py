@@ -49,7 +49,7 @@ val_set = dataset.NYUv2ClassificationDataset(
 # # val_set = data.Subset(val_set, list(range(20)))
 
 batch_params = {"num_workers": 12, "pin_memory": False, "batch_size": 8}
-train_batch = data.DataLoader(train_set, shuffle=True, sampler=None, **batch_params)
+train_batch = data.DataLoader(train_set, shuffle=False, sampler=sampler, **batch_params)
 val_batch = data.DataLoader(val_set, shuffle=False, **batch_params)
 
 
@@ -57,7 +57,7 @@ val_batch = data.DataLoader(val_set, shuffle=False, **batch_params)
 
 
 logger = pl.loggers.WandbLogger(
-    project="classification",
+    project="classification-09.12",
     # name="baseline",
     log_model=True,
 )
@@ -72,6 +72,7 @@ trainer = pl.Trainer(
     precision=16,
     # log_every_n_steps=5,
     logger=logger,
+    deterministic=True,
     # callbacks=[early_stopping],
     # accumulate_grad_batches=3,
     # overfit_batches=10,
@@ -80,7 +81,7 @@ model = LitClassification(1e-4)
 trainer.fit(
     model=model,
     train_dataloaders=train_batch,
-    # val_dataloaders=[val_batch],
+    val_dataloaders=[val_batch],
     # ckpt_path="/home/piotr/SensorsArticle2022/logs/23.11-max_real/version_0/checkpoints/epoch=19-step=300.ckpt",
 )
 trainer.test(model=model, dataloaders=val_batch, verbose=True)
