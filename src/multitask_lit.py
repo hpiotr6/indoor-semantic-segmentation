@@ -3,6 +3,7 @@ import segmentation_models_pytorch as smp
 import torch
 
 from . import constants, metrics, multitask_model
+from .classification_models import ImagenetTransferLearning
 
 
 class LitMultitask(pl.LightningModule):
@@ -52,11 +53,15 @@ class LitMultitask(pl.LightningModule):
 
 
 class LitClassification(pl.LightningModule):
-    def __init__(self, learning_rate) -> None:
+    def __init__(self, learning_rate, weights=None) -> None:
         super().__init__()
         self.learning_rate = learning_rate
         self.model = multitask_model.MultitaskNet(stage="classification")
-        self.criterior = torch.nn.CrossEntropyLoss()
+        self.backbone = self.model.backbone
+        # self.model = ImagenetTransferLearning(7)
+        # for param in self.model.parameters():
+        #     param.requires_grad = False
+        self.criterior = torch.nn.CrossEntropyLoss(weight=weights)
 
         self.metrics = metrics.WandbHelper(
             stage="test",
@@ -103,8 +108,11 @@ class LitClassification(pl.LightningModule):
         self.metrics.nonaverage_metrics.reset()
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
-        return optimizer
+        parameters = list(filter(lambda x: x.requires_grad, self.parameters()))
+        optimizer = torch.optim.Adam(parameters, lr=self.learning_rate)
+        scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+
+        return [optimizer], [scheduler]
 
 
 class LitSegmentation(pl.LightningModule):

@@ -40,19 +40,19 @@ class MultitaskDataModule(pl.LightningDataModule):
 
 
 class ClassificationDataModule(pl.LightningDataModule):
-    def __init__(self, data_dir: str, kwargs):
+    def __init__(self, data_dir: str, transforms=transforms.t2, kwargs=None):
         super().__init__()
         self.data_dir = data_dir
         self.kwargs = kwargs
-        self.transforms = transforms.t2
+        self.transforms = transforms
         self.save_hyperparameters()
 
     def setup(self, stage: str):
         data_class = dataset.NYUv2ClassificationDataset
         self.train_set = data_class(*self.get_dirs("train"), transform=self.transforms)
 
-        self.val_set = data_class(*self.get_dirs("test"), transform=self.transforms)
-        self.test_set = data_class(*self.get_dirs("test"), transform=self.transforms)
+        self.val_set = data_class(*self.get_dirs("test"), transform=transforms.t2)
+        self.test_set = data_class(*self.get_dirs("test"), transform=transforms.t2)
 
     def get_dirs(self, stage: str):
         if stage not in ["train", "test"]:

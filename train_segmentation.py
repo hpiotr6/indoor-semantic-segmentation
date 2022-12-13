@@ -31,7 +31,7 @@ mask_dir_test = os.path.join(PROJECT_DIR, "datasets", "test", "semantic_40")
 
 train_set = dataset.NYUv2SegmentationDataset(img_dir, mask_dir, transforms.t2)
 val_set = dataset.NYUv2SegmentationDataset(img_dir_test, mask_dir_test, transforms.t2)
-val_set = data.Subset(val_set, list(range(20)))
+# val_set = data.Subset(val_set, list(range(20)))
 
 batch_params = {"num_workers": 12, "pin_memory": False}
 train_batch = data.DataLoader(train_set, batch_size=3, shuffle=True, **batch_params)
