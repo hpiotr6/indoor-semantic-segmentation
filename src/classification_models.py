@@ -37,7 +37,7 @@ class ImagenetTransferLearning(nn.Module):
             # nn.Linear(in_features=512, out_features=num_classes, bias=False),
             nn.Linear(in_features=num_filters, out_features=num_classes, bias=False),
         )
-        self.softmax = nn.Softmax()
+        self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         # self.feature_extractor.eval()
@@ -48,7 +48,7 @@ class ImagenetTransferLearning(nn.Module):
         return self.softmax(x)
 
 
-model = ImagenetTransferLearning(5)
+# model = ImagenetTransferLearning(5)
 
-# # print(model.feature_extractor[:7])
-print(model)
+# # # print(model.feature_extractor[:7])
+# print(model)

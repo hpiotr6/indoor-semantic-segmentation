@@ -27,7 +27,7 @@ class Decoder(nn.Module):
 
 class MultitaskNet(nn.Module):
     def __init__(
-        self, stage="multitask", scene_classes=7, segmentation_classes=27
+        self, stage="multitask", scene_classes=7, segmentation_classes=13
     ) -> None:
         super().__init__()
         segmentator = smp.DeepLabV3(
@@ -35,20 +35,25 @@ class MultitaskNet(nn.Module):
             classes=segmentation_classes,
         )
 
-        self.encoder = Encoder(segmentator.encoder)
+        self.backbone = Encoder(segmentator.encoder)
         self.decoder = Decoder(
             segmentator.decoder, segmentator.segmentation_head, segmentation_classes
         )
+
+        num_filters = segmentator.encoder.out_channels[-1]
         self.classifier = nn.Sequential(
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
-            nn.Linear(
-                in_features=segmentator.encoder.out_channels[-1],
-                out_features=scene_classes,
-                bias=False,
-            ),
+            nn.BatchNorm1d(num_filters),
+            nn.Dropout(p=0.25),
+            nn.Linear(num_filters, out_features=256, bias=False),
+            nn.ReLU(inplace=True),
+            nn.BatchNorm1d(256),
+            nn.Dropout(p=0.25),
+            nn.Linear(in_features=256, out_features=scene_classes, bias=False),
             nn.Softmax(dim=1),
         )
+        segmentator = None
 
         if stage == "classification":
             self.forward = self.forward_classification
@@ -60,18 +65,18 @@ class MultitaskNet(nn.Module):
             raise KeyError()
 
     def forward_multitask(self, x):
-        representations = self.encoder(x)
+        representations = self.backbone(x)
         segmentation_mask = self.decoder(representations)
         classification_label = self.classifier(representations)
         return segmentation_mask, classification_label
 
     def forward_classification(self, x):
-        representations = self.encoder(x)
+        representations = self.backbone(x)
         classification_label = self.classifier(representations)
         return classification_label
 
     def forward_segmentation(self, x):
-        representations = self.encoder(x)
+        representations = self.backbone(x)
         segmentation_mask = self.decoder(representations)
         return segmentation_mask
 

@@ -120,3 +120,4 @@ SCENE_MERGED = {
 }
 
 SCENE_MERGED_IDS = {val: idx for idx, val in enumerate(set(SCENE_MERGED.values()))}
+MERGED_SCENES_IDS = {idx: val for idx, val in enumerate(set(SCENE_MERGED.values()))}

@@ -3,20 +3,38 @@ import segmentation_models_pytorch as smp
 import torch
 
 from . import constants, metrics, multitask_model
+from .classification_models import ImagenetTransferLearning
 
 
 class LitMultitask(pl.LightningModule):
-    def __init__(self, learning_rate) -> None:
+    def __init__(self, learning_rate, scene_weights=None, seg_weights=None) -> None:
         super().__init__()
         self.ignore_seg_index = 255
         self.learning_rate = learning_rate
 
         self.model = multitask_model.MultitaskNet()
-        self.segmentation_criterior = smp.losses.LovaszLoss(
-            mode="multiclass", ignore_index=self.ignore_seg_index
+        # self.segmentation_criterior = smp.losses.LovaszLoss(
+        #     mode="multiclass", ignore_index=self.ignore_seg_index
+        # )
+
+        self.segmentation_criterior = torch.nn.CrossEntropyLoss(
+            ignore_index=self.ignore_seg_index,
+            weight=seg_weights,
         )
 
-        self.classification_criterior = torch.nn.CrossEntropyLoss()
+        self.classification_criterior = torch.nn.CrossEntropyLoss(weight=scene_weights)
+
+        self.seg_metrics = metrics.WandbHelper(
+            stage="test",
+            name="segmentation",
+            class_names=constants.NYU_V2_segmentation_13classes,
+            ignore_index=self.ignore_seg_index,
+        )
+        self.scene_metrics = metrics.WandbHelper(
+            stage="test",
+            name="classification",
+            class_names=constants.SCENE_MERGED_IDS.keys(),
+        )
 
     def forward(self, x):
         return self.model(x)
@@ -30,7 +48,9 @@ class LitMultitask(pl.LightningModule):
     def training_step(self, batch):
         data, mask_targets, scene_targets = batch
         mask_logits, scene_logits = self(data)
-        loss = self.criterior(mask_logits, mask_targets, scene_logits, scene_targets)
+        loss = self.criterior(
+            mask_logits, mask_targets.long(), scene_logits, scene_targets
+        )
         self.log_dict(
             {f"train/{loss_name}": loss_val for loss_name, loss_val in loss.items()}
         )
@@ -39,7 +59,9 @@ class LitMultitask(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         data, mask_targets, scene_targets = batch
         mask_logits, scene_logits = self(data)
-        loss = self.criterior(mask_logits, mask_targets, scene_logits, scene_targets)
+        loss = self.criterior(
+            mask_logits, mask_targets.long(), scene_logits, scene_targets
+        )
         self.log_dict(
             {f"val/{loss_name}": loss_val for loss_name, loss_val in loss.items()}
         )
@@ -47,16 +69,68 @@ class LitMultitask(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
-        scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+        # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(
+            optimizer=optimizer,
+            max_lr=self.learning_rate,
+            total_steps=self.trainer.max_epochs + 1,
+            # epochs=10,
+            # steps_per_epoch=4,
+            div_factor=25,
+            pct_start=0.1,
+            anneal_strategy="cos",
+            final_div_factor=1e4,
+        )
+
         return [optimizer], [scheduler]
+
+    def test_step(self, batch, batch_idx):
+
+        data, mask_targets, scene_targets = batch
+        mask_logits, scene_logits = self(data)
+        # TODO: czy faktycznie potrzebny long?
+        scene_targets = scene_targets.long()
+
+        scene_output = self.scene_metrics.macro_metrics(scene_logits, scene_targets)
+        self.log_dict(scene_output)
+        self.scene_metrics.nonaverage_metrics.update(scene_logits, scene_targets)
+
+        seg_output = self.seg_metrics.macro_metrics(mask_logits, mask_targets)
+        self.log_dict(seg_output)
+        self.seg_metrics.nonaverage_metrics.update(mask_logits, mask_targets)
+
+    def test_epoch_end(self, outputs) -> None:
+        # self._get_confusion_matrix(self.test_confusion_matrix_all, "normalized_all")
+        scene_nonaverage_metrics = self.scene_metrics.nonaverage_metrics.compute()
+        scene_matrix_df = self.scene_metrics.get_matrix_df(
+            scene_nonaverage_metrics.get("test/classification_confusion_matrix")
+        )
+        self.scene_metrics.log_confusion_matrix(scene_matrix_df)
+        self.scene_metrics.log_confusion_matrix_table(scene_matrix_df)
+
+        self.scene_metrics.nonaverage_metrics.reset()
+
+        seg_nonaverage_metrics = self.seg_metrics.nonaverage_metrics.compute()
+        seg_matrix_df = self.seg_metrics.get_matrix_df(
+            seg_nonaverage_metrics.get("test/segmentation_confusion_matrix")
+        )
+        self.seg_metrics.log_confusion_matrix(seg_matrix_df)
+        self.seg_metrics.log_confusion_matrix_table(seg_matrix_df)
+
+        self.seg_metrics.nonaverage_metrics.reset()
 
 
 class LitClassification(pl.LightningModule):
-    def __init__(self, learning_rate) -> None:
+    def __init__(self, learning_rate, weights=None) -> None:
         super().__init__()
         self.learning_rate = learning_rate
         self.model = multitask_model.MultitaskNet(stage="classification")
-        self.criterior = torch.nn.CrossEntropyLoss()
+        self.backbone = self.model.backbone
+        # self.model = ImagenetTransferLearning(7)
+        # for param in self.model.parameters():
+        #     param.requires_grad = False
+        self.criterior = torch.nn.CrossEntropyLoss(weight=weights)
 
         self.metrics = metrics.WandbHelper(
             stage="test",
@@ -68,6 +142,7 @@ class LitClassification(pl.LightningModule):
         return self.model(x)
 
     def training_step(self, batch):
+
         data, scene_targets = batch
         scene_logits = self(data)
         loss = self.criterior(scene_logits, scene_targets)
@@ -103,24 +178,45 @@ class LitClassification(pl.LightningModule):
         self.metrics.nonaverage_metrics.reset()
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
-        return optimizer
+        parameters = list(filter(lambda x: x.requires_grad, self.parameters()))
+        optimizer = torch.optim.Adam(parameters, lr=self.learning_rate)
+        # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(
+            optimizer=optimizer,
+            max_lr=4e-5,
+            total_steps=50,
+            # epochs=10,
+            # steps_per_epoch=4,
+            div_factor=25,
+            pct_start=0.1,
+            anneal_strategy="cos",
+            final_div_factor=1e4,
+        )
+
+        return [optimizer], [scheduler]
 
 
 class LitSegmentation(pl.LightningModule):
-    def __init__(self, learning_rate) -> None:
+    def __init__(self, learning_rate, weights=None) -> None:
         super().__init__()
         self.learning_rate = learning_rate
         self.ignore_seg_index = 255
-        self.model = multitask_model.MultitaskNet(stage="segmentation")
+        self.model = multitask_model.MultitaskNet(
+            stage="segmentation", segmentation_classes=13
+        )
 
-        self.criterior = smp.losses.LovaszLoss(
-            mode="multiclass", ignore_index=self.ignore_seg_index
+        # self.criterior = smp.losses.LovaszLoss(
+        #     mode="multiclass", ignore_index=self.ignore_seg_index
+        # )
+
+        self.criterior = torch.nn.CrossEntropyLoss(
+            ignore_index=self.ignore_seg_index,
+            weight=weights,
         )
         self.metrics = metrics.WandbHelper(
             stage="test",
             name="segmentation",
-            class_names=constants.NYU_V2_segmentation_classes,
+            class_names=constants.NYU_V2_segmentation_13classes,
             ignore_index=self.ignore_seg_index,
         )
 
@@ -130,14 +226,15 @@ class LitSegmentation(pl.LightningModule):
     def training_step(self, batch):
         data, mask_targets = batch
         mask_logits = self(data)
-        loss = self.criterior(mask_logits, mask_targets)
+        loss = self.criterior(mask_logits, mask_targets.long())
+
         self.log_dict({"train/loss": loss})
         return loss
 
     def validation_step(self, batch, batch_idx):
         data, mask_targets = batch
         mask_logits = self(data)
-        loss = self.criterior(mask_logits, mask_targets)
+        loss = self.criterior(mask_logits, mask_targets.long())
         self.log_dict({"val/loss": loss})
         return loss
 
@@ -164,4 +261,16 @@ class LitSegmentation(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=self.learning_rate)
-        return optimizer
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(
+            optimizer=optimizer,
+            max_lr=self.learning_rate,
+            total_steps=self.trainer.max_epochs + 1,
+            # epochs=10,
+            # steps_per_epoch=4,
+            div_factor=25,
+            pct_start=0.1,
+            anneal_strategy="cos",
+            final_div_factor=1e4,
+        )
+
+        return [optimizer], [scheduler]
