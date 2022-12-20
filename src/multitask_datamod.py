@@ -14,7 +14,6 @@ class MultitaskDataModule(pl.LightningDataModule):
         self.data_dir = data_dir
         self.kwargs = kwargs
         self.transforms = transforms.t2
-        self.save_hyperparameters()
 
     def setup(self, stage: str):
         data_class = dataset.NYUv2MultitaskDataset
@@ -26,7 +25,7 @@ class MultitaskDataModule(pl.LightningDataModule):
     def get_dirs(self, stage: str):
         if stage not in ["train", "test"]:
             raise KeyError()
-        tasks = ["rgb", "semantic_40", "scene_class"]
+        tasks = ["rgb", "semantic_13", "scene_class"]
         return [os.path.join(self.data_dir, "datasets", stage, task) for task in tasks]
 
     def train_dataloader(self):
@@ -45,7 +44,6 @@ class ClassificationDataModule(pl.LightningDataModule):
         self.data_dir = data_dir
         self.kwargs = kwargs
         self.transforms = transforms
-        self.save_hyperparameters()
 
     def setup(self, stage: str):
         data_class = dataset.NYUv2ClassificationDataset
@@ -78,15 +76,14 @@ class SegmentationDataModule(pl.LightningDataModule):
         self.data_dir = data_dir
         self.kwargs = kwargs
         self.transforms = transforms
-        self.save_hyperparameters()
         self.num_classes = num_classes
 
     def setup(self, stage: str):
         data_class = dataset.NYUv2SegmentationDataset
         self.train_set = data_class(*self.get_dirs("train"), transform=self.transforms)
 
-        self.val_set = data_class(*self.get_dirs("test"), transform=self.transforms)
-        self.test_set = data_class(*self.get_dirs("test"), transform=self.transforms)
+        self.val_set = data_class(*self.get_dirs("test"), transform=transforms.t2)
+        self.test_set = data_class(*self.get_dirs("test"), transform=transforms.t2)
 
     def get_dirs(self, stage: str):
         if stage not in ["train", "test"]:

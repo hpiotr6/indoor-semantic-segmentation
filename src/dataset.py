@@ -90,6 +90,10 @@ class NYUv2MultitaskDataset(data.Dataset):
         self.mask_dir = mask_dir
         self.scene_ids = constants.SCENE_MERGED_IDS
         self.transform = transform
+
+        self.seg_num_classes = int(Path(mask_dir).name.replace("semantic_", ""))
+        assert self.seg_num_classes in [13, 40]
+
         self.images = sorted(os.listdir(image_dir))
         self.masks = sorted(os.listdir(mask_dir))
         self.scenes = self._read_scenes(scene_dir)
@@ -97,6 +101,10 @@ class NYUv2MultitaskDataset(data.Dataset):
             dict(img=self.images, masks=self.masks, scenes=self.scenes)
         )
         assert len(self.images) == len(self.masks)
+
+    def map_void(self, mask):
+        mask[mask == 0] = 255
+        mask[mask == self.seg_num_classes] = 0
 
     def __len__(self):
         return len(self.images)
@@ -110,8 +118,7 @@ class NYUv2MultitaskDataset(data.Dataset):
             constants.SCENE_MERGED.get(self.scenes[index])
         )
 
-        mask[mask == 0] = 255
-        mask[mask == 40] = 0
+        self.map_void(mask)
         # assert len(np.unique(mask)) < 40, np.unique(mask)
 
         if self.transform is not None:

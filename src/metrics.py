@@ -23,16 +23,15 @@ class WandbHelper:
                 f"{self.name}_macro_iou": classification.MulticlassJaccardIndex(
                     num_classes=self.num_classes,
                     ignore_index=self.ignore_index,
-                    validate_args=False,
+                    # validate_args=False,
                 ),
                 f"{self.name}_macro_acc": classification.MulticlassAccuracy(
                     num_classes=self.num_classes,
                     ignore_index=self.ignore_index,
-                    validate_args=False,
+                    # validate_args=False,
                 ),
             },
             prefix=f"{self.stage}/",
-            postfix="_macro",
         )
 
         self.nonaverage_metrics = torchmetrics.MetricCollection(
@@ -41,19 +40,19 @@ class WandbHelper:
                     num_classes=self.num_classes,
                     average=None,
                     ignore_index=self.ignore_index,
-                    validate_args=False,
+                    # validate_args=False,
                 ),
                 f"{self.name}_nonaverage_iou": classification.MulticlassJaccardIndex(
                     num_classes=self.num_classes,
                     average=None,
                     ignore_index=self.ignore_index,
-                    validate_args=False,
+                    # validate_args=False,
                 ),
                 f"{self.name}_confusion_matrix": classification.MulticlassConfusionMatrix(
                     num_classes=self.num_classes,
                     ignore_index=self.ignore_index,
                     normalize="true",
-                    validate_args=False,
+                    # validate_args=False,
                 ),
             },
             prefix=f"{self.stage}/",

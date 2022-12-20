@@ -3,7 +3,8 @@ from pathlib import Path
 import numpy as np
 import pytorch_lightning as pl
 import torch
-from finetuning_scheduler import FinetuningScheduler, FTSCheckpoint, FTSEarlyStopping
+
+# from finetuning_scheduler import FinetuningScheduler, FTSCheckpoint, FTSEarlyStopping
 from pytorch_lightning import callbacks, loggers
 
 from src import multitask_datamod, transforms
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     )
 
     logger = loggers.WandbLogger(
-        project="classification-13.12",
+        project="long-training",
         # name="baseline",
         log_model=True,
     )
@@ -56,19 +57,22 @@ if __name__ == "__main__":
                 param.requires_grad = True
 
     lb_callback = callbacks.LambdaCallback(on_train_epoch_start=freezer)
-
+    checkpoint_clb = callbacks.ModelCheckpoint(monitor="val/loss", save_last=True)
+    lr_monitor = callbacks.LearningRateMonitor(logging_interval="step")
     # backbone_finetuning.freeze_before_training(model.model)
     trainer = pl.Trainer(
         accelerator="gpu",
         devices=1,
-        max_epochs=30,
+        max_epochs=49,
         # max_steps=100,
         # val_check_interval=0.25,
         precision=16,
         # log_every_n_steps=5,
         logger=logger,
-        callbacks=[lb_callback],
+        # callbacks=[lb_callback],
         # callbacks=[early_stopping],
+        callbacks=[checkpoint_clb, lr_monitor],
+        # auto_lr_find=True,
         # callbacks=[
         #     FTSCheckpoint(monitor="val/loss"),
         #     FTSEarlyStopping(monitor="val/loss"),
@@ -77,12 +81,26 @@ if __name__ == "__main__":
         #     ),
         # ],
         # accumulate_grad_batches=3,
+        # log_every_n_steps=2,
         # overfit_batches=2,
     )
+    # trainer = pl.Trainer()
+    # lr_finder = trainer.tuner.lr_find(model)  # Run learning rate finder
 
-    trainer.fit(
+    # fig = lr_finder.plot(suggest=True)  # Plot
+    # fig.show()
+
+    # model.hparams.lr = lr_finder.suggestion()
+
+    # trainer.fit(
+    #     model=model,
+    #     datamodule=data_module
+    #     # ckpt_path="/home/piotr/SensorsArticle2022/logs/23.11-max_real/version_0/checkpoints/epoch=19-step=300.ckpt",
+    # )
+
+    trainer.test(
         model=model,
-        datamodule=data_module
-        # ckpt_path="/home/piotr/SensorsArticle2022/logs/23.11-max_real/version_0/checkpoints/epoch=19-step=300.ckpt",
+        datamodule=data_module,
+        verbose=True,
+        ckpt_path="/mnt/c/Users/piotr.hondra/Documents/inz/indoor-semantic-segmentation/long-training/14z0ew2z/checkpoints/last.ckpt",
     )
-    trainer.test(model=model, datamodule=data_module, verbose=True)

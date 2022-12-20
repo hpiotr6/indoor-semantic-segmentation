@@ -27,7 +27,7 @@ class Decoder(nn.Module):
 
 class MultitaskNet(nn.Module):
     def __init__(
-        self, stage="multitask", scene_classes=7, segmentation_classes=27
+        self, stage="multitask", scene_classes=7, segmentation_classes=13
     ) -> None:
         super().__init__()
         segmentator = smp.DeepLabV3(
@@ -36,9 +36,9 @@ class MultitaskNet(nn.Module):
         )
 
         self.backbone = Encoder(segmentator.encoder)
-        # self.decoder = Decoder(
-        #     segmentator.decoder, segmentator.segmentation_head, segmentation_classes
-        # )
+        self.decoder = Decoder(
+            segmentator.decoder, segmentator.segmentation_head, segmentation_classes
+        )
 
         num_filters = segmentator.encoder.out_channels[-1]
         self.classifier = nn.Sequential(
