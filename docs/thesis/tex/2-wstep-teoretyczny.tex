@@ -1,0 +1,28 @@
+\newpage % Rozdziały zaczynamy od nowej strony.
+\section{Wstep teoretyczny}
+
+% # TODO: Zamienić obrazki definicji klasyfikacji i segmentacji na te z mojego zbioru
+
+\subsection{Klasyfikacja sceny}
+\begin{figure}
+    \includegraphics[width=\textwidth]{img/scene_class.png}
+    \caption{Problem różnorodności wewnątrzklasowej oraz wieloznaczności semantycznej \cite{zeng2021deep}.}
+    \label{fig:scene-class}
+\end{figure}
+
+Zadanie klasyfikacji sceny polega na przyporządkowaniu kategorii miejsca, w które przedstawia obraz. Istnieje duża różnica między klasyfikacja obrazka a klasyfikacją sceny. Klasyfikacja obrazka jako taka zajmuje się przyporządkowaniem klasy obiektu pierwszoplanowego, np. czy na obrazie znajduje się pies, czy kot. Klasyfikacja sceny natomiast musi wziąć pod uwagę wszystkie cechy obrazu, zarówno tła, jak i pierwszego planu, by określić odpowiednie miejsce.
+
+Zadanie klasyfikacji sceny jest trudne ze względu na problem różnorodności wewnątrz klasowej oraz wieloznaczności semantycznej, co zostało przedstawione na rys. \ref{fig:scene-class}. Pierwszy z nich polega na fakcie, iż jedno miejsce może zostać przedstawione w bardzo różnej konfiguracji m.in. oświetlenia, ekspozycji, obiektów znajdujących się na obrazie. Drugi jest związany z występowaniem tych samych obiektów dla różnych klas scen.
+
+\subsection{Segmentacja obrazu}
+\begin{figure}
+    \includegraphics[width=\textwidth]{img/segment.png}
+    \caption{Segmentacja wewnątrz pomieszczeń \cite{zhang2018context}.}
+    \label{fig:segment}
+  \end{figure}
+Zadanie segmentacji obrazu to przyporządkowanie każdemu pikselowi etykiety (rys. \ref{fig:segment}). W rezultacie obraz zostaje podzielony na homogeniczne regiony pod względem pewnych własności. Zadanie segmentacji można rozszerzyć do zadania segmentacji instancji (ang. instance segmentation), czyli segmentacji klasycznej rozszerzonej o rożróżnienie poszczególnych obiektów w ramach tej samej klasy. W przypadku klasycznej wersji nie jesteśmy w stanie rozróżnić dwóch stojących obok siebie łóżek, gdyż mapa segmentacji jest dla nich jednakowa. Segmentacja instacji pozwala natomiast takie rozróznienie uczynić. Segmentacja semtantyczna w dalszej części pracy będzie odnosić się do klasycznej wersji. Segmentacja instancji nie jest tematem pracy.
+
+\subsection{Głębokie uczenie i konwolucje}
+% # TODO 
+\subsection{Uczenie wielozadaniowe}
+% # TODO
