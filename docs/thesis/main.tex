@@ -18,27 +18,30 @@
 \graphicspath{{img/}}             % Katalog z obrazkami.
 \addbibresource{bibliografia.bib} % Plik .bib z bibliografią
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 \begin{document}
 
 %--------------------------------------
 % Strona tytułowa
 %--------------------------------------
-\MasterThesis % Dla pracy inżynierskiej mamy \EngineerThesis
-\instytut{XXXXXX}
-\kierunek{XXXXXX}
-\specjalnosc{XXXXXX}
+% \MasterThesis % Dla pracy inżynierskiej mamy \EngineerThesis
+\EngineerThesis
+\instytut{Automatyki i Informatyki Stosowanej}
+\kierunek{Automatyka i Robotyka}
+% \specjalnosc{XXXXXX}
 \title{
-    Niepotrzebnie długi i skomplikowany tytuł pracy \\
-    trudny do przeczytania, zrozumienia i wymówienia
+   Semantyczna analiza środowiska przez robota usługowego 
 }
 \engtitle{ % Tytuł po angielsku do angielskiego streszczenia
     Unnecessarily long and complicated thesis' title \\
     difficult to read, understand and pronounce
 }
-\author{\{Imię i Nazwisko\}}
-\album{XXXXXX}
-\promotor{XXXXXX}
-\date{\the\year}
+\author{\{Piotr Hondra\}}
+\album{303752}
+\promotor{mgr Maciej Stefańczyk}
+\date{2023}
 \maketitle
 
 %--------------------------------------
@@ -74,14 +77,18 @@
 \cleardoublepage % Zaczynamy od nieparzystej strony
 \pagestyle{headings}
 
-\input{tex/1-wstep}         % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
-\input{tex/2-de-finibus}    % Umożliwia to również łatwą migrację do nowej wersji szablonu:
-\input{tex/3-code-listings} % wystarczy podmienić swoje pliki main.tex i eiti-thesis.cls
-                            % na nowe wersje, a cały tekst pracy pozostaje nienaruszony.
-
-\newpage % Rozdziały zaczynamy od nowej strony
-\section{Summatio}          % Można też pisać rozdziały w jednym pliku.
-\lipsum[5-10]
+\input{tex/1-wprowadzenie.tex}
+\input{tex/2-wstep-teoretyczny.tex}
+\input{tex/3-rozwiazanie.tex}
+\input{tex/4-eksperymenty.tex}
+\input{tex/5-podsumowanie.tex}
+% \input{tex/1-wstep}         % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
+% \input{tex/2-de-finibus}    % Umożliwia to również łatwą migrację do nowej wersji szablonu:
+% \input{tex/3-code-listings} % wystarczy podmienić swoje pliki main.tex i eiti-thesis.cls
+%                             % na nowe wersje, a cały tekst pracy pozostaje nienaruszony.
+% \newpage % Rozdziały zaczynamy od nowej strony
+% \section{Summatio}          % Można też pisać rozdziały w jednym pliku.
+% \lipsum[5-10]
 
 %--------------------------------------------
 % Literatura
@@ -105,26 +112,26 @@
 % Makro \acronym dodaje skrót/symbol do listy,
 % zapewniając podstawowe formatowanie.
 % //AB
-\vspace{0.8cm}
-\acronymlist
-\acronym{EiTI}{Wydział Elektroniki i Technik Informacyjnych}
-\acronym{PW}{Politechnika Warszawska}
-\acronym{WEIRD}{ang. \emph{Western, Educated, Industrialized, Rich and Democratic}}
+% \vspace{0.8cm}
+% \acronymlist
+% \acronym{EiTI}{Wydział Elektroniki i Technik Informacyjnych}
+% \acronym{PW}{Politechnika Warszawska}
+% \acronym{WEIRD}{ang. \emph{Western, Educated, Industrialized, Rich and Democratic}}
 
 \listoffigurestoc     % Spis rysunków.
 \vspace{1cm}          % vertical space
 \listoftablestoc      % Spis tabel.
-\vspace{1cm}          % vertical space
-\listofappendicestoc  % Spis załączników
+% \vspace{1cm}          % vertical space
+% \listofappendicestoc  % Spis załączników
 
 % Załączniki
-\newpage
-\appendix{Nazwa załącznika 1}
-\lipsum[1-8]
+% \newpage
+% \appendix{Nazwa załącznika 1}
+% \lipsum[1-8]
 
-\newpage
-\appendix{Nazwa załącznika 2}
-\lipsum[1-4]
+% \newpage
+% \appendix{Nazwa załącznika 2}
+% \lipsum[1-4]
 
 % Używając powyższych spisów jako szablonu,
 % możesz tu dodać swój własny wykaz bądź listę,

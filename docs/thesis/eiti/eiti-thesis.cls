@@ -418,12 +418,12 @@
         \ifnum \pdf@strcmp{\@lang}{english} = 0
             in~the~field~of~study \@kierunek \\
         \fi
-        \ifnum \pdf@strcmp{\@lang}{polish} = 0
-            w~specjalności \@specjalnosc \\
-        \fi
-        \ifnum \pdf@strcmp{\@lang}{english} = 0
-            and~specialisation \@specjalnosc \\
-        \fi
+        % \ifnum \pdf@strcmp{\@lang}{polish} = 0
+        %     w~specjalności \@specjalnosc \\
+        % \fi
+        % \ifnum \pdf@strcmp{\@lang}{english} = 0
+        %     and~specialisation \@specjalnosc \\
+        % \fi
         \hfill \break
         \hfill \break
         \large

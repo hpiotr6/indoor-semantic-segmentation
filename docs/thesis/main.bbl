@@ -19,283 +19,207 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
-    \entry{goossens93}{book}{}
-      \name{author}{3}{}{%
-        {{hash=0743efb276e9219ee664a9b3dbd60619}{%
-           family={Goossens},
-           familyi={G\bibinitperiod},
-           given={Michel},
+    \entry{zeng2021deep}{article}{}
+      \name{author}{8}{}{%
+        {{hash=5d1df640d4d622ee802f1ee401321ed1}{%
+           family={Zeng},
+           familyi={Z\bibinitperiod},
+           given={Delu},
+           giveni={D\bibinitperiod}}}%
+        {{hash=23c8dd24e30d1ce9afe7fd946eb71687}{%
+           family={Liao},
+           familyi={L\bibinitperiod},
+           given={Minyu},
            giveni={M\bibinitperiod}}}%
-        {{hash=9355edd511e3f6fdd880ee98722a53fb}{%
-           family={Mittelbach},
-           familyi={M\bibinitperiod},
-           given={Frank},
-           giveni={F\bibinitperiod}}}%
-        {{hash=e341c89f7bb5be4f5a050618c0b63942}{%
-           family={Samarin},
-           familyi={S\bibinitperiod},
-           given={Alexander},
-           giveni={A\bibinitperiod}}}%
+        {{hash=0f3574cdbfa9181cce72b921046c5d4c}{%
+           family={Tavakolian},
+           familyi={T\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=053425ef184643995c803e8f2dcf7450}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Yulan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=c7cb7aa044ac5597397cceabad3765a3}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Bolei},
+           giveni={B\bibinitperiod}}}%
+        {{hash=da91259146bb28da9d0933b9e16a0106}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Dewen},
+           giveni={D\bibinitperiod}}}%
+        {{hash=9f01d72b772651a0eaa57c9b22e31b85}{%
+           family={Pietikäinen},
+           familyi={P\bibinitperiod},
+           given={Matti},
+           giveni={M\bibinitperiod}}}%
+        {{hash=fa3e4da50b3416b1a04c39a932b2344c}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod}}}%
       }
-      \list{location}{1}{%
-        {Reading, Massachusetts}%
-      }
-      \list{publisher}{1}{%
-        {Addison-Wesley}%
-      }
-      \strng{namehash}{369a4e878eb8157d94588ee72e0b486b}
-      \strng{fullhash}{369a4e878eb8157d94588ee72e0b486b}
-      \strng{bibnamehash}{369a4e878eb8157d94588ee72e0b486b}
-      \strng{authorbibnamehash}{369a4e878eb8157d94588ee72e0b486b}
-      \strng{authornamehash}{369a4e878eb8157d94588ee72e0b486b}
-      \strng{authorfullhash}{369a4e878eb8157d94588ee72e0b486b}
+      \strng{namehash}{451dcfab90cb07ab95a09989ce3b64d6}
+      \strng{fullhash}{afd8c74620dc22d7247e3721c708cfe2}
+      \strng{bibnamehash}{afd8c74620dc22d7247e3721c708cfe2}
+      \strng{authorbibnamehash}{afd8c74620dc22d7247e3721c708cfe2}
+      \strng{authornamehash}{451dcfab90cb07ab95a09989ce3b64d6}
+      \strng{authorfullhash}{afd8c74620dc22d7247e3721c708cfe2}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{The LaTeX Companion}
-      \field{year}{1993}
+      \field{journaltitle}{arXiv preprint arXiv:2101.10531}
+      \field{title}{Deep learning for scene classification: A survey}
+      \field{year}{2021}
     \endentry
-    \entry{szczypiorski2015}{article}{}
-      \name{author}{3}{}{%
-        {{hash=1bc2d2b55c37e0385dd87edf82d85452}{%
-           family={Szczypiorski},
-           familyi={S\bibinitperiod},
-           given={K.},
+    \entry{zhang2018context}{inproceedings}{}
+      \name{author}{7}{}{%
+        {{hash=df428416bb33b1ea50cc8131fd7dd043}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Hang},
+           giveni={H\bibinitperiod}}}%
+        {{hash=09be627d499abf50435e74fc3367480c}{%
+           family={Dana},
+           familyi={D\bibinitperiod},
+           given={Kristin},
            giveni={K\bibinitperiod}}}%
-        {{hash=7d58df9da5b8ae7dfc725c070d423185}{%
-           family={Janicki},
-           familyi={J\bibinitperiod},
-           given={A.},
-           giveni={A\bibinitperiod}}}%
-        {{hash=8ecc85936ce6984aaf129415227ce162}{%
-           family={Wendzel},
+        {{hash=3797f666351febe439e04520ec708726}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Jianping},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d94d9e971e0438cf0f8911aa33b1eb3a}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zhongyue},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=e88500bd6ca50746707a22554761b61a}{%
+           family={Wang},
            familyi={W\bibinitperiod},
-           given={S},
-           giveni={S\bibinitperiod}}}%
+           given={Xiaogang},
+           giveni={X\bibinitperiod}}}%
+        {{hash=5738572bec2375a27788885a27f9bc52}{%
+           family={Tyagi},
+           familyi={T\bibinitperiod},
+           given={Ambrish},
+           giveni={A\bibinitperiod}}}%
+        {{hash=950b6bd713e6d6bf5e1e082dcf37838f}{%
+           family={Agrawal},
+           familyi={A\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {Journal of Communications (JCM)}%
-      }
-      \strng{namehash}{897e03db0ea018b0f6b8210b29a52e15}
-      \strng{fullhash}{897e03db0ea018b0f6b8210b29a52e15}
-      \strng{bibnamehash}{897e03db0ea018b0f6b8210b29a52e15}
-      \strng{authorbibnamehash}{897e03db0ea018b0f6b8210b29a52e15}
-      \strng{authornamehash}{897e03db0ea018b0f6b8210b29a52e15}
-      \strng{authorfullhash}{897e03db0ea018b0f6b8210b29a52e15}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Communications}
-      \field{number}{10}
-      \field{title}{{T}he {G}ood, {T}he {B}ad {A}nd {T}he {U}gly: {E}valuation of {W}i-{F}i {S}teganography}
-      \field{volume}{10}
-      \field{year}{2015}
-      \field{pages}{747\bibrangedash 752}
-      \range{pages}{6}
-    \endentry
-    \entry{duqu2011}{report}{}
-      \name{author}{4}{}{%
-        {{hash=0012436b09dfbfc40432f168356889da}{%
-           family={Bencsáth},
-           familyi={B\bibinitperiod},
-           given={B.},
-           giveni={B\bibinitperiod}}}%
-        {{hash=00e7ed996f83b52de70e8b6ab89b62c4}{%
-           family={Pék},
-           familyi={P\bibinitperiod},
-           given={G.},
-           giveni={G\bibinitperiod}}}%
-        {{hash=d16d1484bd0d0393b0e17fc98d7fc9ed}{%
-           family={Buttyán},
-           familyi={B\bibinitperiod},
-           given={L.},
-           giveni={L\bibinitperiod}}}%
-        {{hash=c1c5c6339040aa4c5276ea89b482a511}{%
-           family={M.},
-           familyi={M\bibinitperiod},
-           given={Félegyházi},
-           giveni={F\bibinitperiod}}}%
-      }
-      \list{institution}{2}{%
-        {Laboratory of Cryptography}%
-        {System Security, Hungary}%
-      }
-      \strng{namehash}{a7a781a70ef05f4f86050bef71512b5c}
-      \strng{fullhash}{fa6be5bba5a7762d30eb51b69b4938e6}
-      \strng{bibnamehash}{fa6be5bba5a7762d30eb51b69b4938e6}
-      \strng{authorbibnamehash}{fa6be5bba5a7762d30eb51b69b4938e6}
-      \strng{authornamehash}{a7a781a70ef05f4f86050bef71512b5c}
-      \strng{authorfullhash}{fa6be5bba5a7762d30eb51b69b4938e6}
+      \strng{namehash}{4b2954585c47d30ac1bed2ae94138dd1}
+      \strng{fullhash}{2576a064ef604c86ce7c8f933c1b0e7c}
+      \strng{bibnamehash}{2576a064ef604c86ce7c8f933c1b0e7c}
+      \strng{authorbibnamehash}{2576a064ef604c86ce7c8f933c1b0e7c}
+      \strng{authornamehash}{4b2954585c47d30ac1bed2ae94138dd1}
+      \strng{authorfullhash}{2576a064ef604c86ce7c8f933c1b0e7c}
       \field{sortinit}{3}
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{{D}uqu: {A} {S}tuxnet-like malware found in the wild}
-      \field{type}{techreport}
-      \field{year}{2011}
+      \field{booktitle}{Proceedings of the IEEE conference on Computer Vision and Pattern Recognition}
+      \field{title}{Context encoding for semantic segmentation}
+      \field{year}{2018}
+      \field{pages}{7151\bibrangedash 7160}
+      \range{pages}{10}
     \endentry
-    \entry{shs2015}{manual}{}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{Dostęp zdalny (13.03.2019): \url{https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf}}
-      \field{title}{{FIPS} 180-4: {S}ecure {H}ash {S}tandard ({SHS})}
-      \field{year}{2015}
-    \endentry
-    \entry{wozniak2018}{thesis}{}
-      \name{author}{1}{}{%
-        {{hash=098dcc12967fae4e45ef78066e79fd31}{%
-           family={Woźniak},
-           familyi={W\bibinitperiod},
-           given={Piotr},
-           giveni={P\bibinitperiod}}}%
+    \entry{iizuka2016let}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a5840480909a7fe4c4f0bbfc38cd13b6}{%
+           family={Iizuka},
+           familyi={I\bibinitperiod},
+           given={Satoshi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=151208fc63e33c67f94ce2fcbeb0d033}{%
+           family={Simo-Serra},
+           familyi={S\bibinithyphendelim S\bibinitperiod},
+           given={Edgar},
+           giveni={E\bibinitperiod}}}%
+        {{hash=0b6710c876b5a5461e6c8fa893b6f321}{%
+           family={Ishikawa},
+           familyi={I\bibinitperiod},
+           given={Hiroshi},
+           giveni={H\bibinitperiod}}}%
       }
-      \list{institution}{1}{%
-        {Wydział Elektroniki i Technik Informacyjnych, Politechnika Warszawska}%
+      \list{publisher}{1}{%
+        {ACM New York, NY, USA}%
       }
-      \strng{namehash}{098dcc12967fae4e45ef78066e79fd31}
-      \strng{fullhash}{098dcc12967fae4e45ef78066e79fd31}
-      \strng{bibnamehash}{098dcc12967fae4e45ef78066e79fd31}
-      \strng{authorbibnamehash}{098dcc12967fae4e45ef78066e79fd31}
-      \strng{authornamehash}{098dcc12967fae4e45ef78066e79fd31}
-      \strng{authorfullhash}{098dcc12967fae4e45ef78066e79fd31}
+      \strng{namehash}{edc88cdce5709e70fdeaeb3476f7e865}
+      \strng{fullhash}{edc88cdce5709e70fdeaeb3476f7e865}
+      \strng{bibnamehash}{edc88cdce5709e70fdeaeb3476f7e865}
+      \strng{authorbibnamehash}{edc88cdce5709e70fdeaeb3476f7e865}
+      \strng{authornamehash}{edc88cdce5709e70fdeaeb3476f7e865}
+      \strng{authorfullhash}{edc88cdce5709e70fdeaeb3476f7e865}
       \field{sortinit}{5}
       \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{{P}rogramowanie kwadratowe w usuwaniu efektu rozmycia ruchu w fotografii cyfrowej}
-      \field{type}{mathesis}
-      \field{year}{2018}
+      \field{journaltitle}{ACM Transactions on Graphics (ToG)}
+      \field{number}{4}
+      \field{title}{Let there be color! Joint end-to-end learning of global and local image priors for automatic image colorization with simultaneous classification}
+      \field{volume}{35}
+      \field{year}{2016}
+      \field{pages}{1\bibrangedash 11}
+      \range{pages}{11}
     \endentry
-    \entry{dcp19}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=c8f2b5903e252703c769781e41ea3573}{%
-           family={Brodzki},
+    \entry{mehta2018net}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=90feecf4f2f08ae7f3b8e33214091f72}{%
+           family={Mehta},
+           familyi={M\bibinitperiod},
+           given={Sachin},
+           giveni={S\bibinitperiod}}}%
+        {{hash=096a695766fc5d9b18106c2f56dbfdab}{%
+           family={Mercan},
+           familyi={M\bibinitperiod},
+           given={Ezgi},
+           giveni={E\bibinitperiod}}}%
+        {{hash=7ee7afef5160fe582f82218636708a19}{%
+           family={Bartlett},
            familyi={B\bibinitperiod},
-           given={Artur\bibnamedelima M.},
-           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+           given={Jamen},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fbe549417328e662b56be83ea98cec3e}{%
+           family={Weaver},
+           familyi={W\bibinitperiod},
+           given={Donald},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d244b0de8bc0fafb985ce4bde8bc9816}{%
+           family={Elmore},
+           familyi={E\bibinitperiod},
+           given={Joann\bibnamedelima G},
+           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=a6be9ceb2651465d17724d74284d5deb}{%
+           family={Shapiro},
+           familyi={S\bibinitperiod},
+           given={Linda},
+           giveni={L\bibinitperiod}}}%
       }
-      \strng{namehash}{c8f2b5903e252703c769781e41ea3573}
-      \strng{fullhash}{c8f2b5903e252703c769781e41ea3573}
-      \strng{bibnamehash}{c8f2b5903e252703c769781e41ea3573}
-      \strng{authorbibnamehash}{c8f2b5903e252703c769781e41ea3573}
-      \strng{authornamehash}{c8f2b5903e252703c769781e41ea3573}
-      \strng{authorfullhash}{c8f2b5903e252703c769781e41ea3573}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{Dostęp zdalny (14.03.2019): \url{https://github.com/ArturB/DCP-19}}
-      \field{title}{{I}mplementation of own steganography protocol {DCP}-19, loosely based on {HICCUPS}}
-      \field{year}{2019}
-    \endentry
-    \entry{benzmuller2014}{inproceedings}{}
-      \name{author}{2}{}{%
-        {{hash=a6db02cd7d536f0032fd3c74f138d504}{%
-           family={Benzmuller},
-           familyi={B\bibinitperiod},
-           given={{Ch}.},
-           giveni={C\bibinitperiod}}}%
-        {{hash=aacad15db453d200fbc0d8dd5ef77ebe}{%
-           family={Paleo},
-           familyi={P\bibinitperiod},
-           given={B.\bibnamedelimi W.},
-           giveni={B\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      \list{organization}{1}{%
+        {Springer}%
       }
-      \list{publisher}{1}{%
-        {IOS Press}%
-      }
-      \strng{namehash}{2d2861aef35ef951772a6e4a6aacc734}
-      \strng{fullhash}{2d2861aef35ef951772a6e4a6aacc734}
-      \strng{bibnamehash}{2d2861aef35ef951772a6e4a6aacc734}
-      \strng{authorbibnamehash}{2d2861aef35ef951772a6e4a6aacc734}
-      \strng{authornamehash}{2d2861aef35ef951772a6e4a6aacc734}
-      \strng{authorfullhash}{2d2861aef35ef951772a6e4a6aacc734}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{European	Conference on Artificial Intelligence}
-      \field{howpublished}{Dostęp zdalny (10.04.2019): \url{http://page.mi.fu-berlin.de/cbenzmueller/papers/C40.pdf}}
-      \field{title}{Automating {Gö}del’s {O}ntological {P}roof of {G}od’s {E}xistence with {H}igher-order {A}utomated {T}heorem {P}rovers}
-      \field{year}{2014}
-    \endentry
-    \entry{goedel95}{incollection}{}
-      \name{author}{1}{}{%
-        {{hash=741b5eae8f0486fe4cfb19725eb596a0}{%
-           family={Gödel},
-           familyi={G\bibinitperiod},
-           given={Kurt},
-           giveni={K\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Oxford University Press}%
-      }
-      \strng{namehash}{741b5eae8f0486fe4cfb19725eb596a0}
-      \strng{fullhash}{741b5eae8f0486fe4cfb19725eb596a0}
-      \strng{bibnamehash}{741b5eae8f0486fe4cfb19725eb596a0}
-      \strng{authorbibnamehash}{741b5eae8f0486fe4cfb19725eb596a0}
-      \strng{authornamehash}{741b5eae8f0486fe4cfb19725eb596a0}
-      \strng{authorfullhash}{741b5eae8f0486fe4cfb19725eb596a0}
+      \strng{namehash}{f55a6b53a02a6a5847b467178e9bddfe}
+      \strng{fullhash}{16728c195a6b351b3e88a7eef063254a}
+      \strng{bibnamehash}{16728c195a6b351b3e88a7eef063254a}
+      \strng{authorbibnamehash}{16728c195a6b351b3e88a7eef063254a}
+      \strng{authornamehash}{f55a6b53a02a6a5847b467178e9bddfe}
+      \strng{authorfullhash}{16728c195a6b351b3e88a7eef063254a}
       \field{sortinit}{8}
       \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{Unpublished Essays and Lectures}
-      \field{title}{Texts relating to the ontological proof}
-      \field{year}{1995}
-      \field{pages}{429\bibrangedash 437}
+      \field{booktitle}{International Conference on Medical Image Computing and Computer-Assisted Intervention}
+      \field{title}{Y-Net: joint segmentation and classification for diagnosis of breast biopsy images}
+      \field{year}{2018}
+      \field{pages}{893\bibrangedash 901}
       \range{pages}{9}
-    \endentry
-    \entry{wang97}{inbook}{}
-      \name{author}{1}{}{%
-        {{hash=c8cf19241225247d6d07dbf8a516b8ed}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={Hao},
-           giveni={H\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {A Bradford Book}%
-      }
-      \strng{namehash}{c8cf19241225247d6d07dbf8a516b8ed}
-      \strng{fullhash}{c8cf19241225247d6d07dbf8a516b8ed}
-      \strng{bibnamehash}{c8cf19241225247d6d07dbf8a516b8ed}
-      \strng{authorbibnamehash}{c8cf19241225247d6d07dbf8a516b8ed}
-      \strng{authornamehash}{c8cf19241225247d6d07dbf8a516b8ed}
-      \strng{authorfullhash}{c8cf19241225247d6d07dbf8a516b8ed}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{A Logical Journey: From Gödel to Philosophy.}
-      \field{year}{1997}
-      \field{pages}{316}
-      \range{pages}{1}
-    \endentry
-    \entry{koons2005}{unpublished}{}
-      \name{author}{1}{}{%
-        {{hash=df67383e5f81e5cc7a9f630a00674bae}{%
-           family={Koons},
-           familyi={K\bibinitperiod},
-           given={Robert\bibnamedelima C.},
-           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-      }
-      \strng{namehash}{df67383e5f81e5cc7a9f630a00674bae}
-      \strng{fullhash}{df67383e5f81e5cc7a9f630a00674bae}
-      \strng{bibnamehash}{df67383e5f81e5cc7a9f630a00674bae}
-      \strng{authorbibnamehash}{df67383e5f81e5cc7a9f630a00674bae}
-      \strng{authornamehash}{df67383e5f81e5cc7a9f630a00674bae}
-      \strng{authorfullhash}{df67383e5f81e5cc7a9f630a00674bae}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{note}{Dostęp zdalny (25.04.2019): \url{http://www.robkoons.net/media/69b0dd04a9d2fc6dffff80b4ffffd524.pdf}}
-      \field{title}{{S}obel on {Gö}del’s {O}ntological {P}roof}
-      \field{year}{2005}
     \endentry
   \enddatalist
 \endrefsection
