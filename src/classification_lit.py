@@ -8,14 +8,16 @@ import torchmetrics
 
 import wandb
 
-from . import classification_models, constants, metrics
+from .constants import class_names
+
+from . import classification_models, metrics
 
 
 class LitClassification(pl.LightningModule):
     def __init__(self, learning_rate):
         super().__init__()
         self.learning_rate = learning_rate
-        self.class_names = constants.SCENE_MERGED_IDS.keys()
+        self.class_names = class_names.SCENE_MERGED_IDS.keys()
 
         self.num_classes = len(self.class_names)
         self.ignore_index = None

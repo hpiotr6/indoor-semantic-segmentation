@@ -5,6 +5,7 @@ import pytorch_lightning as pl
 from pytorch_lightning import callbacks
 import torch
 from src import multitask_datamod, transforms
+from src.constants import weights
 from src.multitask_lit import LitSegmentation
 
 if __name__ == "__main__":
@@ -12,15 +13,17 @@ if __name__ == "__main__":
 
     PROJECT_DIR = Path(__file__).resolve().parent
     dataloader_params = {"batch_size": 8, "num_workers": 12, "pin_memory": False}
-    data_module = multitask_datamod.SegmentationDataModule(
-        PROJECT_DIR,
-        kwargs=dataloader_params,
-        # transforms=transforms.train_transform,
-        num_classes=13,
-    )
+    # data_module = multitask_datamod.SegmentationDataModule(
+    #     PROJECT_DIR,
+    #     kwargs=dataloader_params,
+    #     # transforms=transforms.train_transform,
+    #     num_classes=13,
+    # )
+
+    data_module = multitask_datamod.MultitaskDataModule(PROJECT_DIR, dataloader_params)
 
     logger = pl.loggers.WandbLogger(
-        project="segmentation-19.12",
+        project="segmentation-06.01",
         # name="baseline",
         log_model=True,
     )
@@ -41,27 +44,10 @@ if __name__ == "__main__":
         # accumulate_grad_batches=3,
         # overfit_batches=2,
     )
-    weights = 1 / torch.Tensor(
-        [
-            11611728,
-            8578042,
-            1308322,
-            3535427,
-            8258474,
-            23949931,
-            35664840,
-            31453241,
-            4864604,
-            5747842,
-            7347520,
-            1349733,
-            57555778,
-        ]
-    )
-    model = LitSegmentation(learning_rate=1e-4, weights=weights)
+    model = LitSegmentation(learning_rate=1e-4, weights=weights.SEG_WEIGHTS)
     trainer.fit(
         model=model,
         datamodule=data_module
         # ckpt_path="/home/piotr/SensorsArticle2022/logs/23.11-max_real/version_0/checkpoints/epoch=19-step=300.ckpt",
     )
-    trainer.test(model=model, datamodule=data_module, verbose=True)
+    # trainer.test(model=model, datamodule=data_module, verbose=True)
