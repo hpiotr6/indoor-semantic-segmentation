@@ -8,7 +8,7 @@ import torch.utils.data as data
 from matplotlib import pyplot as plt
 from PIL import Image
 
-from . import constants
+from .constants import class_names
 
 
 class NYUv2SegmentationDataset(data.Dataset):
@@ -49,7 +49,7 @@ class NYUv2ClassificationDataset(data.Dataset):
     def __init__(self, image_dir, scene_dir, transform=None):
         self.transform = transform
         self.image_dir = image_dir
-        self.scene_ids = constants.SCENE_MERGED_IDS
+        self.scene_ids = class_names.SCENE_MERGED_IDS
         # self.scene_ids = constants.SCENE_IDS
         # constants.SCENE_IDS[constants.SCENE_MERGED]
 
@@ -72,8 +72,8 @@ class NYUv2ClassificationDataset(data.Dataset):
     def __getitem__(self, index):
         img_path = os.path.join(self.image_dir, self.images[index])
         image = np.array(Image.open(img_path))
-        scene = constants.SCENE_MERGED_IDS.get(
-            constants.SCENE_MERGED.get(self.scenes[index])
+        scene = class_names.SCENE_MERGED_IDS.get(
+            class_names.SCENE_MERGED.get(self.scenes[index])
         )
         # scene = self.scene_ids[self.scenes[index]]
         if self.transform is not None:
@@ -88,7 +88,7 @@ class NYUv2MultitaskDataset(data.Dataset):
     def __init__(self, image_dir, mask_dir, scene_dir, transform=None):
         self.image_dir = image_dir
         self.mask_dir = mask_dir
-        self.scene_ids = constants.SCENE_MERGED_IDS
+        self.scene_ids = class_names.SCENE_MERGED_IDS
         self.transform = transform
 
         self.seg_num_classes = int(Path(mask_dir).name.replace("semantic_", ""))
@@ -114,8 +114,8 @@ class NYUv2MultitaskDataset(data.Dataset):
         mask_path = os.path.join(self.mask_dir, self.masks[index])
         image = np.asarray(Image.open(img_path).convert("RGB"), dtype=np.float32)
         mask = np.asarray(Image.open(mask_path), dtype=np.float32)
-        scene = constants.SCENE_MERGED_IDS.get(
-            constants.SCENE_MERGED.get(self.scenes[index])
+        scene = class_names.SCENE_MERGED_IDS.get(
+            class_names.SCENE_MERGED.get(self.scenes[index])
         )
 
         self.map_void(mask)

@@ -17,6 +17,14 @@ t2 = A.Compose(
         ToTensorV2(),
     ]
 )
+infer = A.Compose(
+    [
+        # A.augmentations.transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)),
+        A.Resize(480, 640),
+        A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+        ToTensorV2(),
+    ]
+)
 
 # extra_transforms = (
 #     transforms.ColorJitter(brightness=0.5, contrast=0.5, saturation=0.5, hue=0.3),
