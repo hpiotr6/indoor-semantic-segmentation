@@ -11,77 +11,77 @@ from PIL import Image
 from .constants import class_names
 
 
-class NYUv2SegmentationDataset(data.Dataset):
-    def __init__(self, image_dir, mask_dir, transform=None):
-        self.image_dir = image_dir
-        self.mask_dir = mask_dir
-        self.num_classes = int(Path(mask_dir).name.replace("semantic_", ""))
-        assert self.num_classes in [13, 40]
-        self.transform = transform
-        self.images = sorted(os.listdir(image_dir))
-        self.masks = sorted(os.listdir(mask_dir))
-        assert len(self.images) == len(self.masks)
+# class NYUv2SegmentationDataset(data.Dataset):
+#     def __init__(self, image_dir, mask_dir, transform=None):
+#         self.image_dir = image_dir
+#         self.mask_dir = mask_dir
+#         self.num_classes = int(Path(mask_dir).name.replace("semantic_", ""))
+#         assert self.num_classes in [13, 40]
+#         self.transform = transform
+#         self.images = sorted(os.listdir(image_dir))
+#         self.masks = sorted(os.listdir(mask_dir))
+#         assert len(self.images) == len(self.masks)
 
-    def map_void(self, mask):
-        mask[mask == 0] = 255
-        mask[mask == self.num_classes] = 0
+#     def map_void(self, mask):
+#         mask[mask == 0] = 255
+#         mask[mask == self.num_classes] = 0
 
-    def __len__(self):
-        return len(self.images)
+#     def __len__(self):
+#         return len(self.images)
 
-    def __getitem__(self, index):
-        img_path = os.path.join(self.image_dir, self.images[index])
-        mask_path = os.path.join(self.mask_dir, self.masks[index])
-        image = np.asarray(Image.open(img_path).convert("RGB"), dtype=np.float32)
-        mask = np.asarray(Image.open(mask_path), dtype=np.float32)
+#     def __getitem__(self, index):
+#         img_path = os.path.join(self.image_dir, self.images[index])
+#         mask_path = os.path.join(self.mask_dir, self.masks[index])
+#         image = np.asarray(Image.open(img_path).convert("RGB"), dtype=np.float32)
+#         mask = np.asarray(Image.open(mask_path), dtype=np.float32)
 
-        self.map_void(mask)
-        # assert len(np.unique(mask)) < 40, np.unique(mask)
+#         self.map_void(mask)
+#         # assert len(np.unique(mask)) < 40, np.unique(mask)
 
-        if self.transform is not None:
-            transformed = self.transform(image=image, mask=mask)
-            image = transformed["image"]
-            mask = transformed["mask"]
-        return image, mask
+#         if self.transform is not None:
+#             transformed = self.transform(image=image, mask=mask)
+#             image = transformed["image"]
+#             mask = transformed["mask"]
+#         return image, mask
 
 
-class NYUv2ClassificationDataset(data.Dataset):
-    def __init__(self, image_dir, scene_dir, transform=None):
-        self.transform = transform
-        self.image_dir = image_dir
-        self.scene_ids = class_names.SCENE_MERGED_IDS
-        # self.scene_ids = constants.SCENE_IDS
-        # constants.SCENE_IDS[constants.SCENE_MERGED]
+# class NYUv2ClassificationDataset(data.Dataset):
+#     def __init__(self, image_dir, scene_dir, transform=None):
+#         self.transform = transform
+#         self.image_dir = image_dir
+#         self.scene_ids = class_names.SCENE_MERGED_IDS
+#         # self.scene_ids = constants.SCENE_IDS
+#         # constants.SCENE_IDS[constants.SCENE_MERGED]
 
-        self.images = sorted(os.listdir(image_dir))
-        self.scenes = self._read_scenes(scene_dir)
+#         self.images = sorted(os.listdir(image_dir))
+#         self.scenes = self._read_scenes(scene_dir)
 
-    def _read_scenes(self, scene_dir) -> list:
-        scenes = []
-        for filename in os.listdir(scene_dir):
-            file_path = os.path.join(scene_dir, filename)
+#     def _read_scenes(self, scene_dir) -> list:
+#         scenes = []
+#         for filename in os.listdir(scene_dir):
+#             file_path = os.path.join(scene_dir, filename)
 
-            with open(file_path, "r") as f:
-                scene = f.readline()
-                scenes.append(scene)
-        return scenes
+#             with open(file_path, "r") as f:
+#                 scene = f.readline()
+#                 scenes.append(scene)
+#         return scenes
 
-    def __len__(self):
-        return len(self.scenes)
+#     def __len__(self):
+#         return len(self.scenes)
 
-    def __getitem__(self, index):
-        img_path = os.path.join(self.image_dir, self.images[index])
-        image = np.array(Image.open(img_path))
-        scene = class_names.SCENE_MERGED_IDS.get(
-            class_names.SCENE_MERGED.get(self.scenes[index])
-        )
-        # scene = self.scene_ids[self.scenes[index]]
-        if self.transform is not None:
-            transformed = self.transform(image=image)
-            image = transformed["image"]
-            scene = torch.tensor(scene)
+#     def __getitem__(self, index):
+#         img_path = os.path.join(self.image_dir, self.images[index])
+#         image = np.array(Image.open(img_path))
+#         scene = class_names.SCENE_MERGED_IDS.get(
+#             class_names.SCENE_MERGED.get(self.scenes[index])
+#         )
+#         # scene = self.scene_ids[self.scenes[index]]
+#         if self.transform is not None:
+#             transformed = self.transform(image=image)
+#             image = transformed["image"]
+#             scene = torch.tensor(scene)
 
-        return image, scene
+#         return image, scene
 
 
 class NYUv2MultitaskDataset(data.Dataset):
@@ -131,6 +131,71 @@ class NYUv2MultitaskDataset(data.Dataset):
         scenes = []
         for filename in sorted(os.listdir(scene_dir)):
             file_path = os.path.join(scene_dir, filename)
+
+            with open(file_path, "r") as f:
+                scene = f.readline()
+                scenes.append(scene)
+        return scenes
+
+
+class NYUv2SplitDataset(data.Dataset):
+    def __init__(self, filenames_file: str, root: str, transform=None):
+
+        self.filenames_df = pd.read_csv(filenames_file, header=None, dtype="str")
+        self.root = root
+        # self.image_dir = image_dir
+        # self.mask_dir = mask_dir
+        self.scene_ids = class_names.SCENE_MERGED_IDS
+        self.transform = transform
+
+        # self.seg_num_classes = int(Path(mask_dir).name.replace("semantic_", ""))
+        # assert self.seg_num_classes in [13, 40]
+
+        # self.images = sorted(os.listdir(image_dir))
+        # self.masks = sorted(os.listdir(mask_dir))
+        self.scenes = self._read_scenes()
+        # self.df = pd.DataFrame(
+        #     dict(img=self.images, masks=self.masks, scenes=self.scenes)
+        # )
+        # assert len(self.images) == len(self.masks)
+
+    def map_void(self, mask):
+        mask[mask == 0] = 255
+        mask[mask == 13] = 0
+
+    def __len__(self):
+        return len(self.filenames_df)
+
+    def __getitem__(self, index):
+        img_path = os.path.join(
+            self.root, "rgb", f"{self.filenames_df.values[index].item()}.png"
+        )
+        mask_path = os.path.join(
+            self.root, "semantic_13", f"{self.filenames_df.values[index].item()}.png"
+        )
+        # img_path = os.path.join(self.image_dir, self.images[index])
+        # mask_path = os.path.join(self.mask_dir, self.masks[index])
+
+        image = np.asarray(Image.open(img_path).convert("RGB"), dtype=np.float32)
+        mask = np.asarray(Image.open(mask_path), dtype=np.float32)
+        scene = class_names.SCENE_MERGED_IDS.get(
+            class_names.SCENE_MERGED.get(self.scenes[index])
+        )
+
+        self.map_void(mask)
+        # assert len(np.unique(mask)) < 40, np.unique(mask)
+
+        if self.transform is not None:
+            transformed = self.transform(image=image, mask=mask)
+            image = transformed["image"]
+            mask = transformed["mask"]
+        return image, mask, scene
+
+    def _read_scenes(self) -> list:
+        scenes = []
+        filenames = [f"{item.item()}.txt" for item in self.filenames_df.values]
+        for filename in filenames:
+            file_path = os.path.join(self.root, "scene_class", filename)
 
             with open(file_path, "r") as f:
                 scene = f.readline()
