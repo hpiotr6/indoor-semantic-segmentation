@@ -119,5 +119,16 @@ SCENE_MERGED = {
     "foyer": "other_indoor",
 }
 
-SCENE_MERGED_IDS = {val: idx for idx, val in enumerate(set(SCENE_MERGED.values()))}
-MERGED_SCENES_IDS = {idx: val for idx, val in enumerate(set(SCENE_MERGED.values()))}
+# SCENE_MERGED_IDS = {val: idx for idx, val in enumerate(set(SCENE_MERGED.values()))}
+# MERGED_SCENES_IDS =
+# MERGED_SCENES_IDS = {idx: val for idx, val in enumerate(set(SCENE_MERGED.values()))}
+SCENE_MERGED_IDS = {
+    "other_indoor": 0,
+    "kitchen": 1,
+    "bedroom": 2,
+    "living_room": 3,
+    "bathroom": 4,
+    "office": 5,
+    "dining_room": 6,
+}
+MERGED_SCENES_IDS = {idx: val for val, idx in SCENE_MERGED_IDS.items()}

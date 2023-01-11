@@ -2,6 +2,7 @@ import re
 import pytorch_lightning as pl
 import segmentation_models_pytorch as smp
 import torch
+from torchmetrics import classification
 
 from .constants import class_names
 
@@ -16,7 +17,8 @@ def shared_step(model, batch):
 
 
 def freeze_nontrainable_params(model, trainable_params):
-    model.requires_grad_(False)
+    for p in model.parameters():
+        p.requires_grad = False
     for p in trainable_params:
         p.requires_grad = True
 
@@ -132,47 +134,59 @@ class LitClassification(pl.LightningModule):
     def __init__(self, learning_rate, weights=None) -> None:
         super().__init__()
         self.learning_rate = learning_rate
-        self.model = multitask_model.MultitaskNet()
+
+        self.model = smp.Unet(
+            encoder_weights="imagenet",
+            classes=13,
+            aux_params={"classes": 7},
+        )
         # self.model = ImagenetTransferLearning(7)
         # for param in self.model.parameters():
         #     param.requires_grad = False
         self.criterior = torch.nn.CrossEntropyLoss(weight=weights)
-
-        self.trainable_params = [
-            p
-            for name, p in self.model.named_parameters()
-            # if not bool(re.search("decoder|segmentation", name))
-            if bool(re.search("classifier", name))
-        ]
-        freeze_nontrainable_params(self.model, self.trainable_params)
+        self.test_metric = classification.MulticlassAccuracy(
+            num_classes=7,
+        )
+        # self.trainable_params = [
+        #     p
+        #     for name, p in self.model.named_parameters()
+        #     # if not bool(re.search("decoder|segmentation", name))
+        #     # if bool(re.search("classifier", name))
+        # ]
+        # freeze_nontrainable_params(self.model, self.trainable_params)
         # self.metrics = metrics.WandbHelper(
         #     stage="test",
         #     name="classification",
-        #     class_names=constants.SCENE_MERGED_IDS.keys(),
+        #     class_names=class_names.SCENE_MERGED_IDS.keys(),
         # )
 
-    def forward(self, x):
-        return self.model(x)
+    # def forward(self, x):
+    #     return self.model(x)
 
     def training_step(self, batch):
-        loss = self.criterior(*shared_step(self, batch)[2:])
+        loss = self.criterior(*shared_step(self.model, batch)[2:])
         self.log_dict({"train/loss": loss})
         return loss
 
     def validation_step(self, batch, batch_idx):
-        loss = self.criterior(*shared_step(self, batch)[2:])
+        loss = self.criterior(*shared_step(self.model, batch)[2:])
         self.log_dict({"val/loss": loss})
         return loss
 
-    # def test_step(self, batch, batch_idx):
-    #     data, scene_targets = batch
-    #     scene_logits = self(data)
-    #     # TODO: czy faktycznie potrzebny long?
-    #     scene_targets = scene_targets.long()
+    def test_step(self, batch, batch_idx):
+        scene_logits, scene_targets = shared_step(self.model, batch)[2:]
+        self.test_metric(scene_logits, scene_targets)
+        self.log("macro_acc", self.test_metric)
 
-    #     output = self.metrics.macro_metrics(scene_logits, scene_targets)
-    #     self.log_dict(output)
-    #     self.metrics.nonaverage_metrics.update(scene_logits, scene_targets)
+        #     data, scene_targets = batch
+        #     scene_logits = self(data)
+        #     # TODO: czy faktycznie potrzebny long?
+        #     scene_targets = scene_targets.long()
+
+        # output = self.metrics.macro_metrics(scene_logits, scene_targets)
+        # self.log_dict(output)
+
+        # self.metrics.nonaverage_metrics.update(scene_logits, scene_targets)
 
     # def test_epoch_end(self, outputs) -> None:
     #     # self._get_confusion_matrix(self.test_confusion_matrix_all, "normalized_all")
@@ -187,7 +201,7 @@ class LitClassification(pl.LightningModule):
 
     def configure_optimizers(self):
         # parameters = list(filter(lambda x: x.requires_grad, self.parameters()))
-        optimizer = torch.optim.AdamW(self.trainable_params, lr=self.learning_rate)
+        optimizer = torch.optim.AdamW(self.parameters(), lr=self.learning_rate)
         # # scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
         # scheduler = torch.optim.lr_scheduler.OneCycleLR(
         #     optimizer=optimizer,
