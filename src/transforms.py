@@ -1,7 +1,5 @@
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
-from timm.data.random_erasing import RandomErasing
-from torchvision import transforms
 
 t1 = A.Compose(
     [

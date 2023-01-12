@@ -3,9 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import torch
 import torch.utils.data as data
-from matplotlib import pyplot as plt
 from PIL import Image
 
 from .constants import class_names

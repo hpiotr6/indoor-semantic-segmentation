@@ -1,8 +1,6 @@
 import os
-from pathlib import Path
 
 import pytorch_lightning as pl
-import torch
 from torch.utils import data
 
 from . import dataset, transforms
