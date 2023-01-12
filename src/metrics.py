@@ -7,72 +7,104 @@ from torchmetrics import classification
 import wandb
 
 
-class WandbHelper:
-    def __init__(self, stage: str, name: str, class_names, ignore_index=None) -> None:
+class MetricsHelper:
+    def __init__(
+        self, metrics: str, stage: str, name: str, class_names, ignore_index=None
+    ) -> None:
         self.stage = stage
         self.name = name
         self.ignore_index = ignore_index
         self.class_names = class_names
         self.num_classes = len(self.class_names)
 
-        self.setup_metrcics()
+        self.setup_metrcics(metrics)
 
-    def setup_metrcics(self):
+    def setup_metrcics(self, metrics):
         self.macro_metrics = torchmetrics.MetricCollection(
-            {
-                f"{self.name}_macro_iou": classification.MulticlassJaccardIndex(
+            [
+                metric(
                     num_classes=self.num_classes,
                     ignore_index=self.ignore_index,
-                    # validate_args=False,
-                ),
-                f"{self.name}_macro_acc": classification.MulticlassAccuracy(
-                    num_classes=self.num_classes,
-                    ignore_index=self.ignore_index,
-                    # validate_args=False,
-                ),
-            },
-            prefix=f"{self.stage}/",
+                    average="macro",
+                )
+                for metric in metrics
+            ],
+            prefix=f"{self.stage}/{self.name}/macro/",
         )
-
         self.nonaverage_metrics = torchmetrics.MetricCollection(
-            {
-                f"{self.name}_nonaverage_acc": classification.MulticlassAccuracy(
+            [
+                metric(
                     num_classes=self.num_classes,
+                    ignore_index=self.ignore_index,
                     average=None,
-                    ignore_index=self.ignore_index,
-                    # validate_args=False,
-                ),
-                f"{self.name}_nonaverage_iou": classification.MulticlassJaccardIndex(
-                    num_classes=self.num_classes,
-                    average=None,
-                    ignore_index=self.ignore_index,
-                    # validate_args=False,
-                ),
-                f"{self.name}_confusion_matrix": classification.MulticlassConfusionMatrix(
-                    num_classes=self.num_classes,
-                    ignore_index=self.ignore_index,
-                    normalize="true",
-                    # validate_args=False,
-                ),
-            },
-            prefix=f"{self.stage}/",
+                )
+                for metric in metrics
+            ],
+            prefix=f"{self.stage}/{self.name}/",
         )
-
         self.macro_metrics.to("cuda")
         self.nonaverage_metrics.to("cuda")
+        # self.macro_metrics = torchmetrics.MetricCollection(
+        #     {
+        #         f"{self.name}_macro_iou": classification.MulticlassJaccardIndex(
+        #             num_classes=self.num_classes,
+        #             ignore_index=self.ignore_index,
+        #             # validate_args=False,
+        #         ),
+        #         f"{self.name}_macro_acc": classification.MulticlassAccuracy(
+        #             num_classes=self.num_classes,
+        #             ignore_index=self.ignore_index,
+        #             # validate_args=False,
+        #         ),
+        #     },
+        #     prefix=f"{self.stage}/macro/",
+        # )
+        # self.macro_metrics = torchmetrics.MetricCollection(
+        #     {
+        #         f"{self.name}_macro_iou": classification.MulticlassJaccardIndex(
+        #             num_classes=self.num_classes,
+        #             ignore_index=self.ignore_index,
+        #             # validate_args=False,
+        #         ),
+        #         f"{self.name}_macro_acc": classification.MulticlassAccuracy(
+        #             num_classes=self.num_classes,
+        #             ignore_index=self.ignore_index,
+        #             # validate_args=False,
+        #         ),
+        #     },
+        #     prefix=f"{self.stage}/",
+        # )
 
-    def log_confusion_matrix(self, matrix: pd.DataFrame):
+        # self.nonaverage_metrics = torchmetrics.MetricCollection(
+        #     {
+        #         f"{self.name}_nonaverage_acc": classification.MulticlassAccuracy(
+        #             num_classes=self.num_classes,
+        #             average=None,
+        #             ignore_index=self.ignore_index,
+        #             # validate_args=False,
+        #         ),
+        #         f"{self.name}_nonaverage_iou": classification.MulticlassJaccardIndex(
+        #             num_classes=self.num_classes,
+        #             average=None,
+        #             ignore_index=self.ignore_index,
+        #             # validate_args=False,
+        #         ),
+        #     },
+        #     prefix=f"{self.stage}/",
+        # )
 
-        fig = px.imshow(matrix, template="seaborn")
-        wandb.log({f"{self.name} confusion Matrix": fig})
+    # def log_confusion_matrix(self, matrix: pd.DataFrame):
 
-    def log_confusion_matrix_table(self, matrix: pd.DataFrame):
-        # self.logger.log_table(key="conf", dataframe=matrix_df)
-        tb = wandb.Table(data=matrix)
-        wandb.log({f"{self.name} confusion_matrix": tb})
+    #     fig = px.imshow(matrix, template="seaborn")
+    #     wandb.log({f"{self.name} confusion Matrix": fig})
 
-    def get_matrix_df(self, matrix: torch.Tensor):
-        return pd.DataFrame(matrix.cpu(), self.class_names, self.class_names)
+    # def log_confusion_matrix_table(self, matrix: pd.DataFrame):
+    #     # self.logger.log_table(key="conf", dataframe=matrix_df)
+    #     tb = wandb.Table(data=matrix)
+    #     wandb.log({f"{self.name} confusion_matrix": tb})
+
+    # def get_matrix_df(self, matrix: torch.Tensor):
+    #     return pd.DataFrame(matrix.cpu(), self.class_names, self.class_names)
 
     # def log_polar(self, nonaverage_df: pd.DataFrame, r: str):
 
