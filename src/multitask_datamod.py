@@ -1,8 +1,6 @@
 import os
-from pathlib import Path
 
 import pytorch_lightning as pl
-import torch
 from torch.utils import data
 
 from . import dataset, transforms
@@ -16,17 +14,37 @@ class MultitaskDataModule(pl.LightningDataModule):
         self.transforms = transforms.t2
 
     def setup(self, stage: str):
-        data_class = dataset.NYUv2MultitaskDataset
-        self.train_set = data_class(*self.get_dirs("train"), transform=self.transforms)
+        data_class = dataset.NYUv2SplitDataset
 
-        self.val_set = data_class(*self.get_dirs("test"), transform=self.transforms)
-        self.test_set = data_class(*self.get_dirs("test"), transform=self.transforms)
+        get_root_path = lambda x: os.path.join(self.data_dir, x)
+        get_ffilename_path = lambda x: os.path.join(self.data_dir, "train_val_test", x)
 
-    def get_dirs(self, stage: str):
-        if stage not in ["train", "test"]:
-            raise KeyError()
-        tasks = ["rgb", "semantic_13", "scene_class"]
-        return [os.path.join(self.data_dir, "datasets", stage, task) for task in tasks]
+        if stage == "fit":
+            self.train_set = data_class(
+                root=get_root_path("train"),
+                filenames_file=get_ffilename_path("train.txt"),
+                transform=self.transforms,
+            )
+            self.val_set = data_class(
+                root=get_root_path("test"),
+                filenames_file=get_ffilename_path("validation.txt"),
+                transform=self.transforms,
+            )
+        if stage == "test":
+            self.test_set = data_class(
+                root=get_root_path("test"),
+                filenames_file=get_ffilename_path("test.txt"),
+                transform=self.transforms,
+            )
+
+    # def get_dirs(self, stage: str):
+    #     assert stage in ["train", ]
+    #     dataset_path = os.path.join(self.data_dir, "datasets", stage)
+
+    #     if stage not in ["train", "test"]:
+    #         raise KeyError()
+    #     tasks = ["rgb", "semantic_13", "scene_class"]
+    #     return [os.path.join(self.data_dir, "datasets", stage, task) for task in tasks]
 
     def train_dataloader(self):
         return data.DataLoader(self.train_set, shuffle=True, **self.kwargs)
