@@ -132,3 +132,6 @@ SCENE_MERGED_IDS = {
     "dining_room": 6,
 }
 MERGED_SCENES_IDS = {idx: val for val, idx in SCENE_MERGED_IDS.items()}
+print("|".join(list(SCENE_MERGED_IDS.keys())))
+print("|".join(NYU_V2_segmentation_13classes))
+# NYU_V2_segmentation_13classes
