@@ -1,6 +1,9 @@
 \newpage % Rozdziały zaczynamy od nowej strony.
 \section{Eksperymenty}
-\subsection{Opis zbioru danych}
+\subsection{Zbiór  danych}
+Dane są kluczową częścią głębokiego uczenia. Duży zbiór danych oznaczonych adnotacjami na poziomie pikseli jest potrzebny do wytrenowania wydajnego modelu segmentacji semantycznej. Typowe zestawy danych do segmentacji semantycznej to Cityscapes, PASCAL VOC i ADE20K. Podobnie w przypadku klasyfikacji sceny wymagany jest duży zbiór danych z odpowiednią informacją o etykiecie. Popularne zestawy danych do klasyfikacji scen obejmują  NYUv2, SUN RGB-D, Matterport3D i ScanNet.
+
+
 
 Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Inferencja wymaga użycia kamery Kinect. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów oraz najlepiej być ujętym przez kamerę Kinect wersji pierwszej.
 
@@ -15,7 +18,25 @@ pomieszczeń, w które nie są posprzątane. Fakt ten uznano, za ważny, iż uwa
 \end{figure}
 
 \subsection{Analiza zbioru danych}
-Przeprowadzono eksploracyjną analizę danych dla obu zadań. W zbiorze znajduje się 795 przykładów trenujących oraz 654 przykładów testujących. Ponadto sprawdzono rozkład klas na przesztrzeni całego zbioru danych.
+Eksploracyjna analiza danych (ang. EDA) to proces eksploracji i zrozumienia cech zbioru danych przed zbudowaniem modelu. Omówione zostanie znaczenie EDA w głębokim uczeniu oraz możliwości wykorzystania do poprawy wydajności i interpretowalności modeli głębokiego uczenia.
+
+Jakość danych
+
+Jednym z głównych powodów, dla których EDA jest ważne w wizji komputerowej, jest to, że może pomóc w identyfikacji problemów ze zbiorem danych, takich jak brakujące wartości, wartości odstające lub nieprawidłowe etykiety, które mogą wpłynąć na wydajność modelu wizji komputerowej. Przeprowadzając EDA, możemy uzyskać głębsze zrozumienie danych i zidentyfikować wszelkie problemy, które należy rozwiązać przed zbudowaniem modelu.
+
+Wstępne przetwarzanie danych
+
+EDA może być również wykorzystana do określenia, które kroki przetwarzania wstępnego (ang. preprocessing), takie jak augmentacja, są niezbędne do poprawy wydajności modelu wizji komputerowej. Badając dane i rozumiejąc ich charakterystykę, jesteśmy w stanie lepiej dostosować różne techniki wstępnego przetwarzania danych.
+
+Identyfikacja tendencyjności
+
+EDA może być również wykorzystana do identyfikacji potencjalnych błędów w zbiorze danych, takich jak skośne rozkłady klas, które mogą wpływać na wydajność modelu widzenia komputerowego i prowadzić do niesprawiedliwych prognoz. Przeprowadzając EDA, możemy zidentyfikować wszelkie uprzedzenia w danych i podjąć kroki w celu ich rozwiązania przed zbudowaniem modelu.
+
+% Wnioski
+
+% Podsumowując, prowadzenie EDA jest ważne w wizji komputerowej, ponieważ może pomóc poprawić wydajność modelu, zwiększyć jego interpretowalność i zapewnić, że model jest sprawiedliwy i bezstronny. EDA może być wykorzystana do identyfikacji problemów ze zbiorem danych, wyboru odpowiednich cech, wstępnego przetwarzania danych, zrozumienia zachowania modelu i zidentyfikowania potencjalnych stronniczości. Przeprowadzając EDA, możemy uzyskać głębsze zrozumienie danych oraz poprawić wydajność i interpretowalność modelu widzenia komputerowego.
+
+EDA przeprowadzone na zbiorze NYUv2 dostarczyło wielu interesujących szczegółów. W zbiorze domyślnie znajduje się 795 przykładów trenujących oraz 654 przykładów testujących. Ze zbioru testowego wyodrębniono zbiór walidacyjny stanowiący 20\% zbioru testowego. Ponadto sprawdzono rozkład klas na przesztrzeni całego zbioru danych.
 W przypadku zadania segmentacji semantycznej do dyspozycji był wybór 894, 40 lub 13 klas przedmiotów. Im rozróżnialność była większa tym większe okazywały się dysproporcje w rozkładzie. Histogramy dla 13 i 40 klas przedstawiono na rysunku \ref{fig:rozklad-segm}.
 Podobna sytuacja miała miejsce dla zadania klasyfikacji z tą różnicą, iż scalania klas należało dokonać ręcznie. Taki krok był kluczowy, gdyż pierwotny rozkład był silnie zdominowany przez kilka klas.
 Ostatecznie wybrano 13 klas dla klasyfikacji (rys. \ref{fig:7 klas dystrybucja}) oraz scalone 7 dla segmentacji (rys. \ref{fig:7 klas dystrybucja}).
@@ -66,8 +87,13 @@ Ostatecznie wybrano 13 klas dla klasyfikacji (rys. \ref{fig:7 klas dystrybucja})
 \noindent
 Przygotowanie danych
 
-Obrazy RGB zostały poddane jedynie normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225).
+Obrazy RGB zostały poddane normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225), która odpowiada parametrom rozkładu normlanego na zbiorze ImageNet. Baza ImageNet służyła do wytrenowania enkodera, a więc pierwszej części modelu.
 
+Istnieje kilka różnych technik normalizacji, które mogą być stosowane w problemach z widzeniem komputerowym, takich jak normalizacja min-max i normalizacja rozkładem normalnym.  W pracy ,,Normalization Techniques in Training DNNs:
+Methodology, Analysis and Application'' Lei et. al. \cite{huang2020normalization}, autorzy udowadjniają, że normalizacja stabilizuje i przyśpiesza trening oraz prawdopodobnie prowadzi do
+do poprawy generalizacji. 
+
+Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia komputerowego, ponieważ może pomóc w poprawieniu wydajności modelu. Normalizacja odnosi się do procesu skalowania danych wejściowych tak, aby miały w przybliżeniu średnią 0 i odchylenie standardowe 1. Pomaga to zapewnić, że dane wejściowe są w spójnym zakresie i mają podobny rozkład, co może poprawić model.
 \noindent
 Model
 
