@@ -2348,17 +2348,20 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">bibliografia.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">zeng2021deep</bcf:citekey>
-    <bcf:citekey order="2">zeng2021deep</bcf:citekey>
-    <bcf:citekey order="3">zhang2018context</bcf:citekey>
-    <bcf:citekey order="4">zhang2018context</bcf:citekey>
-    <bcf:citekey order="5">iizuka2016let</bcf:citekey>
-    <bcf:citekey order="6">iizuka2016let</bcf:citekey>
-    <bcf:citekey order="7">iizuka2016let</bcf:citekey>
-    <bcf:citekey order="8">mehta2018net</bcf:citekey>
-    <bcf:citekey order="9">mehta2018net</bcf:citekey>
-    <bcf:citekey order="10">mehta2018net</bcf:citekey>
-    <bcf:citekey order="11">huang2020normalization</bcf:citekey>
+    <bcf:citekey order="1">fcn</bcf:citekey>
+    <bcf:citekey order="2">ronneberger2015u</bcf:citekey>
+    <bcf:citekey order="3">deeplab</bcf:citekey>
+    <bcf:citekey order="4">zeng2021deep</bcf:citekey>
+    <bcf:citekey order="5">zeng2021deep</bcf:citekey>
+    <bcf:citekey order="6">zhang2018context</bcf:citekey>
+    <bcf:citekey order="7">zhang2018context</bcf:citekey>
+    <bcf:citekey order="8">iizuka2016let</bcf:citekey>
+    <bcf:citekey order="9">iizuka2016let</bcf:citekey>
+    <bcf:citekey order="10">iizuka2016let</bcf:citekey>
+    <bcf:citekey order="11">mehta2018net</bcf:citekey>
+    <bcf:citekey order="12">mehta2018net</bcf:citekey>
+    <bcf:citekey order="13">mehta2018net</bcf:citekey>
+    <bcf:citekey order="14">huang2020normalization</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
