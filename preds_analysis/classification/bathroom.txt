@@ -1,0 +1,2 @@
+kitchen              90.0
+bedroom              10.0

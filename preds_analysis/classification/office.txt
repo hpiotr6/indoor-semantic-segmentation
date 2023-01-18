@@ -1,0 +1,3 @@
+other_indoor         41.7
+kitchen              41.7
+bedroom              16.7

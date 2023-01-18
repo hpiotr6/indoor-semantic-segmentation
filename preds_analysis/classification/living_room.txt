@@ -1,0 +1,5 @@
+other_indoor         15.0
+kitchen              8.3
+bedroom              35.0
+office               25.0
+dining_room          16.7
