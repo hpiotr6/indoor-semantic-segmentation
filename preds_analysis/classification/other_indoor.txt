@@ -1,0 +1,5 @@
+kitchen              4.5
+bedroom              22.7
+living_room          4.5
+office               45.5
+dining_room          22.7
