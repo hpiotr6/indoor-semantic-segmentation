@@ -1,0 +1,1 @@
+{'learning_rate': 0.00016294839557891904, 'learning_rate backbone': 2.880051303493677e-07, 'bn': False, 'epoch_backbone': 3}
