@@ -1,6 +1,27 @@
 \newpage % Rozdziały zaczynamy od nowej strony.
 \section{Rozwiązanie}
+Zadania wizji komputerowej moga zostać podjęta na wiele sposobów. Szczególnie iteresujące są podjeścia do zadania łącznej segmentacji semantycznej i klasyfikacji sceny we wnętrzach. W tym rozdziale przedstawione zostaną wybrane metody, które zostały sprawdzone w ramach analizy problemu. W swoich rozważaniach będę bezpośrednio odnosił się do pytań badawczych postawionych w celu pracy, a więc: 
+
+\begin{itemize}
+    \item Jak można zaprojektować model oparty na głębokim uczeniu do wspólnej segmentacji semantycznej i klasyfikacji scen w środowiskach wewnętrznych?
+    \item Czy przestrzeń reprezentacji po wytrenowaniu na zadaniu segmentacji semantycznej może być użyta do zadania klasyfikacji sceny?
+    \item Jak dobrze proponowany model radzi sobie na dużym zbiorze danych scen wewnętrznych i jak wypada w porównaniu z aktualnymi metodami segmentacji semantycznej i klasyfikacji scen osobno?
+    \item Jak proponowany model może być wykorzystany do poprawy wydajności w robotyce mobilnej?
+\end{itemize}
+Opis rozwiązań problemu zostanie poprzedzony przeglądem rozwiązań. Analiza dotychczasowych pozwoli lepiej ukierunkować badania. Korzystając z doświadczenia innych, będzie można wyrobić sobie intuicję, która pomoże podejmować konkretne decyzje.
+
 \subsection{Przegląd rozwiązań}
+Przegląd literatury jest kluczowym aspektem każdej pracy naukowej. W tym rozdziale zostaną przedstawione wyłącznie rozwiązania obejmujące łączną segmentację semantyczną oraz klasyfikację sceny. Szczególny nacisk położony zostanie na architektury głębokich sieci neuronowych z dogłębną analizą przepływu inferencji przez nie.
+\vspace{0.5cm}
+Niestety przyjetę założenia w pracy nie zostały opisane przez nikogo wczesniej, zgodnie z najlepszą wiedzą autora. Niektóre prace naukowe przedstawiają ten sam problem to jest klasyfikacji i segmentacji łącznie, ale obejmują go w innej domenie danych. Z drugiej artykuły obejmujące środwiska wnętrz są dobrze zdefiniowane, jednak często w swoich rozwiązaniach korzystają z obrazu głębki, który nie zawiera się w zakresie badań tej pracy. Nie mniej wszystkie poniższe artykuły stanowią cenne źródło informacji, które należy mniej lub bardziej dostoswać do rozważanego problemu.
+
+Pierwszym z prezentowanych artykułów jest ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation'' autorstwa Yao j. et al (2012)\cite{yao2012describing}. Prezentuje on algorytm, który ówcześnie wyznaczył najlepsze podejście (ang. state-of-the-art (SOTA)). Autorzy wskajzują tutaj, że połączenie rozważanych zadań okazało się owocne nie tylko pod względem jakości, ale również wydajności w kontekście czasowym. Yao J. et al zwracają uwagę na połączenie szeregowe, które niestety propaguje błąd w kolejnych zadaniach, a było dotychczasowo szeroko stosowane. W swojej pracy wykorzysztują podejście równolegle zgodne z rysunkiem \ref{fig:scene-as-a-whole}. Podsumowujac, ,,Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation'' nie jest propozycją architektury głębokiej sieci. Wskazuje on na problemy z łączenie zadań szeregowo, jednocześnie udowadniając, że taka praktyka był ówcześnie stosowana, więc nie można jej wykluczyć.
+
+    \begin{figure}[ht!]
+        \includegraphics[width=\textwidth]{img/joint-segmentation-and-classification.png}
+        \caption{Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation (2012) \cite{yao2012describing}.}
+        \label{fig:scene-as-a-whole}
+    \end{figure}
 
 \begin{figure}[ht!]
     \includegraphics[width=\textwidth]{global-local-features.png}

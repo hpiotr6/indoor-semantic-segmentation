@@ -2357,28 +2357,10 @@
     <bcf:citekey order="7">zhang2018context</bcf:citekey>
     <bcf:citekey order="8">ruder2017overview</bcf:citekey>
     <bcf:citekey order="9">caruana1993multitask</bcf:citekey>
-    <bcf:citekey order="10">iizuka2016let</bcf:citekey>
-    <bcf:citekey order="11">iizuka2016let</bcf:citekey>
-    <bcf:citekey order="12">iizuka2016let</bcf:citekey>
-    <bcf:citekey order="13">mehta2018net</bcf:citekey>
-    <bcf:citekey order="14">mehta2018net</bcf:citekey>
-    <bcf:citekey order="15">mehta2018net</bcf:citekey>
-    <bcf:citekey order="16">huang2020normalization</bcf:citekey>
-  </bcf:section>
-  <!-- SORTING TEMPLATES -->
-  <bcf:sortingtemplate name="none">
-    <bcf:sort order="1">
-      <bcf:sortitem order="1">citeorder</bcf:sortitem>
-    </bcf:sort>
-  </bcf:sortingtemplate>
-  <!-- DATALISTS -->
-  <bcf:datalist section="0"
-                name="none/global//global/global"
-                type="entry"
-                sortingtemplatename="none"
-                sortingnamekeytemplatename="global"
-                labelprefix=""
-                uniquenametemplatename="global"
-                labelalphanametemplatename="global">
-  </bcf:datalist>
-</bcf:controlfile>
+    <bcf:citekey order="10">standley2020tasks</bcf:citekey>
+    <bcf:citekey order="11">standley2020tasks</bcf:citekey>
+    <bcf:citekey order="12">yao2012describing</bcf:citekey>
+    <bcf:citekey order="13">yao2012describing</bcf:citekey>
+    <bcf:citekey order="14">yao2012describing</bcf:citekey>
+    <bcf:citekey order="15">iizuka2016let</bcf:citekey>
+    <bcf:citekey ord

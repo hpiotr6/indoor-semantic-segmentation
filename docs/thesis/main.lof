@@ -1,0 +1,82 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {polish}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Problem różnorodności wewnątrzklasowej oraz wieloznaczności semantycznej \cite {zeng2021deep}.\relax }}{15}{figure.caption.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Segmentacja wewnątrz pomieszczeń \cite {zhang2018context}.\relax }}{16}{figure.caption.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Describing the Scene as a Whole: Joint Object Detection, Scene Classification and Semantic Segmentation (2012) \cite {yao2012describing}.\relax }}{19}{figure.caption.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Let there be Color!: Joint End-to-end Learning of Global and Local Image Priors for Automatic Image Colorization with Simultaneous Classification 2016 \cite {iizuka2016let}.\relax }}{19}{figure.caption.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Y-Net: Joint Segmentation and Classification for Diagnosis of Breast Biopsy Images 2018 \cite {mehta2018net}.\relax }}{20}{figure.caption.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Architektura sieci zastosowana w pracy inżynierskiej.\relax }}{21}{figure.caption.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Architektura sieci jako uczenie wielozadaniowego.\relax }}{22}{figure.caption.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Porównanie miar Iou oraz dokładnosci dla segmentacji sceny.\relax }}{27}{figure.caption.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Porównanie miar F1 oraz dokładnosci dla klasyfikacji sceny.\relax }}{27}{figure.caption.14}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Porównanie dokładności klasyfikacji sceny z rozróżniem konkretnych klas.\relax }}{28}{figure.caption.15}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Porównanie miary F1 dla klasyfikacji sceny z rozróżniem konkretnych klas.\relax }}{29}{figure.caption.16}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Porównanie dokładności segmentacji z rozróżniem konkretnych klas.\relax }}{29}{figure.caption.17}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Porównanie miary IoU segmentacji z rozróżniem konkretnych klas.\relax }}{30}{figure.caption.18}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Porównanie jakości segmentacji dla klasy łazienka.\relax }}{31}{figure.caption.20}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Porównanie jakości segmentacji dla klasy łazienka.\relax }}{32}{figure.caption.21}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Porównanie jakości segmentacji dla klasy łazienka.\relax }}{32}{figure.caption.22}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Porównanie jakości segmentacji dla klasy salon.\relax }}{32}{figure.caption.23}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Porównanie jakości segmentacji dla klasy salon.\relax }}{33}{figure.caption.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Porównanie jakości segmentacji dla klasy salon.\relax }}{33}{figure.caption.25}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Porównanie jakości segmentacji dla klasy sypialnia.\relax }}{34}{figure.caption.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Porównanie jakości segmentacji dla klasy sypialnia.\relax }}{34}{figure.caption.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Porównanie jakości segmentacji dla klasy sypialnia.\relax }}{34}{figure.caption.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Porównanie jakości segmentacji dla klasy jadalnia.\relax }}{35}{figure.caption.29}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Porównanie jakości segmentacji dla klasy jadalnia.\relax }}{35}{figure.caption.30}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Porównanie jakości segmentacji dla klasy jadalnia.\relax }}{35}{figure.caption.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Porównanie jakości segmentacji dla klasy kuchnia.\relax }}{36}{figure.caption.32}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Porównanie jakości segmentacji dla klasy kuchnia.\relax }}{36}{figure.caption.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Porównanie jakości segmentacji dla klasy kuchnia.\relax }}{36}{figure.caption.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Porównanie jakości segmentacji dla klasy biuro.\relax }}{37}{figure.caption.35}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Porównanie jakości segmentacji dla klasy biuro.\relax }}{37}{figure.caption.36}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.27}{\ignorespaces Porównanie jakości segmentacji dla klasy biuro.\relax }}{37}{figure.caption.37}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.28}{\ignorespaces Porównanie jakości segmentacji dla klasy inne pomieszczenia.\relax }}{38}{figure.caption.38}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.29}{\ignorespaces Porównanie jakości segmentacji dla klasy inne pomieszczenia.\relax }}{38}{figure.caption.39}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.30}{\ignorespaces Porównanie jakości segmentacji dla klasy inne pomieszczenia.\relax }}{38}{figure.caption.40}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.31}{\ignorespaces Porównanie jakości klasyfikacji dla klasy łazienka.\relax }}{39}{figure.caption.41}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.32}{\ignorespaces Porównanie jakości klasyfikacji dla klasy sypialnia.\relax }}{39}{figure.caption.42}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.33}{\ignorespaces Porównanie jakości klasyfikacji dla klasy jadalnia.\relax }}{40}{figure.caption.43}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.34}{\ignorespaces Porównanie jakości klasyfikacji dla klasy kuchnia.\relax }}{40}{figure.caption.44}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.35}{\ignorespaces Porównanie jakości klasyfikacji dla klasy biuro.\relax }}{40}{figure.caption.45}%
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {4.36}{\ignorespaces Porównanie jakości klasyfikacji dla klasy inne pomieszczenia.\relax }}{41}{figure.caption.46}%

@@ -134,6 +134,8 @@ sssssssss
 \subsection{Wyniki}
 W tym rozdziale zostaną przedstawione empiryczne wyniki badań nad wspólną segmentacją semantyczną i klasyfikacją sceny w środowiskach wewnętrznych. Badania mają na celu opracowanie i ocenę różnych znanych i aktualnych technik uczenia głębokich sieci neuronowych. Aby to osiągnąć, przeprowadzono serię eksperymentów na zbiorze na reprezentacyjnych zbiorach danych. Analiza dotyczyła zarówno miar jakości sensu stricto jak i miar wydajnośiowych proponowanych metod. Rozważono różne metryki oceny, takich jak ogólna dokładność, indeks Jaccarda  znany w literaturze jako intersection over union (IoU), miara F1 i wydajność obliczeniowa. Wyniki uzyskane w tym rozdziale zapewnią cenny wgląd w mocne strony i ograniczenia proponowanych metod. 
 
+\subsubsection{Analiza miar jakości}
+
 W pierwszej kolejności metody zostaną zbadane pod względem wymienionych wcześniej miar jakości w postaci ogólnej - niezagregowanej, osobno dla segmentacji oraz klasyfikacji. Omawiane metryki należy rozumieć jako średnia miara jakości na każdej z klas, a więc makrośrednie. Makrośrednie metryki są stosowane przy ocenie wydajności algorytmów dla zadań takich jak segmentacja semantyczna i klasyfikacja sceny, ponieważ zapewniają bardziej wszechstronną ocenę ogólnej jakości algorytmu. Metryki makrośrednie uwzględniają wydajność algorytmu na wszystkich klasach obiektów i regionów w obrębie sceny, a nie tylko koncentrują się na jakości na najbardziej powszechnych lub najłatwiejszych do sklasyfikowania klasach. W przypadku stosowania metryki makrośredniej jakość dla każdej klasy jest obliczana oddzielnie, a ogólna jakość jest obliczana jako średnia jakości poszczególnych klas. Stanowi to kontrast do metryki mikrośredniej, która oblicza ogólną jakość poprzez zsumowanie całkowitej liczby wyników  dla wszystkich klas.
 Użycie makrośrednich metryk może być szczególnie ważne w scenariuszach, w których liczba instancji każdej klasy jest niezrównoważona lub gdy istnieje duża liczba klas. W takich przypadkach, mikrośrednie metryki mogą być mylące, ponieważ mogą być pod silnym wpływem najbardziej powszechnych klas, podczas gdy zaniedbują te mniej powszechne. Zatem makro analiza pokaże generalne rezultaty oraz otworzy dyskusję do dalszych, bardziej połgębionych badań na rozważanym problemem.
 
@@ -191,7 +193,7 @@ Anlizując rysunek \ref{fig:segmentation-acc} przestawiający dokładność w za
     \label{fig:segmentation-acc}
 \end{figure}
 
-Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycznej. Widać tutaj dużą dysproporcję miedzy klasami podłoga, ściana, a pozostałymi klasami. Jest to zrozumiałe, klasy te występują stosunkowo często na obrazie. Uczenie wyłącznie segmentacji uzyskuje najlepsze wyniki na wszytskich klasach z wyłaczeniem książek oraz telewizorów. W tych przypadkach najlepsze okazuje się uczenie wielozadaniowe
+Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycznej. Widać tutaj dużą dysproporcję miedzy klasami podłoga, ściana, a pozostałymi klasami. Jest to zrozumiałe, klasy te występują stosunkowo często na obrazie. Uczenie wyłącznie segmentacji uzyskuje najlepsze wyniki na wszytskich klasach z wyłaczeniem książek oraz telewizorów. W tych przypadkach najlepsze okazuje się uczenie wielozdaniowe.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{result_imgs_sorted/Segmentation-IoU.jpeg}
@@ -199,6 +201,27 @@ Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycz
     \label{fig:segmentation-iou}
     
 \end{figure}
+\subsubsection{Analiza czasowa}
+Ostatnio coraz częściej mówi się o zapotrzebowaniu na zasoby sprzętowe podczas uczenia maszynowego. Głębokie sieci neuronowe, a szczególnie te  przetwarzające obrazy wymagają coraz więcej zasobów obliczeniowych do prawidłowego działania. Wynika to z dwóch głównych czynników. Po pierwsze duże modeli wizji komputerowej posiadają milionach parametrów. Drugim powodem jest przetwarzanie wielu obrazów, które de facto są zbiorem macierzy. Wiedzie to do większego zainteresowania zużywanami zasobami podczas treningu oraz inferencji. W tym rozdziale przedstawię analizę czasu treningu oraz inferencji.
+
+Analizując czas uczenia w w przpadku kolejnych metod odkrywamy zalety transferu wiedzy oraz uczenie wielozadaniowe (tab. \ref{tab:acc-por}). Suma czasów uczenie wyłacznie segmentacji oraz wyłącznie klasyfikacji (około 360s) znacząco przewyższa pozostałe metody. Najbardziej opłacalną czasowo metodą okazuje się finetuning. Jednakże na podstawie wyników miar jakości nie można uznać go za najbardziej optymalny. Pozostają jeszcze dwie metody - nauczenie segmentacji oraz dalsze uczenie klasyfikacji (ok. 260s) oraz uczenie wielozadaniowe (ok. 211s). Segmentaja a potem klasyfikacja osiąga najlpesze wyniki na segmentacji oraz przeciętne na klasyfikacj. Z drugiej strony uczenie wielzoadaniowe osiąga najlepsze rezultaty na klasyfikacji oraz drugi najlepszy wynik na segmentacji. Łącząc to z faktem krótszego uczenia, można wysunąć wniosek, że uczenie wielozadaniowe jest optymalne pod względem czasu trningu oraz dawanych rezultatów.
+
+
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|c}
+        nazwa zadania                      &   czas{[}s{]} \\ \hline
+        tylko segmentacja                  &   188.70 \\
+        tylko klasyfikacja                &   170.47 \\
+        klasyfikacja z segmentacji   &   70.78 \\
+        finetuning                        &   158.46 \\
+        uczenie wielozadaniowe                   &   210.97 
+\end{tabular}
+\caption{Porównanie czasu uczenia.}
+\label{tab:acc-por}
+\end{table}
+
 
 \subsection{Porównanie jakości}
 Anliza metryk, czy różnych miar jakości jest niezbędna do ewaluacji zadań uczenia maszynowego. Odpowiedni wybór tych miar gwarantuje pełen informacji wgląd stanowiąc cenny wskazuwki ewaluacyjne. Nie mniej nie wyklucza to istoty sprawdzenia rezultatów przez ludzkie oko. Mimo, że trudno byłoby przeglądać i ewaluować wiele zdjęć w dużych zbiorach danych, przekrojowe sprawdzenie jest kluczowe w analize. Dostarcza bowiem wielu cennych, nieujętych w matematycznych formułach obserwacji. W tym rozdziale przedstawione zostaną rezultaty na wybranych zdjęciach.
@@ -429,38 +452,44 @@ Ostatnim analizowanym rysunkiem segmentacji jest \ref{fig:other_indoor-pred-3}. 
 \subsubsection{Klasyfikacja sceny}
 Podobnie jak w przypadku segmentacji semantycznej trudno jest czasem określić jednoznacznie jakość modelu bazując wyłącznie na miarach jakości. W nieniejszym rozdziale zostaną przytoczone wszystkie błędne klasyfikacje z podziałem na konkretne klasy. Pozwoli to wysnuć pewne obserwacje na temat podobieńst tych klas oraz pomoże wysunąć wnioski co do tych błędów. Co więcej przedstawione zostaną statystyki błędnej klasyfikacji, aby lepiej zobrazować te błędy.
 
-Na rysunku \ref{fig:bathroom-false-pred} przedstawiono 10 błędnych przypisań dla klasy łazienka.  
+Na rysunku \ref{fig:bathroom-false-pred} przedstawiono 10 błędnych przypisań dla klasy łazienka. Dziewięć z dziesięciu błędów dotyczyło klasy kuchnia. Można doszukiwać się, że kuchnia jak i łazienka ma poniekąd podobny schemat. Na pewno występuję te same klasy jak zlew czy meble. Tylko raz klasyfikator uznał że sypialnia jest łazienką.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/bathroom.png}
     \caption{Porównanie jakości klasyfikacji dla klasy łazienka.}
     \label{fig:bathroom-false-pred}
 \end{figure}
-
+Najwięcej pomyłek algorytm popełnił na klasie sypialnia (rys.\ref{fig:bedroom-false-pred}). Na pewno wynika to z faktu, iż była to klasa dominująca. Co drugi błąd następował na klasie sypialnia. Szczególnie często gdy łózkiem była kanapa lub na zdjęiu występował fotel. Ponad 32\% błędów w sumie stanowiły klasy biuro oraz jadalnia. Można przypuszczać, że tym razem kluczowym elementem świadczącym o predykcji był stół.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/bedroom.png}
     \caption{Porównanie jakości klasyfikacji dla klasy sypialnia.}
     \label{fig:bedroom-false-pred}
 \end{figure}
+Jadalnia była pomylona w sumie 11 razy (rys. \ref{fig:dining_room-false-pred}). Zgodnie z przedstawionym rysunkiem, na większości zdjęć występuje stół i krzesła.
+
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/dining_room.png}
     \caption{Porównanie jakości klasyfikacji dla klasy jadalnia.}
     \label{fig:dining_room-false-pred}
 \end{figure}
+Najmniej pomyłek jest dla klasy kuchnia (rys. \ref{fig:kitchen-false-pred}).
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/kitchen.png}
     \caption{Porównanie jakości klasyfikacji dla klasy kuchnia.}
     \label{fig:kitchen-false-pred}
 \end{figure}
+Klasy inne pomiesczenia oraz kuchnie zostały błędnie zaklasyfikowane jako biuro w większości przypadków. Trudno określić, skąd akurat wynikają takier rezultaty.
+
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/office.png}
     \caption{Porównanie jakości klasyfikacji dla klasy biuro.}
     \label{fig:office-false-pred}
 \end{figure}
+Model najczęściej błednie przypisywał klasę inne pomieszczenia dla biura w mniej niż połowie przypadków. Pozostałe przypadki należą do klas sypialnia oraz jadalnia. Klasa inne pomieszczenia jest szczególnie narażona na pomyłki, gdyż to połączenie najróżniejszych klas scen.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/other_indoor.png}
@@ -468,27 +497,9 @@ Na rysunku \ref{fig:bathroom-false-pred} przedstawiono 10 błędnych przypisań 
     \label{fig:oter_indoor-false-pred}
 \end{figure}
 
-niepoprawen klasy szum podczas uczenia
-klasa obiekt generuja problemy klasy szerokie generuja problemy
-Analiza przewidywań dostarczyła wielu cennych szczegółów, które byłoby trundo zauważyć patrząc jedynie na liczby.
-drewno to meble
-obrazy zawsze były na powierzchniach takich jak sciany czy szafki
-REZULATAT
-słabe wyniki bo
-- sprzecznośc klas (regał mebel czy ksiązki, czy mebel i stół)
-- klasa objects
+Analiza błędnie sklasyfikowany scen dostarczyła wielu ważnych informacji. Najczęsciej przyczyną błędów było znaczne podobieństwo występujących klas przedmitów między różnymi klasam scen.
 
-    % \begin{table}[]
-    %     \centering
-    %     \begin{tabular}{c|cc}
-    %         zadanie/{[}\%{]} & Acc jednozadaniowe & Acc wielozadaniowe \\ \hline
-    %         segmentacja      & 67.87               & 67.48  \footnotesize{\textbf{$-$0.39}}        \\
-    %         klasyfikacja     & 65.50               & 67.45  \footnotesize{\textbf{+1.95}}        \\ \hline
-    %     średnia          & 66.69               & 67.47  \footnotesize{\textbf{+0.78}}       
-    % \end{tabular}
-    % \caption{Porównanie dokładności dla uczenia jedno- i wielozadaniowe.}
-    % \label{tab:acc-por}
-    % \end{table}
+
     
     % \begin{figure}[ht!]
     %     \centering
