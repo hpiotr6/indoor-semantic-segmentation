@@ -127,7 +127,8 @@ def main(logdir_or_logfile: str, write_pkl: bool, write_csv: bool, out_dir: str)
 if __name__ == "__main__":
 
     # print(os.listdir("/home/piotr/SensorsArticle2022/logs/29.11/"))
-    path = "/mnt/c/Users/piotr.hondra/Documents/inz/indoor-semantic-segmentation/logs/only_segmentation"
+    # path = "/mnt/c/Users/piotr.hondra/Documents/inz/indoor-semantic-segmentation/logs/only_segmentation"
+    path = "/mnt/c/Users/piotr.hondra/Documents/inz/indoor-semantic-segmentation/logs_to_convert/serial_classif/"
     for datasettype_dir in os.listdir(path):
         dataset_path = os.path.join(path, datasettype_dir)
         for experiment_dir in os.listdir(dataset_path):
