@@ -1,140 +1,9 @@
 \newpage % Rozdziały zaczynamy od nowej strony.
-\section{Eksperymenty}
-\subsection{Zbiór  danych}
-Dane są kluczową częścią głębokiego uczenia. Duży zbiór danych oznaczonych adnotacjami na poziomie pikseli jest potrzebny do wytrenowania wydajnego modelu segmentacji semantycznej. Typowe zestawy danych do segmentacji semantycznej to Cityscapes, PASCAL VOC i ADE20K. Podobnie w przypadku klasyfikacji sceny wymagany jest duży zbiór danych z odpowiednią informacją o etykiecie. Popularne zestawy danych do klasyfikacji scen obejmują  NYUv2, SUN RGB-D, Matterport3D i ScanNet.
+\section{Wyniki}
 
-Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów 
-
-Po prześledzeniu wielu zbiorów danych udało się sprostać powyższym wymaganiom, uzyskując dwa podobne zbiory danych - \texttt{NYUv2} oraz \texttt{SUN RGBD}. Ostatecznie wybrano \texttt{NYUv2} z uwagi, że zbiór ten został zawiera zdjecia
-pomieszczeń, w które nie są posprzątane. Fakt ten uznano, za ważny, iż uważano, że będzie przekładał się na lepsze rezultaty w naturalnych warunkach. Co więcej \texttt{NYUv2} jest też chętniej cytowany niż \texttt{SUN RGBD} (rys. \ref{fig:sun-vs-nyu}).
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/stats-dataset.png}
-    \caption[]{Szacowana liczba cytowań w latach 2018-2022 \href{https://paperswithcode.com/dataset/sun-rgb-d}{[paperswithcode.com]}}
-    \label{fig:sun-vs-nyu}
-\end{figure}
-
-\subsection{Analiza zbioru danych}
-Eksploracyjna analiza danych (ang. EDA) to proces eksploracji i zrozumienia cech zbioru danych przed zbudowaniem modelu. Omówione zostanie znaczenie EDA w głębokim uczeniu oraz możliwości wykorzystania do poprawy wydajności i interpretowalności modeli głębokiego uczenia.
-
-\noindent
-Jakość danych
-
-Jednym z głównych powodów, dla których EDA jest ważne w wizji komputerowej, jest to, że może pomóc w identyfikacji problemów ze zbiorem danych, takich jak brakujące wartości, wartości odstające lub nieprawidłowe etykiety, które mogą wpłynąć na wydajność modelu wizji komputerowej. Przeprowadzając EDA, możemy uzyskać głębsze zrozumienie danych i zidentyfikować wszelkie problemy, które należy rozwiązać przed zbudowaniem modelu.
-
-\noindent
-Wstępne przetwarzanie danych
-
-EDA może być również wykorzystana do określenia, które kroki przetwarzania wstępnego (ang. preprocessing), takie jak augmentacja, są niezbędne do poprawy wydajności modelu wizji komputerowej. Badając dane i rozumiejąc ich charakterystykę, jesteśmy w stanie lepiej dostosować różne techniki wstępnego przetwarzania danych.
-
-\noindent
-Identyfikacja tendencyjności
-
-EDA może być również wykorzystana do identyfikacji potencjalnych błędów w zbiorze danych, takich jak skośne rozkłady klas, które mogą wpływać na wydajność modelu widzenia komputerowego i prowadzić do niesprawiedliwych prognoz. Przeprowadzając EDA, możemy zidentyfikować wszelkie uprzedzenia w danych i podjąć kroki w celu ich rozwiązania przed zbudowaniem modelu.
-
-% Wnioski
-
-% Podsumowując, prowadzenie EDA jest ważne w wizji komputerowej, ponieważ może pomóc poprawić wydajność modelu, zwiększyć jego interpretowalność i zapewnić, że model jest sprawiedliwy i bezstronny. EDA może być wykorzystana do identyfikacji problemów ze zbiorem danych, wyboru odpowiednich cech, wstępnego przetwarzania danych, zrozumienia zachowania modelu i zidentyfikowania potencjalnych stronniczości. Przeprowadzając EDA, możemy uzyskać głębsze zrozumienie danych oraz poprawić wydajność i interpretowalność modelu widzenia komputerowego.
-
-EDA przeprowadzone na zbiorze NYUv2 dostarczyło wielu interesujących szczegółów. W zbiorze domyślnie znajduje się 795 przykładów trenujących oraz 654 przykładów testujących. Ze zbioru testowego wyodrębniono zbiór walidacyjny stanowiący 20\% zbioru testowego. Ponadto sprawdzono rozkład klas na przesztrzeni całego zbioru danych.
-W przypadku zadania segmentacji semantycznej do dyspozycji był wybór 894, 40 lub 13 klas przedmiotów. Im rozróżnialność była większa tym większe okazywały się dysproporcje w rozkładzie. Histogramy dla 13 i 40 klas przedstawiono na rysunku \ref{fig:rozklad-segm}.
-Podobna sytuacja miała miejsce dla zadania klasyfikacji z tą różnicą, iż scalania klas należało dokonać ręcznie. Taki krok był kluczowy, gdyż pierwotny rozkład był silnie zdominowany przez kilka klas.
-Ostatecznie wybrano 13 klas dla klasyfikacji (rys. \ref{fig:7 klas dystrybucja}) oraz scalone 7 dla segmentacji (rys. \ref{fig:7 klas dystrybucja}).
-\begin{figure}[ht!]
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{seg13.png}
-        \caption{Rozkład dla 13 klas.}
-        \label{fig:rozklad-13klas-seg}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{seg40.png}
-        \caption{Rozkład dla 40 klas.}
-        \label{fig:rozklad-40klas-seg}
-    \end{subfigure}
-    \caption[]{Porównanie rozkładu ilości pixeli dla zadania segmentacji semantycznej.}
-    \label{fig:rozklad-segm}
-\end{figure}
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{classification.png}
-        \caption{Oryginalny rozkład klas.}
-        \label{fig:27 klas dystrybucja}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{classification-merged.png}
-        \caption{Rozkład klas po scaleniu.}
-        \label{fig:7 klas dystrybucja}
-    \end{subfigure}
-    \caption[]{Porównanie rozkładu klas dla zadania klasyfikacji sceny.}
-\end{figure}
-
-% * wykorzystanie TU NICR
-% * Wersje segmentacji: 13, 40 i 8xx klasowa
-% * ile obrazków w jakich zbiorach.
-% * wstawić przykładowe obrazki z datasetu
-% * Konkatenacja dla klas dla klasyfikacji - dlaczego?
-% * EDA - histogramy klas
-
-\subsection{Opis eksperymentów}
-\noindent
-Przygotowanie danych
-
-Obrazy RGB zostały poddane normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225), która odpowiada parametrom rozkładu normlanego na zbiorze ImageNet. Baza ImageNet służyła do wytrenowania enkodera, a więc pierwszej części modelu.
-
-Istnieje kilka różnych technik normalizacji, które mogą być stosowane w problemach z widzeniem komputerowym, takich jak normalizacja min-max i normalizacja rozkładem normalnym.  W pracy ,,Normalization Techniques in Training DNNs:
-Methodology, Analysis and Application'' Lei et. al. \cite{huang2020normalization}, autorzy udowadjniają, że normalizacja stabilizuje i przyśpiesza trening oraz prawdopodobnie prowadzi do
-do poprawy generalizacji. 
-
-Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia komputerowego, ponieważ może pomóc w poprawieniu wydajności modelu. Normalizacja odnosi się do procesu skalowania danych wejściowych tak, aby miały w przybliżeniu średnią 0 i odchylenie standardowe 1. Pomaga to zapewnić, że dane wejściowe są w spójnym zakresie i mają podobny rozkład, co może poprawić model.
-\noindent
-Model
-
-Jako  model użyto DeepLabv3, który rozszerzono o dodatkową głowę klasyfikacyjną. Umieszczono ją naturalnie zaraz za enkoderem, a przed dekoderem. Głowa klasyfikacyjna przedstawia się jako jako sieć w pełni połączona (FC) z dwiema warstwami.  
-
-TO TRZEBA ZWIUZALIZOWAĆ!
-\begin{addmargin}[6mm]{0mm}
-    \begin{lstlisting}[
-        language=Python,
-        numbers=left,
-        firstnumber=1,
-        caption={Struktura głowy klasyfikacyjnej},
-        aboveskip=0pt
-    ]
-    nn.AdaptiveAvgPool2d((1, 1)),
-    nn.Flatten(),
-    nn.BatchNorm1d(num_filters),
-    nn.Dropout(p=0.25),
-    nn.Linear(num_filters, out_features=256, bias=False),
-    nn.ReLU(inplace=True),
-    nn.BatchNorm1d(256),
-    nn.Dropout(p=0.25),
-    nn.Linear(in_features=256, out_features=scene_classes, bias=False),
-    \end{lstlisting}
-    \end{addmargin}
-
-\noindent
-Funkcja straty
-
-W obu przypadkach jako funkcję straty wykorzystano ważoną entropię skrośną. Wagi odzwierciedłały odwrotność liczności w zbiorze. Dla klasyfikacji liczona była ilość klas, natomiast dla segmentacji ilość pixeli.
-
-\noindent
-Uczenie
-
-sssssssss
-
-\subsection{Wyniki}
 W tym rozdziale zostaną przedstawione empiryczne wyniki badań nad wspólną segmentacją semantyczną i klasyfikacją sceny w środowiskach wewnętrznych. Badania mają na celu opracowanie i ocenę różnych znanych i aktualnych technik uczenia głębokich sieci neuronowych. Aby to osiągnąć, przeprowadzono serię eksperymentów na zbiorze na reprezentacyjnych zbiorach danych. Analiza dotyczyła zarówno miar jakości sensu stricto jak i miar wydajnośiowych proponowanych metod. Rozważono różne metryki oceny, takich jak ogólna dokładność, indeks Jaccarda  znany w literaturze jako intersection over union (IoU), miara F1 i wydajność obliczeniowa. Wyniki uzyskane w tym rozdziale zapewnią cenny wgląd w mocne strony i ograniczenia proponowanych metod. 
 
-\subsubsection{Analiza miar jakości}
+\subsection{Analiza miar jakości}
 
 W pierwszej kolejności metody zostaną zbadane pod względem wymienionych wcześniej miar jakości w postaci ogólnej - niezagregowanej, osobno dla segmentacji oraz klasyfikacji. Omawiane metryki należy rozumieć jako średnia miara jakości na każdej z klas, a więc makrośrednie. Makrośrednie metryki są stosowane przy ocenie wydajności algorytmów dla zadań takich jak segmentacja semantyczna i klasyfikacja sceny, ponieważ zapewniają bardziej wszechstronną ocenę ogólnej jakości algorytmu. Metryki makrośrednie uwzględniają wydajność algorytmu na wszystkich klasach obiektów i regionów w obrębie sceny, a nie tylko koncentrują się na jakości na najbardziej powszechnych lub najłatwiejszych do sklasyfikowania klasach. W przypadku stosowania metryki makrośredniej jakość dla każdej klasy jest obliczana oddzielnie, a ogólna jakość jest obliczana jako średnia jakości poszczególnych klas. Stanowi to kontrast do metryki mikrośredniej, która oblicza ogólną jakość poprzez zsumowanie całkowitej liczby wyników  dla wszystkich klas.
 Użycie makrośrednich metryk może być szczególnie ważne w scenariuszach, w których liczba instancji każdej klasy jest niezrównoważona lub gdy istnieje duża liczba klas. W takich przypadkach, mikrośrednie metryki mogą być mylące, ponieważ mogą być pod silnym wpływem najbardziej powszechnych klas, podczas gdy zaniedbują te mniej powszechne. Zatem makro analiza pokaże generalne rezultaty oraz otworzy dyskusję do dalszych, bardziej połgębionych badań na rozważanym problemem.
@@ -155,7 +24,7 @@ Analizując rysunek \ref{fig:macro-segmentation} nie trudno zauważyć, że najl
 Przechodząc do klasyfikacji wyróżniamy 4 scenariusze testowe. Pierwzym jest uczenie wyłącznie klasyfikacji, analogicznie jak wyżej, a więc przy wyłączonej części segmentacyjenj. Kolejnymi są wspomiane wcześniej uczneie wielozadaniowe oraz finetuning. Nowym scenariuszem jest skorzystanie z wytrenowanej wcześniej wyłącznej segmentacji, a następnie wyłączenie wszystkiego poza siecią gęstą.
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{result_imgs_sorted/Macro-Classification.jpeg}
+    \includegraphics[width=\textwidth]{new/Macro-Classification.jpeg}
     \caption{Porównanie miar F1 oraz dokładnosci dla klasyfikacji sceny.}
     \label{fig:macro-classification}
 \end{figure}
@@ -171,14 +40,14 @@ Analizowanie jakości algorytmu dla każdej z klas osobno jest ważne, ponieważ
 Rysunek \ref{fig:classification-accuracy} przedstawia dokładność dla każdej z klas dla zadania klasyfikacji sceny. Trudno jednozczanie określić która metod sprawdza się tutaj najlepiej. Uczenie wielozadaniowe wypada najlepiej dla klas: łazienka, pokój dzienny, salon, biuro. Uczenie wyłączenj klasyfikajcji jest najlpesze dla klas jadalnia oraz  kuchnia. W pozostałych przypadkach klasa inne pomiesczenia jest najlepiej wykrywana przez scenariusz finetunowania. Uczenie klasyfikacji z segmentacji nigdy nie osiąga najlpeszego wyniku.
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{result_imgs_sorted/Classification-Accuracy.jpeg}
+    \includegraphics[width=\textwidth]{new/Classification-Accuracy.jpeg}
     \caption{Porównanie dokładności klasyfikacji sceny z rozróżniem konkretnych klas.}
     \label{fig:classification-accuracy}
 \end{figure}
 Biorąc pod uwagę miarę F1 (rys.\ref{fig:classification-f1}) rówznież nie jesteśmy w stanie wyróżnić faworyzowanej metody. W porówaniu z wcześniej analizowaną dokładnością widać, że uczenie wielozadaniowe utrzymuje w większości przypadku bardzo dobre rezultaty. Widać też, że wyniki w obrębie każdej z klas mało różnią się między sobą.
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{result_imgs_sorted/Classification-F1Score.jpeg}
+    \includegraphics[width=\textwidth]{new/Classification-F1Score.jpeg}
     \caption{Porównanie miary F1 dla klasyfikacji sceny z rozróżniem konkretnych klas.}
     \label{fig:classification-f1}
 \end{figure}
@@ -201,7 +70,7 @@ Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycz
     \label{fig:segmentation-iou}
     
 \end{figure}
-\subsubsection{Analiza czasowa}
+\subsection{Analiza czasowa}
 Ostatnio coraz częściej mówi się o zapotrzebowaniu na zasoby sprzętowe podczas uczenia maszynowego. Głębokie sieci neuronowe, a szczególnie te  przetwarzające obrazy wymagają coraz więcej zasobów obliczeniowych do prawidłowego działania. Wynika to z dwóch głównych czynników. Po pierwsze duże modeli wizji komputerowej posiadają milionach parametrów. Drugim powodem jest przetwarzanie wielu obrazów, które de facto są zbiorem macierzy. Wiedzie to do większego zainteresowania zużywanami zasobami podczas treningu oraz inferencji. W tym rozdziale przedstawię analizę czasu treningu oraz inferencji.
 
 Analizując czas uczenia w w przpadku kolejnych metod odkrywamy zalety transferu wiedzy oraz uczenie wielozadaniowe (tab. \ref{tab:acc-por}). Suma czasów uczenie wyłacznie segmentacji oraz wyłącznie klasyfikacji (około 360s) znacząco przewyższa pozostałe metody. Najbardziej opłacalną czasowo metodą okazuje się finetuning. Jednakże na podstawie wyników miar jakości nie można uznać go za najbardziej optymalny. Pozostają jeszcze dwie metody - nauczenie segmentacji oraz dalsze uczenie klasyfikacji (ok. 260s) oraz uczenie wielozadaniowe (ok. 211s). Segmentaja a potem klasyfikacja osiąga najlpesze wyniki na segmentacji oraz przeciętne na klasyfikacj. Z drugiej strony uczenie wielzoadaniowe osiąga najlepsze rezultaty na klasyfikacji oraz drugi najlepszy wynik na segmentacji. Łącząc to z faktem krótszego uczenia, można wysunąć wniosek, że uczenie wielozadaniowe jest optymalne pod względem czasu trningu oraz dawanych rezultatów.
@@ -223,7 +92,19 @@ Analizując czas uczenia w w przpadku kolejnych metod odkrywamy zalety transferu
 \end{table}
 
 
-\subsection{Porównanie jakości}
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|c}
+        nazwa zadania                      &   czas{[}s{]} \\ \hline
+        tylko segmentacja + tylko klasyfikacja                  &   15.7\\
+        uczenie wielozadaniowe                   &   8.6
+\end{tabular}
+\caption{Porównanie czasu wnioskowania.}
+\label{tab:por-infer}
+\end{table}
+
+NAPISZ O \ref{tab:por-infer}
+\subsection{Analiza konkretnych przykładów}
 Anliza metryk, czy różnych miar jakości jest niezbędna do ewaluacji zadań uczenia maszynowego. Odpowiedni wybór tych miar gwarantuje pełen informacji wgląd stanowiąc cenny wskazuwki ewaluacyjne. Nie mniej nie wyklucza to istoty sprawdzenia rezultatów przez ludzkie oko. Mimo, że trudno byłoby przeglądać i ewaluować wiele zdjęć w dużych zbiorach danych, przekrojowe sprawdzenie jest kluczowe w analize. Dostarcza bowiem wielu cennych, nieujętych w matematycznych formułach obserwacji. W tym rozdziale przedstawione zostaną rezultaty na wybranych zdjęciach.
 \subsubsection{Segmentacja semantyczna}
 Segmentacja semantyczna jest zadanie niewątpliwie trudnym. Jednocześnie równie ciężko jest określić dobrą funkcję jakości, uwzględniającą takie właściwości jak gładkość, dokładność czy precyzja segmentacji. Można oczywiście korzystać z wielu funkcji jakości, jednak ostateczny werdyk warto przejrzeć ręcznie. W połączeniu z wiedzą dotyczącą między innymi trudności klasyfikacji danej grupy pikseli lub niejedoznacznością niektórych grup pikseli po obejrzeniu nawet kilkunastu zdjęć, jesteśmy w stanie wykuć pewne wnioski. 

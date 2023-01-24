@@ -2,7 +2,7 @@
 \section{Wprowadzenie}
 
 \subsection{Cel pracy}
-Celem pracy jest zbadanie problemu wspólnej segmentacji semantycznej i klasyfikacji sceny w we wnętrzach. Segmentacja semantyczna polega na przypisaniu etykiety do każdego piksela obrazu, natomiast klasyfikacja sceny polega na rozpoznaniu typu sceny przedstawionej na obrazie. Oba zadania mają szerokie spektrum zastosowań, takich jak autonomiczna nawigacja czy robotyka manipulacyjna.
+Celem pracy jest zbadanie problemu wspólnej segmentacji semantycznej i klasyfikacji sceny we wnętrzach. Segmentacja semantyczna polega na przypisaniu etykiety do każdego piksela obrazu, natomiast klasyfikacja sceny polega na rozpoznaniu typu sceny przedstawionej na obrazie. Oba zadania mają szerokie spektrum zastosowań, takich jak autonomiczna nawigacja czy robotyka manipulacyjna.
 
 Środowiska wewnętrzne, takie jak domy i biura, stanowią unikalny zestaw wyzwań dla segmentacji semantycznej i klasyfikacji scen. Środowiska te są często nieuporządkowane i zawierają wiele różnych obiektów, co utrudnia dokładną segmentację i klasyfikację. Dodatkowo wnętrza mogą się znacznie różnić pod względem układu i wyglądu, co czyni trudnym opracowanie modelu, który może być uogólniony na różne typy scen wewnętrznych.
 
@@ -16,30 +16,15 @@ Aby osiągnąć ten cel, zostaną podjęte następujące pytania badawcze
     \item Jak proponowany model może być wykorzystany do poprawy wydajności w robotyce mobilnej?
 \end{itemize}
 
-Podsumowując, celem tej pracy jest opracowanie i ocena modelu opartego o głębokim uczeniu dla wspólnej segmentacji semantycznej i klasyfikacji scen w środowiskach wewnętrznych oraz dalsze badanie potencjału modelu do poprawy innych zadań rozumienia scen wewnętrznych.
+Podsumowując, celem tej pracy jest opracowanie i ocena modelu opartego o głębokie uczenie dla wspólnej segmentacji semantycznej i klasyfikacji scen w środowiskach wewnętrznych oraz zbadanie potencjału modelu do poprawy jakości i wydajności na tychże zadaniach.
 
 \subsection{Motywacje}
-% Istnieje wiele powodów, dla których temat pracy jest wart uwagi.
+Wspólna segmentacja oraz klasyfikacja polega na oznaczaniu i kategoryzowaniu różnych regionów w obrębie wnętrz, oraz charakteryzowanie ich charakteryzowanie. Techniki te mogą być stosowane w różnych dziedzinach, w tym w robotyce, zarządzaniu budynkami i rozszerzonej rzeczywistości.
 
-% Po pierwsze rozwiązanie może być wykorzystane w nawigacji robota. Wykrywanie przeszkód jest kluczowym aspektem możliwości poruszania się robota. Zostanie ono podjęte przez zadanie segmentacji. Należy zwrócić uwagę, że robot powinien zachowywać się ostrożniej w kuchni oraz w łazience. Ta informacja zostanie uzyskana poprzez klasyfikację sceny.
+W robotyce wspólna segmentacja semantyczna i klasyfikacja scen może być wykorzystana do umożliwienia robotom zrozumienia i nawigacji w środowiskach wewnętrznych. Może to obejmować identyfikację różnych obiektów i regionów w scenie, takich jak ściany, meble i ludzie, a także określenie ogólnego układu i funkcjonalności przestrzeni, np. czy jest to kuchnia, czy salon. Dzięki zrozumieniu środowiska w ten sposób roboty mogą poprawić swoją zdolność do wykonywania zadań, takich jak manipulacja obiektami, nawigacja i interakcja człowiek-robot.
 
-% Innym zastosowanie rozważanego rozwiązania jest pomoc dla osób niewidomych. Osoba niepełnosprawna mogłaby wówczas poruszać się po środowisku domowym z większą łatwością, mając na sobie kamerę oraz informację o otaczającej przestrzeni.
-Wspólna segmentacja oraz klasyfikacja polega na oznaczaniu i kategoryzowaniu różnych regionów w obrębie wnętrz, natomiast klasyfikacja sceny polega na określeniu ogólnego układu i funkcjonalności przestrzeni. Techniki te mogą być stosowane w różnych dziedzinach, w tym w robotyce, inteligentnych domach, zarządzaniu budynkami i rozszerzonej rzeczywistości.
+W zarządzaniu budynkiem wspólna segmentacja semantyczna i klasyfikacja sceny może być wykorzystana do poprawy funkcjonalności i wydajności budynków poprzez automatyczną identyfikację i etykietowanie różnych obiektów i regionów w budynku. Może to obejmować identyfikację różnych pomieszczeń, klatek schodowych i wind, jak również określenie ogólnego układu i funkcjonalności przestrzeni, np. czy jest to biuro, czy fabryka. Dzięki zrozumieniu środowiska w ten sposób, systemy zarządzania budynkiem mogą poprawić swoją zdolność do wykonywania zadań, takich jak zarządzanie energią, bezpieczeństwo i wykrywanie zajętości.
 
-Robotyka:
-W robotyce, wspólna segmentacja semantyczna i klasyfikacja scen może być wykorzystana do umożliwienia robotom zrozumienia i nawigacji w środowiskach wewnętrznych. Może to obejmować identyfikację różnych obiektów i regionów w scenie, takich jak ściany, meble i ludzie, a także określenie ogólnego układu i funkcjonalności przestrzeni, np. czy jest to kuchnia czy salon. Dzięki zrozumieniu środowiska w ten sposób, roboty mogą poprawić swoją zdolność do wykonywania zadań, takich jak manipulacja obiektami, nawigacja i interakcja człowiek-robot.
+W dziedzinie rozszerzonej rzeczywistości wspólna segmentacja semantyczna i klasyfikacja sceny mogą być wykorzystane do poprawy realizmu doświadczeń AR poprzez zrozumienie środowiska rzeczywistego i rozszerzenie go o dodatkowe informacje lub obiekty wirtualne. Dzięki zrozumieniu środowiska w ten sposób, doświadczenia AR mogą być bardziej świadome kontekstowo, zapewniając w ten sposób bardziej realistyczne i angażujące doświadczenia.
 
-Inteligentne domy:
-Wspólna segmentacja semantyczna i klasyfikacja sceny mogą być również wykorzystane do poprawy funkcjonalności inteligentnych domów. Na przykład, techniki te mogą być wykorzystywane do automatycznej identyfikacji i etykietowania różnych obiektów i regionów w domu, takich jak meble, urządzenia i inne obiekty. Dodatkowo techniki te mogą być wykorzystane do określenia ogólnego układu i funkcjonalności przestrzeni, np. czy jest to sypialnia czy jadalnia. Dzięki zrozumieniu środowiska w ten sposób, inteligentne domy mogą poprawić swoją zdolność do wykonywania zadań, takich jak kontrola oświetlenia, zarządzanie energią i automatyka domowa.
-
-Zarządzanie budynkiem:
-W zarządzaniu budynkiem, wspólna segmentacja semantyczna i klasyfikacja sceny może być wykorzystana do poprawy funkcjonalności i wydajności budynków poprzez automatyczną identyfikację i etykietowanie różnych obiektów i regionów w budynku. Może to obejmować identyfikację różnych pomieszczeń, klatek schodowych i wind, jak również określenie ogólnego układu i funkcjonalności przestrzeni, np. czy jest to biuro czy fabryka. Dzięki zrozumieniu środowiska w ten sposób, systemy zarządzania budynkiem mogą poprawić swoją zdolność do wykonywania zadań, takich jak zarządzanie energią, bezpieczeństwo i wykrywanie zajętości.
-
-Augmented Reality (rozszerzona rzeczywistość):
-W dziedzinie rozszerzonej rzeczywistości, wspólna segmentacja semantyczna i klasyfikacja sceny mogą być wykorzystane do poprawy realizmu doświadczeń AR poprzez zrozumienie środowiska rzeczywistego i rozszerzenie go o dodatkowe informacje lub obiekty wirtualne. Dzięki zrozumieniu środowiska w ten sposób, doświadczenia AR mogą być bardziej świadome kontekstowo, zapewniając w ten sposób bardziej realistyczne i angażujące doświadczenia.
-
-Nadzór:
-Wspólna segmentacja semantyczna i klasyfikacja sceny mogą być również wykorzystywane w systemach nadzoru do automatycznej identyfikacji i śledzenia osób i obiektów w środowiskach wewnętrznych. Może to obejmować identyfikację osób, wykrywanie podejrzanych zachowań i monitorowanie ogólnej aktywności w przestrzeni. Poprzez zrozumienie środowiska w ten sposób, systemy nadzoru mogą poprawić swoją zdolność do wykrywania i reagowania na zagrożenia bezpieczeństwa.
-
-Wnioski:
-Wspólna segmentacja semantyczna i klasyfikacja sceny w środowiskach wewnętrznych jest wymagającym, ale ważnym obszarem badawczym o wielu potencjalnych zastosowaniach. Wiąże się to z wykorzystaniem zaawansowanych technik widzenia komputerowego, solidnych i wydajnych algorytmów oraz starannej oceny w rzeczywistych środowiskach wewnętrznych. W miarę rozwoju technologii, prawdopodobnie zostaną zidentyfikowane nowe przypadki użycia i zastosowania, i nadal będzie to aktywny obszar badań.
+Wspólna segmentacja semantyczna i klasyfikacja sceny w środowiskach wewnętrznych jest wymagającym, ale ważnym obszarem badawczym o wielu potencjalnych zastosowaniach. Wiąże się to z wykorzystaniem zaawansowanych technik widzenia komputerowego, solidnych i wydajnych algorytmów oraz starannej oceny w rzeczywistych środowiskach wewnętrznych. W miarę rozwoju technologii prawdopodobnie zostaną zidentyfikowane nowe przypadki użycia i zastosowania, i nadal będzie to aktywny obszar badań.
