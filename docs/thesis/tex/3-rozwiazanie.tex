@@ -79,33 +79,33 @@ Uczenie wielozadaniowe zostało zrealizowane przez architekturę z rysunku \ref{
 \subsubsection{Wyłącznie klasyfikacja}
 W celu określenia punktu odniesienia wytrenowano model, zapominając o podsieci do wyznaczania segmentacji semantycznej. Technicznie skorzystano z modelu wielozadaniowego. Parametry modułów architektury takie jak dekoder oraz głowa segmentacyjna zostały zamrożone, oraz nie zostały podawane optymalizatorowi w trakcie treningu. Funkcja straty $\lambda$ została ograniczona wyłącznie do straty na klasyfikacji poprzez wyzerowanie w każdym kroku straty na segmentacji.
 
-% \begin{align*}
-% \lambda  = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
-%            & \lambda_{segmentacja} = 0
-% \end{align*}
+\begin{align*}
+\lambda  = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
+           & \lambda_{segmentacja} = 0
+\end{align*}
 \subsubsection{Wyłącznie segmentacja}
 Analogicznie jak w przypadku klasyfikacji należało określić punkt odniesienia również w przypadku segmentacji. Procedura była taka sama jak w przypadku klasyfikacji. Model wielozadaniowy zamrożono w części klasyfikacyjnej oraz wyłączono zamrożone parametry z optymalizacji. Funkcja straty $\lambda$ została przedstawiona jako
-% \begin{align*}
-% \lambda = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
-%           & \lambda_{klasyfikacja} = 0
-% \end{align*}
+\begin{align*}
+\lambda = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
+          & \lambda_{klasyfikacja} = 0
+\end{align*}
 \subsubsection{Finetuning}
 Znaną techniką transferu wiedzy jest finetuning. W tym przypadku skorzystano z wytrenowanego enkodera ResNet wytrenowanego na dużej bazie ImageNet. Uczenie przebiegało w dwóch fazach. W pierwszej zamrożono enkoder i starano się osiągnąć jak najlepsze rezultaty, dysponując podsieciami klasyfikacyjną i segmetacyjną. Wynika z tego, że pierwszy etap to nic innego niż uczenie wielozadaniowe, ale z wyłączonym enkoderem. Dopiero w drugim etapie odmrażany jest również enkoder. Sytuacja wtedy przypomina wcześniej omawiane uczenie wielozadaniowe. Jednakże kluczowy jest dobór hiperparametrów. W pierwszym etapie uczenie przebiega z pewny krokiem uczenia. W drugim zaś krok uczenia jest znacznie mniejszy.
-% \begin{equation*}
-% \lambda = \lambda_{segmentacja} + \lambda_{klasyfikacja}
-% \end{equation*}
+\begin{equation*}
+\lambda = \lambda_{segmentacja} + \lambda_{klasyfikacja}
+\end{equation*}
 \subsubsection{Pośrednia klasyfikacja z segmentacji}
 Podejście transferu wiedzy można lekko zmodyfikować. Skorzystano z wcześniej przygotowanych wag będących wynikiem wcześniej wspomnianej wyłącznej segmentacji. Zamrożono enkoder oraz podsieć segmentacyjną oraz wyłączono te parametry z optymalizacji. Następnie dysponując, samą podsiecią klasyfikacyjną przeprowadzono trening. Funkcja straty była następująca:
-% \begin{align*}
-% \lambda  = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
-%            & \lambda_{segmentacja} = 0
-% \end{align*}
+\begin{align*}
+\lambda  = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
+           & \lambda_{segmentacja} = 0
+\end{align*}
 \subsubsection{Bezpośrednia klasyfikacja z segmentacji}.
 Rozwiązaniem odbiegającym od reszty jest przeprowadzenie szeregowej klasyfikacji z segmentacji. Architektura przedstawia się zgodnie z rysunkiem \ref{fig:multitask-parrarel}. W tym eksperymencie sprawdzono, jak można skorzystać z gotowych predykcji dotyczących segmentacji. Model aż do głowy segmentacyjnej włącznie został zamrożony oraz wyłączony z optymalizacji. Zmieniają się tylko wagi części klasyfikacyjnej.
 
-% \begin{equation*}
-% \lambda = \lambda_{segmentacja} + \lambda_{klasyfikacja}
-% \end{equation*}
+\begin{equation*}
+\lambda = \lambda_{segmentacja} + \lambda_{klasyfikacja}
+\end{equation*}
 
 
 
