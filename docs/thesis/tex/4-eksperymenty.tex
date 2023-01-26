@@ -1,15 +1,14 @@
 \newpage % Rozdziały zaczynamy od nowej strony.
 \section{Wyniki}
 
-W tym rozdziale zostaną przedstawione empiryczne wyniki badań nad wspólną segmentacją semantyczną i klasyfikacją sceny w środowiskach wewnętrznych. Badania mają na celu opracowanie i ocenę różnych znanych i aktualnych technik uczenia głębokich sieci neuronowych. Aby to osiągnąć, przeprowadzono serię eksperymentów na zbiorze na reprezentacyjnych zbiorach danych. Analiza dotyczyła zarówno miar jakości sensu stricto jak i miar wydajnośiowych proponowanych metod. Rozważono różne metryki oceny, takich jak ogólna dokładność, indeks Jaccarda  znany w literaturze jako intersection over union (IoU), miara F1 i wydajność obliczeniowa. Wyniki uzyskane w tym rozdziale zapewnią cenny wgląd w mocne strony i ograniczenia proponowanych metod. 
+W tym rozdziale zostaną przedstawione empiryczne wyniki badań nad wspólną segmentacją semantyczną i klasyfikacją sceny w środowiskach wewnętrznych. Badania mają na celu opracowanie i ocenę różnych znanych i aktualnych technik uczenia głębokich sieci neuronowych. Aby to osiągnąć, przeprowadzono serię eksperymentów na zbiorze na reprezentacyjnych zbiorach danych. Analiza dotyczyła zarówno miar jakości sensu stricto, jak i miar wydajnościowych proponowanych metod. Rozważono różne metryki oceny, takich jak ogólna dokładność, indeks Jaccarda znany w literaturze jako intersection over union (IoU), miara F1 i wydajność obliczeniowa. Wyniki uzyskane w tym rozdziale zapewnią cenny wgląd w mocne strony i ograniczenia proponowanych metod.
 
 \subsection{Analiza miar jakości}
-
-W pierwszej kolejności metody zostaną zbadane pod względem wymienionych wcześniej miar jakości w postaci ogólnej - niezagregowanej, osobno dla segmentacji oraz klasyfikacji. Omawiane metryki należy rozumieć jako średnia miara jakości na każdej z klas, a więc makrośrednie. Makrośrednie metryki są stosowane przy ocenie wydajności algorytmów dla zadań takich jak segmentacja semantyczna i klasyfikacja sceny, ponieważ zapewniają bardziej wszechstronną ocenę ogólnej jakości algorytmu. Metryki makrośrednie uwzględniają wydajność algorytmu na wszystkich klasach obiektów i regionów w obrębie sceny, a nie tylko koncentrują się na jakości na najbardziej powszechnych lub najłatwiejszych do sklasyfikowania klasach. W przypadku stosowania metryki makrośredniej jakość dla każdej klasy jest obliczana oddzielnie, a ogólna jakość jest obliczana jako średnia jakości poszczególnych klas. Stanowi to kontrast do metryki mikrośredniej, która oblicza ogólną jakość poprzez zsumowanie całkowitej liczby wyników  dla wszystkich klas.
-Użycie makrośrednich metryk może być szczególnie ważne w scenariuszach, w których liczba instancji każdej klasy jest niezrównoważona lub gdy istnieje duża liczba klas. W takich przypadkach, mikrośrednie metryki mogą być mylące, ponieważ mogą być pod silnym wpływem najbardziej powszechnych klas, podczas gdy zaniedbują te mniej powszechne. Zatem makro analiza pokaże generalne rezultaty oraz otworzy dyskusję do dalszych, bardziej połgębionych badań na rozważanym problemem.
+W pierwszej kolejności metody zostaną zbadane pod względem wymienionych wcześniej miar jakości w postaci ogólnej — niezagregowanej, osobno dla segmentacji oraz klasyfikacji. Omawiane metryki należy rozumieć jako średnia miara jakości na każdej z klas, a więc makrośrednie. Makrośrednie metryki są stosowane przy ocenie wydajności algorytmów dla zadań takich jak segmentacja semantyczna i klasyfikacja sceny, ponieważ zapewniają bardziej wszechstronną ocenę ogólnej jakości algorytmu. Metryki makrośrednie uwzględniają wydajność algorytmu na wszystkich klasach obiektów i regionów w obrębie sceny, a nie tylko koncentrują się na jakości na najbardziej powszechnych lub najłatwiejszych do sklasyfikowania klasach. W przypadku stosowania metryki makrośredniej jakość dla każdej klasy jest obliczana oddzielnie, a ogólna jakość jest obliczana jako średnia jakości poszczególnych klas. Stanowi to kontrast do metryki mikrośredniej, która oblicza ogólną jakość poprzez zsumowanie całkowitej liczby wyników dla wszystkich klas.
+Użycie makrośrednich metryk może być szczególnie ważne w scenariuszach, w których liczba instancji każdej klasy jest niezrównoważona lub gdy istnieje duża liczba klas. W takich przypadkach mikrośrednie metryki mogą być mylące, ponieważ mogą być pod silnym wpływem najbardziej powszechnych klas, podczas gdy zaniedbują te mniej powszechne. Zatem makro analiza pokaże generalne rezultaty oraz otworzy dyskusję do dalszych, bardziej pogłębionych badań na rozważanym problemem.
 
 \vspace{0.5cm}
-Rozpoczynając od segmentacji rozważamy 3 scenariusze testowe. Pierwszym z nich jest uczenie wyłącznie klasyfikacji rozumianej jako uczenie enkodera i sieci segmentacyjnej z pominięciem cześć klasyfikacyjnej. Pozwoli to odopwiedzieć na pytanie czy bardzie zaawansowane techniki uczenia polepszą, a może pogorszą działanie modelu. Drugim scenariuszem jest uczenie wielozadaniowe, gdzie cały model jest odmrożony, a błąd jest propagowany zarówno przez segmentację jak i klasyfikację. Ostanim eksperymentem jest sprawdzenie technik transferu wiedzy, a szczególne tak zwanego finetunowania. Model w pierwszym etapie uczy się przy zamrożnym enkoderze, dopiero na koniec jest odmrażany w celu dostrojenia wyników. 
+Rozpoczynając od segmentacji, rozważamy 3 scenariusze testowe. Pierwszym z nich jest uczenie wyłącznie klasyfikacji rozumianej jako uczenie enkodera i sieci segmentacyjnej z pominięciem cześć klasyfikacyjnej. Pozwoli to odpowiedzieć na pytanie, czy bardziej zaawansowane techniki uczenia polepszą, a może pogorszą działanie modelu. Drugim scenariuszem jest uczenie wielozadaniowe, gdzie cały model jest odmrożony, a błąd jest propagowany zarówno przez segmentację, jak i klasyfikację. Ostatnim eksperymentem jest sprawdzenie technik transferu wiedzy, a szczególne tak zwanego finetunowania. Model w pierwszym etapie uczy się przy zamożnym enkoderze, dopiero na koniec jest odmrażany w celu dostrojenia wyników.
 
 \begin{figure}[ht!]
     \centering
@@ -18,10 +17,10 @@ Rozpoczynając od segmentacji rozważamy 3 scenariusze testowe. Pierwszym z nich
     \label{fig:macro-segmentation}
 \end{figure}
 
-Analizując rysunek \ref{fig:macro-segmentation} nie trudno zauważyć, że najlepsze rezultaty otrzymano w dla uczenia wyłącznie segmentacji. Kolejnym wynikiem jest uczenie wielozadaniowe. Jako najsłabsze podejście okazuje się metoda finetunowania. Widać, że relacja jakości są zachowane dla każdej z metryk, a więc zarówno dla miary Iou jak i zbalansowanej dokładności (bAcc). Widać, że miara IoU wypada gorzej niż bAcc. Wyniką mogą sugerować, że trudno jest przeprowadzić transfer wiedzy z ImageNetu, gdyż finetunowanie wypada najsłabiej. Jest to naprawdopodobniej spowodowane zupełenie innym rozkładem klas dla wspomnianej bazie. Analiza sceny w przeciwieństwie do klasyfikacji najczęściej cechuje się długoogonowym rozkładem klas. Drugim instonym szczególem jest fakt, iż wagi dekodera i głowy segmentacyjnej są losowe. Uczenie wielozadaniowe zgodnie z zakłądanymi wynikami nie polepsza segmentacji, gdyż łączna przesztrzeń segmentacji i klasyfikacji jest niewątpliwie trudniejsza do optymalizacji. 
+Analizując rysunek \ref{fig:macro-segmentation} nie trudno zauważyć, że najlepsze rezultaty otrzymano w dla uczenia wyłącznie segmentacji. Kolejnym wynikiem jest uczenie wielozadaniowe. Jako najsłabsze podejście okazuje się metoda finetunowania. Widać, że relacja jakości są zachowane dla każdej z metryk, a więc zarówno dla miary Iou, jak i zbilansowanej dokładności (bAcc). Widać, że miara IoU wypada gorzej niż bAcc. Wyniki mogą sugerować, że trudno jest przeprowadzić transfer wiedzy z ImageNetu, gdyż finetunowanie wypada najsłabiej. Jest to najprawdopodobniej spowodowane zupełnie innym rozkładem klas dla wspomnianej bazie. Analiza sceny w przeciwieństwie do klasyfikacji najczęściej cechuje się długoogonowym rozkładem klas. Drugim istotnym szczegółem jest fakt, iż wagi dekodera i głowy segmentacyjnej są losowe. Uczenie wielozadaniowe zgodnie z zakładanymi wynikami nie polepsza segmentacji, gdyż łączna przestrzeń segmentacji i klasyfikacji jest niewątpliwie trudniejsza do optymalizacji.
 
 \vspace{0.5cm}
-Przechodząc do klasyfikacji wyróżniamy 4 scenariusze testowe. Pierwzym jest uczenie wyłącznie klasyfikacji, analogicznie jak wyżej, a więc przy wyłączonej części segmentacyjenj. Kolejnymi są wspomiane wcześniej uczneie wielozadaniowe oraz finetuning. Nowym scenariuszem jest skorzystanie z wytrenowanej wcześniej wyłącznej segmentacji, a następnie wyłączenie wszystkiego poza siecią gęstą.
+Przechodząc do klasyfikacji, wyróżniamy 5 scenariuszy testowe. Pierwszym jest uczenie wyłącznie klasyfikacji, analogicznie jak wyżej, a więc przy wyłączonej części segmentacyjnej. Kolejnymi są wspomniane wcześniej uczenie wielozadaniowe oraz finetuning. Do nowych scenariuszy zaliczamy bezpośrednia oraz pośrednia klasyfikacja z segmentacji.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{new/Macro-Classification.jpeg}
@@ -29,22 +28,20 @@ Przechodząc do klasyfikacji wyróżniamy 4 scenariusze testowe. Pierwzym jest u
     \label{fig:macro-classification}
 \end{figure}
 
-Rezultaty przedstawia rysunek \ref{fig:macro-classification}. Od razu da się zauważyć, że wyniki cechuje mniejsze odchylenie standardowe oraz,  analizujc łącznie miarę F1 oraz zbalansowaną dokładność, średnia. Fakt ten jest prawdopodbnie wynikiem znacznie mniejszej ilości parametrów uczących. Jako najlepszy rezultat uzyskuje uczenie wielozadaniowe. Ciekwym wydaje się fakt, że uczenie wyłącznie klasyfikacji jest słabsze w tym przypadku. Proadopodbnie poprzez uczenie wielozadaniowe enkoder wygenerował lepszą przestrzeń reprezentacji, co bezpośrednio wpływa na klasyfikację sceny.
-
+Rezultaty przedstawia rysunek \ref{fig:macro-classification}. Od razu da się zauważyć, że wyniki cechuje mniejsze odchylenie standardowe oraz, analizując łącznie miarę F1 oraz zbalansowaną dokładność, średnia. Fakt ten jest prawdopodobnie wynikiem znacznie mniejszej ilości parametrów uczących. Jako najlepszy rezultat uzyskuje uczenie wielozadaniowe. Ciekawym wydaje się fakt, że uczenie wyłącznie klasyfikacji jest słabsze w tym przypadku. Prawdopodobnie poprzez uczenie wielozadaniowe enkoder wygenerował lepszą przestrzeń reprezentacji, co bezpośrednio wpływa na klasyfikację sceny. Najgorszym przypadkiem jest uczenie klasyfikacji bezpośrednio z segmentacji. Nie jest to dziwne, gdyż w tym przypadku klasyfikator korzystał z zaledwie 13 kanałów.
 \vspace{0.5cm}
 
 Analizowanie jakości algorytmu dla każdej z klas osobno jest ważne, ponieważ pozwala na bardziej szczegółowe zrozumienie mocnych i słabych stron algorytmu. Rozważając ogólną jakość algorytmu przy użyciu metryki makrośredniej, nie jest od razu jasne, w których klasach algorytm radzi sobie dobrze, a z którymi ma problemy. Analizując jakość każdej klasy osobno, można zidentyfikować konkretne klasy, z którymi algorytm ma problemy i podjąć kroki w celu poprawy wydajności w tych klasach.
 
-
 \vspace{0.5cm}
-Rysunek \ref{fig:classification-accuracy} przedstawia dokładność dla każdej z klas dla zadania klasyfikacji sceny. Trudno jednozczanie określić która metod sprawdza się tutaj najlepiej. Uczenie wielozadaniowe wypada najlepiej dla klas: łazienka, pokój dzienny, salon, biuro. Uczenie wyłączenj klasyfikajcji jest najlpesze dla klas jadalnia oraz  kuchnia. W pozostałych przypadkach klasa inne pomiesczenia jest najlepiej wykrywana przez scenariusz finetunowania. Uczenie klasyfikacji z segmentacji nigdy nie osiąga najlpeszego wyniku.
+Rysunek \ref{fig:classification-accuracy} przedstawia dokładność dla każdej z klas dla zadania klasyfikacji sceny. Trudno jednoznacznie określić, która metod sprawdza się tutaj najlepiej. Uczenie wielozadaniowe wypada najlepiej dla klas: łazienka, pokój dzienny, salon, biuro. Uczenie wyłącznej klasyfikacji jest najlepsze dla klas jadalnia oraz kuchnia. W pozostałych przypadkach klasa inne pomieszczenia jest najlepiej wykrywana przez scenariusz finetunowania. Uczenie klasyfikacji z segmentacji nigdy nie osiąga najlepszego wyniku.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{new/Classification-Accuracy.jpeg}
     \caption{Porównanie dokładności klasyfikacji sceny z rozróżniem konkretnych klas.}
     \label{fig:classification-accuracy}
 \end{figure}
-Biorąc pod uwagę miarę F1 (rys.\ref{fig:classification-f1}) rówznież nie jesteśmy w stanie wyróżnić faworyzowanej metody. W porówaniu z wcześniej analizowaną dokładnością widać, że uczenie wielozadaniowe utrzymuje w większości przypadku bardzo dobre rezultaty. Widać też, że wyniki w obrębie każdej z klas mało różnią się między sobą.
+Biorąc pod uwagę miarę F1 (rys.\ref{fig:classification-f1}) również nie jesteśmy w stanie wyróżnić faworyzowanej metody. W porównaniu z wcześniej analizowaną dokładnością widać, że uczenie wielozadaniowe utrzymuje w większości przypadku bardzo dobre rezultaty. Widać też, że wyniki w obrębie każdej z klas mało różnią się między sobą.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{new/Classification-F1Score.jpeg}
@@ -53,8 +50,7 @@ Biorąc pod uwagę miarę F1 (rys.\ref{fig:classification-f1}) rówznież nie je
 \end{figure}
 
 \vspace{0.5cm}
-
-Anlizując rysunek \ref{fig:segmentation-acc} przestawiający dokładność w zadaniu segmentacji semantycznej, widać, że niektóre z zadań wypadają znacznie gorzej niż pozostałe. Sytuacja ta dotyczy klas meble, stóły, obiekty. Uczenie wyłącznie zegmentacji okazało się najlepsze dla klas łóżko, podłoga, meble, obiekty, obraz, tv, ściana oraz okno. Stanowi to ponad połowę wszytskich możliwych klas. Uczenie wielozadaniowe uzyskało najlepsze wyniki dla klas książki, sufit, sofa. Przypadek funetunowania nigdy nie osiągnął nalpeszego rezultatu.
+Analizując rysunek \ref{fig:segmentation-acc} przestawiający dokładność w zadaniu segmentacji semantycznej, widać, że niektóre z zadań wypadają znacznie gorzej niż pozostałe. Sytuacja ta dotyczy klas meble, stoły, obiekty. Uczenie wyłącznie segmentacji okazało się najlepsze dla klas łóżko, podłoga, meble, obiekty, obraz, tv, ściana oraz okno. Stanowi to ponad połowę wszystkich możliwych klas. Uczenie wielozadaniowe uzyskało najlepsze wyniki dla klas książki, sufit, sofa. Przypadek funetunowania nigdy nie osiągnął najlepszego rezultatu.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{result_imgs_sorted/Segmentation-Accuracy.jpeg}
@@ -62,7 +58,8 @@ Anlizując rysunek \ref{fig:segmentation-acc} przestawiający dokładność w za
     \label{fig:segmentation-acc}
 \end{figure}
 
-Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycznej. Widać tutaj dużą dysproporcję miedzy klasami podłoga, ściana, a pozostałymi klasami. Jest to zrozumiałe, klasy te występują stosunkowo często na obrazie. Uczenie wyłącznie segmentacji uzyskuje najlepsze wyniki na wszytskich klasach z wyłaczeniem książek oraz telewizorów. W tych przypadkach najlepsze okazuje się uczenie wielozdaniowe.
+Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycznej. Widać tutaj dużą dysproporcję między klasami podłoga, ściana, a pozostałymi klasami. Jest to zrozumiałe, klasy te występują stosunkowo często na obrazie. Uczenie wyłącznie segmentacji uzyskuje najlepsze wyniki na wszystkich klasach z wyłączeniem książek oraz telewizorów. W tych przypadkach najlepsze okazuje się uczenie wielozdaniowe.
+
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{result_imgs_sorted/Segmentation-IoU.jpeg}
@@ -71,9 +68,9 @@ Na rysunku \ref{fig:segmentation-iou} przestawiono IoU dla segmentacji semantycz
     
 \end{figure}
 \subsection{Analiza czasowa}
-Ostatnio coraz częściej mówi się o zapotrzebowaniu na zasoby sprzętowe podczas uczenia maszynowego. Głębokie sieci neuronowe, a szczególnie te  przetwarzające obrazy wymagają coraz więcej zasobów obliczeniowych do prawidłowego działania. Wynika to z dwóch głównych czynników. Po pierwsze duże modeli wizji komputerowej posiadają milionach parametrów. Drugim powodem jest przetwarzanie wielu obrazów, które de facto są zbiorem macierzy. Wiedzie to do większego zainteresowania zużywanami zasobami podczas treningu oraz inferencji. W tym rozdziale przedstawię analizę czasu treningu oraz inferencji.
+Ostatnio coraz częściej mówi się o zapotrzebowaniu na zasoby sprzętowe podczas uczenia maszynowego. Głębokie sieci neuronowe, a szczególnie te przetwarzające obrazy wymagają coraz więcej zasobów obliczeniowych do prawidłowego działania. Wynika to z dwóch głównych czynników. Po pierwsze duże modeli wizji komputerowej posiadają milionach parametrów. Drugim powodem jest przetwarzanie wielu obrazów, które de facto są zbiorem macierzy. Wiedzie to do większego zainteresowania zużywanymi zasobami podczas treningu oraz inferencji. W tym rozdziale przedstawię analizę czasu treningu oraz inferencji.
 
-Analizując czas uczenia w w przpadku kolejnych metod odkrywamy zalety transferu wiedzy oraz uczenie wielozadaniowe (tab. \ref{tab:acc-por}). Suma czasów uczenie wyłacznie segmentacji oraz wyłącznie klasyfikacji (około 360s) znacząco przewyższa pozostałe metody. Najbardziej opłacalną czasowo metodą okazuje się finetuning. Jednakże na podstawie wyników miar jakości nie można uznać go za najbardziej optymalny. Pozostają jeszcze dwie metody - nauczenie segmentacji oraz dalsze uczenie klasyfikacji (ok. 260s) oraz uczenie wielozadaniowe (ok. 211s). Segmentaja a potem klasyfikacja osiąga najlpesze wyniki na segmentacji oraz przeciętne na klasyfikacj. Z drugiej strony uczenie wielzoadaniowe osiąga najlepsze rezultaty na klasyfikacji oraz drugi najlepszy wynik na segmentacji. Łącząc to z faktem krótszego uczenia, można wysunąć wniosek, że uczenie wielozadaniowe jest optymalne pod względem czasu trningu oraz dawanych rezultatów.
+Analizując czas uczenia w przypadku kolejnych metod, odkrywamy zalety transferu wiedzy oraz uczenie wielozadaniowe (tab. \ref{tab:acc-por}). Suma czasów uczenie wyłącznie segmentacji oraz wyłącznie klasyfikacji (około 360s) znacząco przewyższa pozostałe metody. Najbardziej opłacalną czasowo metodą okazuje się finetuning. Jednakże na podstawie wyników miar jakości nie można uznać go za najbardziej optymalny. Pozostają jeszcze dwie metody - nauczenie segmentacji oraz dalsze uczenie klasyfikacji (ok. 260 s) oraz uczenie wielozadaniowe (ok. 211s). Segmentaja, a potem klasyfikacja osiąga najlepsze wyniki na segmentacji oraz przeciętne na klasyfikacji. Z drugiej strony uczenie wielozadaniowe osiąga najlepsze rezultaty na klasyfikacji oraz drugi najlepszy wynik na segmentacji. Łącząc to z faktem krótszego uczenia, można wysunąć wniosek, że uczenie wielozadaniowe jest optymalne pod względem czasu treningu oraz dawanych rezultatów.
 
 
 
@@ -91,6 +88,7 @@ Analizując czas uczenia w w przpadku kolejnych metod odkrywamy zalety transferu
 \label{tab:acc-por}
 \end{table}
 
+Porównanie czasu wnioskowania jest kluczowe z punktu widzenia korzystania z potencjału uczenia maszynowego. Tabela \ref{tab:por-infer} przedstawia właśnie takie zestawienie. Widzimy tutaj niezaprzeczalną zaletę uczenia wielozadaniowego. Wnioskowanie w takim przypadku jest prawie dwa razy szybsze.
 
 \begin{table}[ht!]
     \centering
@@ -103,17 +101,15 @@ Analizując czas uczenia w w przpadku kolejnych metod odkrywamy zalety transferu
 \label{tab:por-infer}
 \end{table}
 
-NAPISZ O \ref{tab:por-infer}
 \subsection{Analiza konkretnych przykładów}
-Anliza metryk, czy różnych miar jakości jest niezbędna do ewaluacji zadań uczenia maszynowego. Odpowiedni wybór tych miar gwarantuje pełen informacji wgląd stanowiąc cenny wskazuwki ewaluacyjne. Nie mniej nie wyklucza to istoty sprawdzenia rezultatów przez ludzkie oko. Mimo, że trudno byłoby przeglądać i ewaluować wiele zdjęć w dużych zbiorach danych, przekrojowe sprawdzenie jest kluczowe w analize. Dostarcza bowiem wielu cennych, nieujętych w matematycznych formułach obserwacji. W tym rozdziale przedstawione zostaną rezultaty na wybranych zdjęciach.
+Analiza metryk, czy różnych miar jakości jest niezbędna do ewaluacji zadań uczenia maszynowego. Odpowiedni wybór tych miar gwarantuje pełen informacji wgląd, stanowiąc cenny wskazówki ewaluacyjne. Nie mniej nie wyklucza to istoty sprawdzenia rezultatów przez ludzkie oko. Mimo że trudno byłoby przeglądać i ewaluować wiele zdjęć w dużych zbiorach danych, przekrojowe sprawdzenie jest kluczowe w analizie. Dostarcza bowiem wielu cennych, nieujętych w matematycznych formułach obserwacji. W tym rozdziale przedstawione zostaną rezultaty na wybranych zdjęciach.
 \subsubsection{Segmentacja semantyczna}
-Segmentacja semantyczna jest zadanie niewątpliwie trudnym. Jednocześnie równie ciężko jest określić dobrą funkcję jakości, uwzględniającą takie właściwości jak gładkość, dokładność czy precyzja segmentacji. Można oczywiście korzystać z wielu funkcji jakości, jednak ostateczny werdyk warto przejrzeć ręcznie. W połączeniu z wiedzą dotyczącą między innymi trudności klasyfikacji danej grupy pikseli lub niejedoznacznością niektórych grup pikseli po obejrzeniu nawet kilkunastu zdjęć, jesteśmy w stanie wykuć pewne wnioski. 
+Segmentacja semantyczna jest zadanie niewątpliwie trudnym. Jednocześnie równie ciężko jest określić dobrą funkcję jakości, uwzględniającą takie właściwości jak gładkość, dokładność czy precyzja segmentacji. Można oczywiście korzystać z wielu funkcji jakości, jednak ostateczny werdykt warto przejrzeć ręcznie. W połączeniu z wiedzą dotyczącą między innymi trudności klasyfikacji danej grupy pikseli lub niejedoznacznością niektórych grup pikseli po obejrzeniu nawet kilkunastu zdjęć jesteśmy w stanie wykuć pewne wnioski.
 
 \noindent
 \textbf{Łazienka}
 
-Analizując rysunek \ref{fig:bathroom-pred-1} widzimy, że klasa przedmioty (ang. objects) jest bardzo szeroko rozumiana przez twórców zbioru danych. Wynika z tego fakt, że grupa ta nie posiada ściśle określonych cech, które byłyby łatwo identyfikowalne. Model w tym przypadku połączył w sposób szeroki omawianą klasę. Ciekawą obserwacją jest zaznaczeniue przez model klasy krzesło. Po głębszej analizie można przypuszczać, że zlew ma podbną teksturę oraz kształ to metalowego krzesła. Klasy ściana, podłoga oraz meble została dość precyzyjnie sklasyfikowana.
-
+Analizując rysunek \ref{fig:bathroom-pred-1} widzimy, że klasa przedmioty (ang. objects) jest bardzo szeroko rozumiana przez twórców zbioru danych. Wynika z tego fakt, że grupa ta nie posiada ściśle określonych cech, które byłyby łatwo identyfikowalne. Model w tym przypadku połączył w sposób szeroki omawianą klasę. Ciekawą obserwacją jest zaznaczenie przez model klasy krzesło. Po głębszej analizie można przypuszczać, że zlew ma podobna teksturę oraz kształt to metalowego krzesła. Klasy ściana, podłoga oraz meble została dość precyzyjnie sklasyfikowana.
 
 \begin{figure}[ht!]
     \centering
@@ -122,7 +118,7 @@ Analizując rysunek \ref{fig:bathroom-pred-1} widzimy, że klasa przedmioty (ang
     \label{fig:bathroom-pred-1}
 \end{figure}
 
-Sytuacja jest równie interesująca w przypadku rysunku \ref{fig:bathroom-pred-2}. Model dopatruje się klasy meble w okolicach drzwi oraz przy zlewie. Pierwszy przypadek jest całkiem zrozumiały. Drewniane dzrzwi co do faktury mogą przypominać meble, na przykład drzwi od szafki. W drugiej sytuacji można domniemywać, że meble były często związane z umywalką czy nawet zlewem kuchennym, stąd model chętnie te klasy przydziela. Interesujące jest przydzielenie przez model etykiety obraz do włącznika światła.
+Sytuacja jest równie interesująca w przypadku rysunku \ref{fig:bathroom-pred-2}. Model dopatruje się klasy meble w okolicach drzwi oraz przy zlewie. Pierwszy przypadek jest całkiem zrozumiały. Drewniane drzwi co do faktury mogą przypominać meble, na przykład drzwi od szafki. W drugiej sytuacji można domniemywać, że meble były często związane z umywalką czy nawet zlewem kuchennym, stąd model chętnie te klasy przydziela. Interesujące jest przydzielenie przez model etykiety obraz do włącznika światła.
 
 \begin{figure}[ht!]
     \centering
@@ -131,7 +127,8 @@ Sytuacja jest równie interesująca w przypadku rysunku \ref{fig:bathroom-pred-2
     \label{fig:bathroom-pred-2}
 \end{figure}
 
-Ostatnim obraz, przedstawiający łazienkę pokazuje rysunek \ref{fig:bathroom-pred-3}. Tak jak wcześniej wspomniano ściany oraz podłoga są często dobrze klasyfikowane. Tak też jest w tym przypadku. Kosz na pranie okazał się być wyzwaniem. Model doszukiwał się tu takich obiektów jak stół, krzesło czy mebel.
+Ostatnim obraz, przedstawiający łazienkę pokazuje rysunek \ref{fig:bathroom-pred-3}. Tak jak wcześniej wspomniano ściany oraz podłoga są często dobrze klasyfikowane. Tak też jest w tym przypadku. Kosz na pranie okazał się wyzwaniem. Model doszukiwał się tu takich obiektów jak stół, krzesło czy mebel.
+
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/gt_vs_pred/bathroom-3.png}
@@ -144,7 +141,7 @@ Ostatnim obraz, przedstawiający łazienkę pokazuje rysunek \ref{fig:bathroom-p
 
 Salon jest najczęściej reprezentowany przez duży pokój, w którym znajdują się kanapa, stolik z przedmiotami, krzesła/fotele oraz ściany z zawieszonymi obrazkami. Nie brakuje tutaj mebli i wielu obiektów.
 
-Rysunek \ref{fig:living_room-pred-1} jest przykładem częstego problemu adnotacji zdjęć. Często okazuje się, że dana grupa pikseli przedstawia więcej niż jedną klasę. Obraz oczekiwany przedstawia regał z książkami jako mebel. Model stwierdził jednak, wcale się nie myląc, że są to ksiązki. Trudno się nie zgodzić z tą predykcją. Oznacza to, że zbiór jest poniekąd wewnętrznie sprzeczny w jakiejś części. Widać, że częstym kłopotem jest odróznienie mebla od stołu. Zadowala fakt pierwszoplanowej kanapy, która bez poduszek została bardzo dobrze sklasyfikowana. Równie dobre rezultaty otrzymujemy dla klasy podłoga, sufit oraz obrazy. Dziwi natomiast fakt zaznaczenia fotela jako krzesła.
+Rysunek \ref{fig:living_room-pred-1} jest przykładem częstego problemu adnotacji zdjęć. Często okazuje się, że dana grupa pikseli przedstawia więcej niż jedną klasę. Obraz oczekiwany przedstawia regał z książkami jako mebel. Model stwierdził jednak wcale się nie myląc, że są to książki. Trudno się nie zgodzić z tą predykcją. Oznacza to, że zbiór jest poniekąd wewnętrznie sprzeczny w jakiejś części. Widać, że częstym kłopotem jest odróżnienie mebla od stołu. Zadowala fakt pierwszoplanowej kanapy, która bez poduszek została bardzo dobrze sklasyfikowana. Równie dobre rezultaty otrzymujemy dla klasy podłoga, sufit oraz obrazy. Dziwi natomiast fakt zaznaczenia fotela jako krzesła.
 
 \begin{figure}[ht!]
     \centering
@@ -153,7 +150,7 @@ Rysunek \ref{fig:living_room-pred-1} jest przykładem częstego problemu adnotac
     \label{fig:living_room-pred-1}
 \end{figure}
 
-Na kolejnym rysunku \ref{fig:living_room-pred-2} sytuacja jest nieco gorsza. Model miał trudności ze wskaniem stolika na środku, który klasifikuje jako część kanapy. Sporo problemów wygenerowała klasa krzesło. Obrazy, ściany i podłoga zostały poprawnie sklasyfikowane. Przedmioty drugoplanowe, szczególnie dalsze, a więc mniejsze pozostały dla modelu jednakie.
+Na kolejnym rysunku \ref{fig:living_room-pred-2} sytuacja jest nieco gorsza. Model miał trudności ze wskazaniem stolika na środku, który klasyfikuje jako część kanapy. Sporo problemów wygenerowała klasa krzesło. Obrazy, ściany i podłoga zostały poprawnie sklasyfikowane. Przedmioty drugoplanowe, szczególnie dalsze, a więc mniejsze pozostały dla modelu jednakie.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/gt_vs_pred/living_room-2.png}
@@ -161,7 +158,7 @@ Na kolejnym rysunku \ref{fig:living_room-pred-2} sytuacja jest nieco gorsza. Mod
     \label{fig:living_room-pred-2}
 \end{figure}
 
-Scena salonu (rys. \ref{fig:living_room-pred-3}) jest znacznie lepiej sklasyfikowana niż poprzednia. Oprócz całkiem dobrze sklasyfikowanego stołu, obiektów i kanapy jest jeden ciekawy aspekt. Mianowicie obrazy docelowe znajdujące sie wgłąb obrazu zostały pominięte, czyli przedstawione jako pusta (ang. void). Mimo to klasyfikator celnie nadaje im klasy ściana oraz okna. To bardzo dobry prognostyk.
+Scena salonu (rys. \ref{fig:living_room-pred-3}) jest znacznie lepiej sklasyfikowana niż poprzednia. Oprócz całkiem dobrze sklasyfikowanego stołu, obiektów i kanapy jest jeden ciekawy aspekt. Mianowicie obrazy docelowe znajdujące sie w głąb obrazu zostały pominięte, czyli przedstawione jako pusta (ang. void). Mimo to klasyfikator celnie nadaje im klasy ściana oraz okna. To bardzo dobry prognostyk.
 
 \begin{figure}[ht!]
     \centering
@@ -173,9 +170,7 @@ Scena salonu (rys. \ref{fig:living_room-pred-3}) jest znacznie lepiej sklasyfiko
 \noindent
 \textbf{Sypialnia}
 
-Sypialnia to miejsce bardzo złożone. Jednak do charakterystycznych punktów tej sceny należą: łóżko, krzesło, meble oraz okno. Porządanym byłoby zatem osiągać na tych klasach satysfakcjonujące rezultaty.
-
-na pierwszym planie rysunku \ref{fig:bedroom-pred-1} wduać krzesło, stół oraz szafkę, które w przybliżeniu zostały całkiem dobrzr sklasyfikowane. Brak zastrzeżeń budzą również klasy łóżko, podłoga oraz obiekty. Niewątpliwe ciekawe jest poprawne zaznaczenie okna, nawet w porze nocy. Jest to szczególnie cenna informacja, bo czarny prostokąt mógłbybyć zaklasyfikowany jako na przykład telewizor. Okno zostało zaznaczone zbyt szeroko, mianowicie fałszywie uznając prawdopodbnie lampę za okno. Prawdopodbnie kolor miał tu duże znaczenie.
+Sypialnia to miejsce bardzo złożone. Jednak do charakterystycznych punktów tej sceny należą: łóżko, krzesło, meble oraz okno. Pożądanym byłoby zatem osiągać na tych klasach satysfakcjonujące rezultaty. Na pierwszym planie rysunku \ref{fig:bedroom-pred-1} wdać krzesło, stół oraz szafkę, które w przybliżeniu zostały całkiem dobrze sklasyfikowane. Brak zastrzeżeń budzą również klasy łóżko, podłoga oraz obiekty. Niewątpliwe ciekawe jest poprawne zaznaczenie okna, nawet w porze nocy. Jest to szczególnie cenna informacja, bo czarny prostokąt mógłby być zaklasyfikowany jako na przykład telewizor. Okno zostało zaznaczone zbyt szeroko, mianowicie fałszywie uznając prawdopodobnie lampę za okno. Prawdopodobnie kolor miał tu duże znaczenie.
 
 \begin{figure}[ht!]
     \centering
@@ -184,7 +179,7 @@ na pierwszym planie rysunku \ref{fig:bedroom-pred-1} wduać krzesło, stół ora
     \label{fig:bedroom-pred-1}
 \end{figure}
 
-Rysunek \ref{fig:bedroom-pred-2} to typowe zdjęie sypialni. Czarną ramę łóżka model uznał za telewizor. Gdyby wyciąć samą tę ramę, wybór rzezywiście nie byłby oczywisty. Poza tym łózko zostało oznaczone całkiem poprawnie. Dziwi fakty sufitu w miejscu ściany, dla masko docelowej. Model słusznie przypisał tam ścianę. Obrazy zostały poprawnie oznaczone. Na zdjęciu widać, całkiem poprawną próbę klasyfikacji krzesła.
+Rysunek \ref{fig:bedroom-pred-2} to typowe zdjęcie sypialni. Czarną ramę łóżka model uznał za telewizor. Gdyby wyciąć samą tę ramę, wybór rzeczywiście nie byłby oczywisty. Poza tym łózko zostało oznaczone całkiem poprawnie. Dziwi fakty sufitu w miejscu ściany, dla maski docelowej. Model słusznie przypisał tam ścianę. Obrazy zostały poprawnie oznaczone. Na zdjęciu widać, całkiem poprawną próbę klasyfikacji krzesła.
 
 \begin{figure}[ht!]
     \centering
@@ -193,7 +188,7 @@ Rysunek \ref{fig:bedroom-pred-2} to typowe zdjęie sypialni. Czarną ramę łó�
     \label{fig:bedroom-pred-2}
 \end{figure}
 
-Ostani rysunek (rys. \ref{fig:bedroom-pred-3}) był większym wyzwaniem dla modelu. Widać to szczególnie w przypadku pierwszoplanowego biurka. Model nie był wstanie podjąć decyzji co do ostatecznej klasy. Standardowo podłoga oraz sufit zostały sklasyfikowane prawidłowo. Nie inaczej było w przypadku klasy łózko.
+Ostatni rysunek (rys. \ref{fig:bedroom-pred-3}) był większym wyzwaniem dla modelu. Widać to szczególnie w przypadku pierwszoplanowego biurka. Model nie był w stanie podjąć decyzji co do ostatecznej klasy. Standardowo podłoga oraz sufit zostały sklasyfikowane prawidłowo. Nie inaczej było w przypadku klasy łózko.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/gt_vs_pred/bedroom-3.png}
@@ -204,9 +199,10 @@ Ostani rysunek (rys. \ref{fig:bedroom-pred-3}) był większym wyzwaniem dla mode
 \noindent
 \textbf{Jadalnia}
 
-Obrazy związane z jadalnia to głównie sceny związane ze stołami oraz krzesłami.
 
-Taką sytuacja ma też miejsce na rysunku \ref{fig:dining_room-pred-1}. Właściwie trudno tutaj znaleźć coś szczególnie interesującego. Cały obraz został całkiem dobrze pogrupowany. Wa†pliwości budzi jedynie przypisanie do żyrandola klasy obrazy. Prawdopodbnie obrazy znajduące się obok miały na to wpływ.
+Obrazy związane z jadalnią to głównie sceny związane ze stołami oraz krzesłami.
+
+Taką sytuacją ma też miejsce na rysunku \ref{fig:dining_room-pred-1}. Właściwie trudno tutaj znaleźć coś szczególnie interesującego. Cały obraz został całkiem dobrze pogrupowany. Wątpliwości budzi jedynie przypisanie do żyrandola klasy obrazy. Prawdopodobnie obrazy znajdujące się obok miały na to wpływ.
 
 
 \begin{figure}[ht!]
@@ -216,7 +212,7 @@ Taką sytuacja ma też miejsce na rysunku \ref{fig:dining_room-pred-1}. Właści
     \label{fig:dining_room-pred-1}
 \end{figure}
 
-Przypadek rysunku \ref{fig:dining_room-pred-2} wydaje się być ciekawszym. Szczególnie warte uwagi są tutaj okna na których znajdują się odbicia lustrzane. Refleksy są w wizji komputerowej zagadnieniem od dawna poruszanym i znanym. Można jednoznacznie stwierdzić, że trudno sobie poradzić w takich sytuacjach. Model prawdopodbnie mając trudności z tym obszarem przypisał go do klasy obiekt. Opróćz tego widzimy problemy z krzesłami w prawym dolnym rogu. Jasna, połyskująca skóra rzeczywiście przypomina nieco płytki podłogowe.
+Przypadek rysunku \ref{fig:dining_room-pred-2} wydaje się ciekawszym. Szczególnie warte uwagi są tutaj okna, na których znajdują się odbicia lustrzane. Refleksy są w wizji komputerowej zagadnieniem od dawna poruszanym i znanym. Można jednoznacznie stwierdzić, że trudno sobie poradzić w takich sytuacjach. Model prawdopodobnie mając trudności z tym obszarem, przypisał go do klasy obiekt. Oprócz tego widzimy problemy z krzesłami w prawym dolnym rogu. Jasna, połyskująca skóra rzeczywiście przypomina nieco płytki podłogowe.
 
 \begin{figure}[ht!]
     \centering
@@ -321,7 +317,8 @@ Rysunek \ref{fig:other_indoor-pred-2} przedstawia pomieszczenie biurowe. Wszystk
     \label{fig:other_indoor-pred-2}
 \end{figure}
 
-Ostatnim analizowanym rysunkiem segmentacji jest \ref{fig:other_indoor-pred-3}. Meble oraz obrazy, jak również podłoga zostały poprawnie zaklasyfikowane. Całkiem dobra jest segmentacja krzesła na pierwszym planie. Problemy wystąpiły z drugim krzesłem oraz częścią kanapy. Model błędnie doszukiwał się klasy stół na tym obrazie.
+
+Ostatnim analizowany obraz w jadalni jest rysunek \ref{fig:dining_room-pred-3}. Na pewno klasyfikacja klas takich jak stół, krzesła czy okno jest tutaj poprawna. Co więcej, nie można tego do tego grona nie zaliczyć klasy podłoga oraz sufit. Jedyny problem z grupowaniem na tym zdjęciu dotyczy samego roku zdjęcia, gdzie nie przyporządkowano klasy mebel. Pozostałe instancje tej klasy są poprawnie sklasyfikowane.
 
 \begin{figure}[ht!]
     \centering
@@ -331,9 +328,9 @@ Ostatnim analizowanym rysunkiem segmentacji jest \ref{fig:other_indoor-pred-3}. 
 \end{figure}
 
 \subsubsection{Klasyfikacja sceny}
-Podobnie jak w przypadku segmentacji semantycznej trudno jest czasem określić jednoznacznie jakość modelu bazując wyłącznie na miarach jakości. W nieniejszym rozdziale zostaną przytoczone wszystkie błędne klasyfikacje z podziałem na konkretne klasy. Pozwoli to wysnuć pewne obserwacje na temat podobieńst tych klas oraz pomoże wysunąć wnioski co do tych błędów. Co więcej przedstawione zostaną statystyki błędnej klasyfikacji, aby lepiej zobrazować te błędy.
+Podobnie jak w przypadku segmentacji semantycznej trudno jest czasem określić jednoznacznie jakość modelu, bazując wyłącznie na miarach jakości. W niniejszym rozdziale zostaną przytoczone wszystkie błędne klasyfikacje z podziałem na konkretne klasy. Pozwoli to wysnuć pewne obserwacje na temat podobieństw tych klas oraz pomoże wysunąć wnioski co do tych błędów. Co więcej, przedstawione zostaną statystyki błędnej klasyfikacji, aby lepiej zobrazować te błędy.
 
-Na rysunku \ref{fig:bathroom-false-pred} przedstawiono 10 błędnych przypisań dla klasy łazienka. Dziewięć z dziesięciu błędów dotyczyło klasy kuchnia. Można doszukiwać się, że kuchnia jak i łazienka ma poniekąd podobny schemat. Na pewno występuję te same klasy jak zlew czy meble. Tylko raz klasyfikator uznał że sypialnia jest łazienką.
+Na rysunku \ref{fig:bathroom-false-pred} przedstawiono 10 błędnych przypisań dla klasy łazienka. Dziewięć z dziesięciu błędów dotyczyło klasy kuchnia. Można doszukiwać się, że kuchnia, jak i łazienka ma poniekąd podobny schemat. Na pewno występuję te same klasy jak zlew czy meble. Tylko raz klasyfikator uznał, że sypialnia jest łazienką.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/bathroom.png}
@@ -362,7 +359,7 @@ Najmniej pomyłek jest dla klasy kuchnia (rys. \ref{fig:kitchen-false-pred}).
     \caption{Porównanie jakości klasyfikacji dla klasy kuchnia.}
     \label{fig:kitchen-false-pred}
 \end{figure}
-Klasy inne pomiesczenia oraz kuchnie zostały błędnie zaklasyfikowane jako biuro w większości przypadków. Trudno określić, skąd akurat wynikają takier rezultaty.
+Klasy inne pomieszczenia oraz kuchnie zostały błędnie zaklasyfikowane jako biuro w większości przypadków. Trudno określić, skąd akurat wynikają takie rezultaty.
 
 \begin{figure}[ht!]
     \centering
@@ -370,7 +367,7 @@ Klasy inne pomiesczenia oraz kuchnie zostały błędnie zaklasyfikowane jako biu
     \caption{Porównanie jakości klasyfikacji dla klasy biuro.}
     \label{fig:office-false-pred}
 \end{figure}
-Model najczęściej błednie przypisywał klasę inne pomieszczenia dla biura w mniej niż połowie przypadków. Pozostałe przypadki należą do klas sypialnia oraz jadalnia. Klasa inne pomieszczenia jest szczególnie narażona na pomyłki, gdyż to połączenie najróżniejszych klas scen.
+Model najczęściej błędnie przypisywał klasę inne pomieszczenia dla biura w mniej niż połowie przypadków. Pozostałe przypadki należą do klas sypialnia oraz jadalnia. Klasa inne pomieszczenia jest szczególnie narażona na pomyłki, gdyż to połączenie najróżniejszych klas scen.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/preds_analysis/classification/other_indoor.png}
@@ -378,7 +375,8 @@ Model najczęściej błednie przypisywał klasę inne pomieszczenia dla biura w 
     \label{fig:oter_indoor-false-pred}
 \end{figure}
 
-Analiza błędnie sklasyfikowany scen dostarczyła wielu ważnych informacji. Najczęsciej przyczyną błędów było znaczne podobieństwo występujących klas przedmitów między różnymi klasam scen.
+
+Analiza błędnie sklasyfikowany scen dostarczyła wielu ważnych informacji. Najczęściej przyczyną błędów było znaczne podobieństwo występujących klas przedmiotów między różnymi klasami scen.
 
 
     

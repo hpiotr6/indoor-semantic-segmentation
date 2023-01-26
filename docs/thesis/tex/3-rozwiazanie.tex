@@ -55,14 +55,12 @@ Najbliższym artykułem tej pracy inżynierskiej jest ,,Efficient Multi-Task RGB
 
 
 \subsection{DeepLabV3}
-Literatura uważa go za model lepszy od sieci U-Net czy FCN. Model DeepLabV3 nie korzysta z połączeń pomijających. Informacje o kontekście w wielu skalach uzyskuje przez moduł Spatial Pyramid Pooling (SPP). Wykorzystuje on bloki Atrous Spatial Pyramid Pooling (ASPP) oraz klasyczny pooling. Bloki ASPP składają się ze splotu, normalizacji pakietowej oraz funkcji aktywacji ReLU. Sploty przyjmują różną postać. Pierwszy blok to splot o jądrze 1x1. Następne bloki korzystają z rozszerzonego splotu o dylatacji oraz wypełnieniu (padding) równemu wspołczynnikowi rozszerzenia (dilatation rate). Dla kolejnych 3 bloków wynosi on 12, 24, 36. Ostatni blok SPP to zwykły pooling. Bloki składające się na moduł SPP są następnie dodawane wzdłużnie i poddawane splotowi. Następnie egzekwuje się splot o wyjściowej liczbie kanałów równej ilości klas. Końcowy etap obejmuje upsampling do pożądanego wymiaru.
+Literatura uważa go za model lepszy od sieci U-Net czy FCN. Model DeepLabV3 nie korzysta z połączeń pomijających. Informacje o kontekście w wielu skalach uzyskuje przez moduł Spatial Pyramid Pooling (SPP). Wykorzystuje on bloki Atrous Spatial Pyramid Pooling (ASPP) oraz klasyczny pooling. Bloki ASPP składają się ze splotu, normalizacji pakietowej oraz funkcji aktywacji ReLU. Sploty przyjmują różną postać. Pierwszy blok to splot o jądrze 1x1. Następne bloki korzystają z rozszerzonego splotu o dylatacji oraz wypełnieniu (padding) równemu współczynnikowi rozszerzenia (dilatation rate). Dla kolejnych 3 bloków wynosi on 12, 24, 36. Ostatni blok SPP to zwykły pooling. Bloki składające się na moduł SPP są następnie dodawane wzdłużnie i poddawane splotowi. Następnie egzekwuje się splot o wyjściowej liczbie kanałów równej ilości klas. Końcowy etap obejmuje upsampling do pożądanego wymiaru.
 \begin{figure}[ht!]
-    \includegraphics[width=\textwidth]{deeplabv3-new.png}
-    \caption{Klasyczna architektura DeepLabV3 z backbonem ResNet34.}
-    \label{fig:deeplabv3}
+\includegraphics[width=\textwidth]{deeplabv3-new.png}
+\caption{Klasyczna architektura DeepLabV3 z backbonem ResNet34.}
+\label{fig:deeplabv3}
 \end{figure}
-
-
 \subsection{Rozwiązanie problemu}
 W tym rozdziale zostaną przedstawione eksperymenty, które wykonano w celu zbadania uczenia wielozadaniowego segmentacji semantycznej oraz klasyfikacji sceny w domenie pomieszczeń. Pierwszym etapem, jakiego dokonano, było wyznaczenie punktu odniesienia. Z punktu widzenia pracy najłatwiej byłoby znaleźć gotowe wyniki segmentacji oraz klasyfikacji sceny na wybranym zbiorze danych. Niestety żadne z przytaczanych rozwiązań nie odpowiada w pełni zakresowi pracy. Postanowiono stworzyć taki punkt odniesienia samemu przez analogiczne trenowanie sieci segmentacyjnej oraz klasyfikacyjnej osobno.
 
@@ -75,15 +73,15 @@ Mając taką wiedzę, eksperymentowano dalej z różnymi architekturami uczenia 
 \label{fig:multitask}
 \end{figure}
 
-Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia komputerowego. W pracy ,,Normalization Techniques in Training DNNs: Methodology, Analysis and Application'' Lei et. al. \cite{huang2020normalization}, autorzy udowadjniają, że normalizacja stabilizuje i przyśpiesza trening oraz prawdopodobnie prowadzi do poprawy generalizacji. Jako przetwarzanie wstępne obrazu zastosowano normalizację gaussowską. Obrazy RGB zostały poddane normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225), która odpowiada parametrom rozkładu normlanego na zbiorze ImageNet. Gotowe wagi uzsykane poprzez uczenie na bazie ImageNet służyła wagi początkowe enkodera.
+Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia komputerowego. W pracy ,,Normalization Techniques in Training DNNs: Methodology, Analysis and Application'' Lei et. al. \cite{huang2020normalization}, autorzy udowadjniają, że normalizacja stabilizuje i przyśpiesza trening oraz prawdopodobnie prowadzi do poprawy generalizacji. Jako przetwarzanie wstępne obrazu zastosowano normalizację gaussowską. Obrazy RGB zostały poddane normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225), która odpowiada parametrom rozkładu normalnego na zbiorze ImageNet. Gotowe wagi uzyskane poprzez uczenie na bazie ImageNet służyła wagi początkowe enkodera.
 
-Znalezienie optymalnego zestawu hiperparametrów nie jest proste. Niewłaściwy dobór grozi brakie osiągnięcia pożądanych rezultatów. Zważając na to w pracy wykorzystano optymalizację hiperparametrów przez narzędzie Optuna \cite{optuna_2019}. Wykorzystano do tego algorytm TPE (Tree-structured Parzen Estimator), który jest znacznie korzystniejszy niż klasyczne przeszukiwanie siatką (Grid Search). Optymlaizacja hiperparametrów nie tylko poprawia łatwość doboru hiperparametrów, ale przedewszystkim podwyższa wiarygodność rezultatów. Hiperparametry były optymalizowane względem straty na zbiorze walidacyjnym. Do optymalizowanych parametrów zalicza się tylko krok uczenia, chyba że stwierdzono w dalszej części rozdziału inaczej.
+Znalezienie optymalnego zestawu hiperparametrów nie jest proste. Niewłaściwy dobór grozi brakiem osiągnięcia pożądanych rezultatów. \cite{optuna_2019}. Wykorzystano do tego algorytm TPE (Tree-structured Parzen Estimator), który jest znacznie korzystniejszy niż klasyczne przeszukiwanie siatką (Grid Search). Optymlaizacja hiperparametrów nie tylko poprawia łatwość doboru hiperparametrów, ale przede wszystkim podwyższa wiarygodność rezultatów. Hiperparametry były optymalizowane względem straty na zbiorze walidacyjnym. Do optymalizowanych parametrów zalicza się tylko krok uczenia, chyba że stwierdzono w dalszej części rozdziału inaczej.
 
-Do klasycznych funkcji straty dla segmentacji semantycznej zaliczamy entropię skrośną, ale również coraz popularniejsze Lov\'asz Softmax \cite{berman2018lovasz} czy Focal Loss \cite{jadon2020survey}. Entropia i Focal jest stratą związaną z dystrybucją pikseli, Lov'asz Softmax skupia się bardziej na konkretnych regionach \cite{jadon2020survey}. W przypadku zadania klasyfikacji najczęściej spotykana jest entropia skrośna. W pracy wykorzystano entropię skorośną zarówno dla klasyfikacji jak i dla segmetnacji semantycznej podbnie jak \cite{mehta2018net} oraz \cite{9892852}. Entropia była ważona poprzez odwrotność sumy odpowiednio pikseli dla danej etykiety semantycznej oraz oraz etykiet związanej z scenami.
+Do klasycznych funkcji straty dla segmentacji semantycznej zaliczamy entropię skrośną, ale również coraz popularniejsze Lov\'asz Softmax \cite{berman2018lovasz} czy Focal Loss \cite{jadon2020survey}. Entropia i Focal jest stratą związaną z dystrybucją pikseli, Lov'asz Softmax skupia się bardziej na konkretnych regionach \cite{jadon2020survey}. W przypadku zadania klasyfikacji najczęściej spotykana jest entropia skrośna. W pracy wykorzystano entropię skrośną zarówno dla klasyfikacji, jak i dla segmentacji semantycznej podobnie jak \cite{mehta2018net} oraz \cite{9892852}. Entropia była ważona poprzez odwrotność sumy odpowiednio pikseli dla danej etykiety semantycznej oraz etykiet związanej ze scenami.
 
-Samo uczenie nie było długie, bo trwało od 5 do 15 epok. Zastosowano wczesne przerwyane treningu (Early Stopping) monitorując stratę na zbiorze walidacyjnym, by uniknąć przeuczenia. Poza tym zastosowano zmienny krok uczenia poprzez planistę typu ekspotencjalnego (exponential learnig rate policy) o współczynniku $\gamma$ 0.99, który zmienjsza krok o $\gamma$ co epokę.
+Samo uczenie nie było długie, bo trwało od 5 do 15 epok. Zastosowano wczesne przerwanie treningu (Early Stopping), monitorując stratę na zbiorze walidacyjnym, by uniknąć przeuczenia. Poza tym zastosowano zmienny krok uczenia poprzez planistę typu ekspotencjalnego (exponential learnig rate policy) o współczynniku $\gamma$ 0.99, który zmniejsza krok o $\gamma$ co epokę.
 
-W dalszej części przedstawione zostną konkretne eksperymenty, które rozważano w pracy.
+W dalszej części przedstawione zostaną konkretne eksperymenty, które rozważano w pracy.
 
 \subsubsection{Uczenie wielozadaniowe}
 Uczenie wielozadaniowe zostało zrealizowane przez architekturę z rysunku \ref{fig:multitask}. Trening polegał na aktualizowaniu wag całego dostępnego modelu zgodnie z propagacją wsteczną agregowanej funkcji straty $\lambda$. Zaimplementowano ją jako sumę funkcji strat na każdym z zadań tak jak w przypadku \cite{mehta2018net}. Nie stosowano ważenia zadań wspomnianego w \cite{9892852}.
@@ -137,11 +135,11 @@ Rozwiązaniem odbiegającym od reszty jest przeprowadzenie szeregowej klasyfikac
 
 \subsection{Zbiór  danych}
 \subsubsection{Wybór zbioru danych}
-Dane są kluczową częścią głębokiego uczenia. Duży zbiór danych oznaczonych adnotacjami na poziomie pikseli jest potrzebny do wytrenowania wydajnego modelu segmentacji semantycznej. Typowe zestawy danych do segmentacji semantycznej to Cityscapes, PASCAL VOC i ADE20K. Podobnie w przypadku klasyfikacji sceny wymagany jest duży zbiór danych z odpowiednią informacją o etykiecie. Popularne zestawy danych do klasyfikacji scen obejmują  NYUv2, SUN RGB-D, Matterport3D i ScanNet.
+Dane są kluczową częścią głębokiego uczenia. Duży zbiór danych oznaczonych adnotacjami na poziomie pikseli jest potrzebny do wytrenowania wydajnego modelu segmentacji semantycznej. Typowe zestawy danych do segmentacji semantycznej to Cityscapes, PASCAL VOC i ADE20K. Podobnie w przypadku klasyfikacji sceny wymagany jest duży zbiór danych z odpowiednią informacją o etykiecie. Popularne zestawy danych do klasyfikacji scen obejmują NYUv2, SUN RGB-D, Matterport3D i ScanNet.
 
-Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów 
+Zbiór danych powinien ściśle odpowiadać założeniom postawionym w pracy. Zatem zbiór danych powinien zawierać kategorie scen, segmentacje obrazów.
 
-Po prześledzeniu wielu zbiorów danych udało się sprostać powyższym wymaganiom, uzyskując dwa podobne zbiory danych - \texttt{NYUv2} oraz \texttt{SUN RGBD}. Ostatecznie wybrano \texttt{NYUv2}. Trudno jednozczanie odpowiedzieć, który zbiór jest lepszy. Wykorzystano fakt cytowalności. Okazuje się, że \texttt{NYUv2} jest też chętniej cytowany niż \texttt{SUN RGBD} (rys. \ref{fig:sun-vs-nyu}), zatem to ten zbiór własnie wybrano.
+Po prześledzeniu wielu zbiorów danych udało się sprostać powyższym wymaganiom, uzyskując dwa podobne zbiory danych - \texttt{NYUv2} oraz \texttt{SUN RGBD}. Ostatecznie wybrano \texttt{NYUv2}. Trudno jednozczanie odpowiedzieć, który zbiór jest lepszy. Wykorzystano fakt cytowalności. Okazuje się, że \texttt{NYUv2} jest też chętniej cytowany niż \texttt{SUN RGBD} (rys. \ref{fig:sun-vs-nyu}), zatem to ten zbiór właśnie wybrano.
 
 \begin{figure}[ht!]
     \centering
@@ -149,50 +147,49 @@ Po prześledzeniu wielu zbiorów danych udało się sprostać powyższym wymagan
     \caption[]{Szacowana liczba cytowań w latach 2018-2022 \href{https://paperswithcode.com/dataset/sun-rgb-d}{[paperswithcode.com]}}
     \label{fig:sun-vs-nyu}
 \end{figure}
+subsection{Analiza zbioru danych}
+Eksploracyjna analiza danych (ang. EDA) to proces eksploracji i zrozumienia cech zbioru danych przed zbudowaniem modelu. Jednym z głównych powodów, dla których proces ten jest ważny w wizji komputerowej to fakt, że może pomóc w identyfikacji problemów ze zbiorem danych, takich jak nieprawidłowe etykiety. Co więcej, może ono być również wykorzystane do identyfikacji skośnych rozkładów klas prowadzących do niesprawiedliwych prognoz. EDA może być również wykorzystana do określenia, które kroki przetwarzania wstępnego (ang. preprocessing), takie jak augmentacja, są niezbędne do poprawy wydajności modelu wizji komputerowej. Badając dane i rozumiejąc ich charakterystykę, możemy uzyskać głębsze zrozumienie danych i zidentyfikować wszelkie problemy, które należy rozwiązać przed zbudowaniem modelu.
 
-\subsection{Analiza zbioru danych}
-Eksploracyjna analiza danych (ang. EDA) to proces eksploracji i zrozumienia cech zbioru danych przed zbudowaniem modelu. Jednym z głównych powodów, dla których proces ten jest ważny w wizji komputerowej to fakt, że może pomóc w identyfikacji problemów ze zbiorem danych, takich jak nieprawidłowe etykiety. Co więcej, może ono być również wykorzystane do identyfikacji skośnych rozkładów klas prowadzących do niesprawiedliwych prognoz. EDA może być również wykorzystana do określenia, które kroki przetwarzania wstępnego (ang. preprocessing), takie jak augmentacja, są niezbędne do poprawy wydajności modelu wizji komputerowej. Badając dane i rozumiejąc ich charakterystykę możemy uzyskać głębsze zrozumienie danych i zidentyfikować wszelkie problemy, które należy rozwiązać przed zbudowaniem modelu.
-
-EDA przeprowadzone na zbiorze NYUv2 dostarczyło wielu interesujących szczegółów. W zbiorze domyślnie znajduje się 795 przykładów trenujących oraz 654 przykładów testujących. Ze zbioru testowego wyodrębniono zbiór walidacyjny stanowiący 20\% zbioru testowego. Ponadto sprawdzono rozkład klas na przesztrzeni całego zbioru danych.
-W przypadku zadania segmentacji semantycznej do dyspozycji był wybór 894, 40 lub 13 klas przedmiotów. Im rozróżnialność była większa tym większe okazywały się dysproporcje w rozkładzie. Histogramy dla 13 i 40 klas przedstawiono na rysunku \ref{fig:rozklad-segm}.
+EDA przeprowadzone na zbiorze NYUv2 dostarczyło wielu interesujących szczegółów. W zbiorze domyślnie znajduje się 795 przykładów trenujących oraz 654 przykładów testujących. Ze zbioru testowego wyodrębniono zbiór walidacyjny stanowiący 20\% zbioru testowego. Ponadto sprawdzono rozkład klas na przestrzeni całego zbioru danych.
+W przypadku zadania segmentacji semantycznej do dyspozycji był wybór 894, 40 lub 13 klas przedmiotów. Im rozróżnialność była większa, tym większe okazywały się dysproporcje w rozkładzie. Histogramy dla 13 i 40 klas przedstawiono na rysunku \ref{fig:rozklad-segm}.
 Podobna sytuacja miała miejsce dla zadania klasyfikacji z tą różnicą, iż scalania klas należało dokonać ręcznie. Taki krok był kluczowy, gdyż pierwotny rozkład był silnie zdominowany przez kilka klas.
 Ostatecznie wybrano 13 klas dla klasyfikacji (rys. \ref{fig:7 klas dystrybucja}) oraz scalone 7 dla segmentacji (rys. \ref{fig:7 klas dystrybucja}).
 
-
 \begin{figure}[ht!]
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{seg13.png}
-        \caption{Rozkład dla 13 klas.}
-        \label{fig:rozklad-13klas-seg}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{seg40.png}
-        \caption{Rozkład dla 40 klas.}
-        \label{fig:rozklad-40klas-seg}
-    \end{subfigure}
-    \caption[]{Porównanie rozkładu ilości pixeli dla zadania segmentacji semantycznej.}
-    \label{fig:rozklad-segm}
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{seg13.png}
+\caption{Rozkład dla 13 klas.}
+\label{fig:rozklad-13klas-seg}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{seg40.png}
+\caption{Rozkład dla 40 klas.}
+\label{fig:rozklad-40klas-seg}
+\end{subfigure}
+\caption[]{Porównanie rozkładu ilości pikseli dla zadania segmentacji semantycznej.}
+\label{fig:rozklad-segm}
 \end{figure}
+
 \begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{classification.png}
-        \caption{Oryginalny rozkład klas.}
-        \label{fig:27 klas dystrybucja}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{classification-merged.png}
-        \caption{Rozkład klas po scaleniu.}
-        \label{fig:7 klas dystrybucja}
-    \end{subfigure}
-    \caption[]{Porównanie rozkładu klas dla zadania klasyfikacji sceny.}
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{classification.png}
+\caption{Oryginalny rozkład klas.}
+\label{fig:27 klas dystrybucja}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.49\textwidth}
+\centering
+\includegraphics[width=\textwidth]{classification-merged.png}
+\caption{Rozkład klas po scaleniu.}
+\label{fig:7 klas dystrybucja}
+\end{subfigure}
+\caption[]{Porównanie rozkładu klas dla zadania klasyfikacji sceny.}
 \end{figure}
 
 
