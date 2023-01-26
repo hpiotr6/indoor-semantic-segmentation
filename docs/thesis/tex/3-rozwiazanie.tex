@@ -66,12 +66,7 @@ Literatura uważa go za model lepszy od sieci U-Net czy FCN. Model DeepLabV3 nie
 \subsection{Rozwiązanie problemu}
 W tym rozdziale zostaną przedstawione eksperymenty, które wykonano w celu zbadania uczenia wielozadaniowego segmentacji semantycznej oraz klasyfikacji sceny w domenie pomieszczeń. Pierwszym etapem, jakiego dokonano, było wyznaczenie punktu odniesienia. Z punktu widzenia pracy najłatwiej byłoby znaleźć gotowe wyniki segmentacji oraz klasyfikacji sceny na wybranym zbiorze danych. Niestety żadne z przytaczanych rozwiązań nie odpowiada w pełni zakresowi pracy. Postanowiono stworzyć taki punkt odniesienia samemu przez analogiczne trenowanie sieci segmentacyjnej oraz klasyfikacyjnej osobno.
 
-Mając taką wiedzę, eksperymentowano dalej z różnymi architekturami uczenia wielozadaniowego. Wybrano uczenie łączne o twardym dzieleniu parametrów. Podejście to ma wiele zalet. \cite{mehta2018net} podkreśla łatwość i wszechstronność implementacji. Wystarczy dołączyć do modelu część klasyfikacyjną. Co więcej, wszyscy autorzy (\cite{mehta2018net}, \cite{9892852}) chwalą znacznie mniejszą ilość parametrów sieci, co bezpośrednio wpływa na czas treningu oraz wnioskowania.
-
-Architektura sieci przedstawia rys. \ref{fig:multitask}. Jest to DeepLabv3 rozszerzony za enkoderem o sieć klasyfikacyjną podobnie jak w artykule \cite{mehta2018net}, gdzie rozszerzono sieć U-Net.
-
-Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia komputerowego. W pracy ,,Normalization Techniques in Training DNNs: Methodology, Analysis and Application'' Lei et. al. \cite{huang2020normalization}, autorzy udowadjniają, że normalizacja stabilizuje i przyśpiesza trening oraz prawdopodobnie prowadzi do poprawy generalizacji. Jako przetwarzanie wstępne obrazu zastosowano normalizację gaussowską. Obrazy RGB zostały poddane normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225), która odpowiada parametrom rozkładu normlanego na zbiorze ImageNet. Gotowe wagi uzsykane poprzez uczenie na bazie ImageNet służyła wagi początkowe enkodera.
-
+Mając taką wiedzę, eksperymentowano dalej z różnymi architekturami uczenia wielozadaniowego. Wybrano uczenie łączne o twardym dzieleniu parametrów. Podejście to ma wiele zalet. \cite{mehta2018net} podkreśla łatwość i wszechstronność implementacji. Wystarczy dołączyć do modelu część klasyfikacyjną. Co więcej, wszyscy autorzy (\cite{mehta2018net}, \cite{9892852}) chwalą znacznie mniejszą ilość parametrów sieci, co bezpośrednio wpływa na czas treningu oraz wnioskowania. Architektura sieci przedstawia rys. \ref{fig:multitask}. Jest to DeepLabv3 rozszerzony za enkoderem o sieć klasyfikacyjną podobnie jak w artykule \cite{mehta2018net}, gdzie rozszerzono sieć U-Net.
 
 \begin{figure}[ht!]
 \centering
@@ -80,6 +75,15 @@ Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia
 \label{fig:multitask}
 \end{figure}
 
+Normalizacja jest ważnym krokiem przetwarzania wstępnego w problemach widzenia komputerowego. W pracy ,,Normalization Techniques in Training DNNs: Methodology, Analysis and Application'' Lei et. al. \cite{huang2020normalization}, autorzy udowadjniają, że normalizacja stabilizuje i przyśpiesza trening oraz prawdopodobnie prowadzi do poprawy generalizacji. Jako przetwarzanie wstępne obrazu zastosowano normalizację gaussowską. Obrazy RGB zostały poddane normalizacji ze średnią (0.485, 0.456, 0.406) oraz odchyleniem standardowym (0.229, 0.224, 0.225), która odpowiada parametrom rozkładu normlanego na zbiorze ImageNet. Gotowe wagi uzsykane poprzez uczenie na bazie ImageNet służyła wagi początkowe enkodera.
+
+Znalezienie optymalnego zestawu hiperparametrów nie jest proste. Niewłaściwy dobór grozi brakie osiągnięcia pożądanych rezultatów. Zważając na to w pracy wykorzystano optymalizację hiperparametrów przez narzędzie Optuna \cite{optuna_2019}. Wykorzystano do tego algorytm TPE (Tree-structured Parzen Estimator), który jest znacznie korzystniejszy niż klasyczne przeszukiwanie siatką (Grid Search). Optymlaizacja hiperparametrów nie tylko poprawia łatwość doboru hiperparametrów, ale przedewszystkim podwyższa wiarygodność rezultatów. Hiperparametry były optymalizowane względem straty na zbiorze walidacyjnym. Do optymalizowanych parametrów zalicza się tylko krok uczenia, chyba że stwierdzono w dalszej części rozdziału inaczej.
+
+Do klasycznych funkcji straty dla segmentacji semantycznej zaliczamy entropię skrośną, ale również coraz popularniejsze Lov\'asz Softmax \cite{berman2018lovasz} czy Focal Loss \cite{jadon2020survey}. Entropia i Focal jest stratą związaną z dystrybucją pikseli, Lov'asz Softmax skupia się bardziej na konkretnych regionach \cite{jadon2020survey}. W przypadku zadania klasyfikacji najczęściej spotykana jest entropia skrośna. W pracy wykorzystano entropię skorośną zarówno dla klasyfikacji jak i dla segmetnacji semantycznej podbnie jak \cite{mehta2018net} oraz \cite{9892852}. Entropia była ważona poprzez odwrotność sumy odpowiednio pikseli dla danej etykiety semantycznej oraz oraz etykiet związanej z scenami.
+
+Samo uczenie nie było długie, bo trwało od 5 do 15 epok. Zastosowano wczesne przerwyane treningu (Early Stopping) monitorując stratę na zbiorze walidacyjnym, by uniknąć przeuczenia. Poza tym zastosowano zmienny krok uczenia poprzez planistę typu ekspotencjalnego (exponential learnig rate policy) o współczynniku $\gamma$ 0.99, który zmienjsza krok o $\gamma$ co epokę.
+
+W dalszej części przedstawione zostną konkretne eksperymenty, które rozważano w pracy.
 
 \subsubsection{Uczenie wielozadaniowe}
 Uczenie wielozadaniowe zostało zrealizowane przez architekturę z rysunku \ref{fig:multitask}. Trening polegał na aktualizowaniu wag całego dostępnego modelu zgodnie z propagacją wsteczną agregowanej funkcji straty $\lambda$. Zaimplementowano ją jako sumę funkcji strat na każdym z zadań tak jak w przypadku \cite{mehta2018net}. Nie stosowano ważenia zadań wspomnianego w \cite{9892852}.
@@ -111,8 +115,8 @@ Podejście transferu wiedzy można lekko zmodyfikować. Skorzystano z wcześniej
 \lambda  = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
            & \lambda_{segmentacja} = 0
 \end{align*}
-\subsubsection{Bezpośrednia klasyfikacja z segmentacji}.
-Rozwiązaniem odbiegającym od reszty jest przeprowadzenie szeregowej klasyfikacji z segmentacji. Architektura przedstawia się zgodnie z rysunkiem \ref{fig:multitask-parrarel}. W tym eksperymencie sprawdzono, jak można skorzystać z gotowych predykcji dotyczących segmentacji. Model aż do głowy segmentacyjnej włącznie został zamrożony oraz wyłączony z optymalizacji. Zmieniają się tylko wagi części klasyfikacyjnej.
+\subsubsection{Bezpośrednia klasyfikacja z segmentacji}
+Rozwiązaniem odbiegającym od reszty jest przeprowadzenie szeregowej klasyfikacji z segmentacji. Architektura przedstawia się zgodnie z rysunkiem \ref{fig:multitask-seq}. W tym eksperymencie sprawdzono, jak można skorzystać z gotowych predykcji dotyczących segmentacji. Model aż do głowy segmentacyjnej włącznie został zamrożony oraz wyłączony z optymalizacji. Zmieniają się tylko wagi części klasyfikacyjnej.
 
 \begin{equation*}
 \lambda = \lambda_{segmentacja} + \lambda_{klasyfikacja}
@@ -126,7 +130,7 @@ Rozwiązaniem odbiegającym od reszty jest przeprowadzenie szeregowej klasyfikac
     \centering
     \includegraphics[width=\textwidth]{multitask-arch-seq-new.png}
     \caption{Architektura sieci szeregowej.}
-    \label{fig:multitask-parrarel}
+    \label{fig:multitask-seq}
 \end{figure}
 
 
