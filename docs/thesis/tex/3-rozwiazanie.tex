@@ -33,7 +33,7 @@ Artykuł ,,Let there be Color!: Joint End-to-end Learning of Global and Local Im
 
 
 \vspace{0.5cm}
-Zastosowanie łącznej segmentacji oraz klasyfikacji tym razem w domenie obrazowania medycznego przedstawia ,,Y-Net: Joint Segmentation and Classification for Diagnosis of Breast Biopsy Images'' (2018) \cite{mehta2018net}. Zadania te są realizowane przez twarde dzielenie parametrów w kontekście uczenia wielozadaniowego (rys. \ref{fig:y-net}). Architektura jest prostym rozszerzeniem klasycznego U-Netu. Autorzy wskazują, że taki zabieg powoduje dużą modularność, ponieważ do dowolnego modelu segmentacji można podłączyć sieć klasyfikacyjną. Przeprowadzone eksperymenty dla segmentacji udowodniły, że dokładność pozostała na tym samym poziomie. W przypadku klasyfikacji wyniki były wyższe niż dotychczasowe SOTA na tym zbiorze. Jako funkcję straty autorzy użyli sumy entropii skrośnej każdego z zadań. Podsumowując, zadanie segmentacji osiągnęło ten sam wysoki wynik co SOTA, a zadanie klasyfikacji ustanowiło nowe SOTA na tym zbiorze, ucząc się znacznie mniej parametrów.
+Zastosowanie łącznej segmentacji oraz klasyfikacji tym razem w domenie obrazowania medycznego przedstawia ,,Y-Net: Joint Segmentation and Classification for Diagnosis of Breast Biopsy Images'' (2018) \cite{mehta2018net}. Zadania te są realizowane przez twarde dzielenie parametrów w kontekście uczenia wielozadaniowego (rys. \ref{fig:y-net}). Architektura jest prostym rozszerzeniem klasycznego U-Netu. Autorzy wskazują, że taki zabieg powoduje dużą modularność, ponieważ do dowolnego modelu segmentacji można podłączyć sieć klasyfikacyjną. Przeprowadzone eksperymenty dla segmentacji udowodniły, że dokładność pozostała na tym samym poziomie. W przypadku klasyfikacji wyniki były wyższe niż dotychczasowe SOTA na tym zbiorze. Jako funkcję straty autorzy użyli sumy entropii skrośnej każdego z zadań. Podsumowując, zadanie segmentacji osiągnęło ten sam wysoki wynik co SOTA, a zadanie klasyfikacji ustanowiło nowe SOTA na tym zbiorze, wykorzystując znacznie mniej parametrów.
 
 
 \begin{figure}[ht!]
@@ -101,7 +101,7 @@ Znaną techniką transferu wiedzy jest finetuning. W tym przypadku skorzystano z
 \lambda = \lambda_{segmentacja} + \lambda_{klasyfikacja}
 \end{equation*}
 \subsubsection{Pośrednia klasyfikacja z segmentacji}
-Podejście transferu wiedzy można lekko zmodyfikować. Skorzystano z wcześniej przygotowanych wag będących wynikiem wcześniej wspomnianej wyłącznej segmentacji. Zamrożono enkoder oraz podsieć segmentacyjną oraz wyłączono te parametry z optymalizacji. Następnie dysponując, samą podsiecią klasyfikacyjną przeprowadzono trening. Funkcja straty była następująca:
+Podejście transferu wiedzy można lekko zmodyfikować. Skorzystano z wcześniej przygotowanych wag będących wynikiem wcześniej wspomnianej wyłącznej segmentacji. Zamrożono enkoder oraz podsieć segmentacyjną oraz wyłączono te parametry z optymalizacji. Następnie dysponując samą podsiecią klasyfikacyjną przeprowadzono trening. Funkcja straty była następująca:
 \begin{align*}
 \lambda  = & \lambda_{segmentacja} + \lambda_{klasyfikacja} \\
            & \lambda_{segmentacja} = 0
@@ -141,7 +141,7 @@ Po prześledzeniu wielu zbiorów danych udało się sprostać wymaganiom pracy, 
 \subsection{Analiza zbioru danych}
 Eksploracyjna analiza danych (ang. EDA) to proces eksploracji i zrozumienia cech zbioru danych przed zbudowaniem modelu. Jednym z głównych powodów, dla których proces ten jest ważny w wizji komputerowej to fakt, że może pomóc w identyfikacji problemów ze zbiorem danych, takich jak nieprawidłowe etykiety. Co więcej, może ono być również wykorzystane do identyfikacji skośnych rozkładów klas prowadzących do niesprawiedliwych prognoz. EDA może być również wykorzystana do określenia, które kroki przetwarzania wstępnego (ang. preprocessing), takie jak augmentacja, są niezbędne do poprawy wydajności modelu wizji komputerowej. Badając dane i rozumiejąc ich charakterystykę, możemy uzyskać głębsze ich zrozumienie i zidentyfikować wszelkie problemy, które należy rozwiązać przed zbudowaniem modelu.
 
-EDA przeprowadzone na zbiorze NYUv2 dostarczyło wielu interesujących szczegółów. W zbiorze domyślnie znajduje się 795 przykładów trenujących oraz 654 przykładów testujących. Ze zbioru testowego wyodrębniono zbiór walidacyjny stanowiący 20\% zbioru testowego. Ponadto sprawdzono rozkład klas na przestrzeni całego zbioru danych.
+EDA przeprowadzone na zbiorze NYUv2 dostarczyło wielu interesujących obserwacji. W zbiorze domyślnie znajduje się 795 przykładów trenujących oraz 654 przykłady testowe. Ze zbioru testowego wyodrębniono zbiór walidacyjny stanowiący 20\% zbioru testowego. Ponadto sprawdzono rozkład klas na przestrzeni całego zbioru danych.
 W przypadku zadania segmentacji semantycznej do dyspozycji był wybór 894, 40 lub 13 klas przedmiotów. Im rozróżnialność była większa, tym większe okazywały się dysproporcje w rozkładzie. Histogramy dla 13 i 40 klas przedstawiono na rysunku \ref{fig:rozklad-segm}.
 Podobna sytuacja miała miejsce dla zadania klasyfikacji z tą różnicą, iż scalania klas należało dokonać ręcznie. Taki krok był kluczowy, gdyż pierwotny rozkład był silnie zdominowany przez kilka klas.
 Ostatecznie wybrano 13 klas dla klasyfikacji (rys. \ref{fig:7 klas dystrybucja}) oraz scalone 7 dla segmentacji (rys. \ref{fig:7 klas dystrybucja}).
