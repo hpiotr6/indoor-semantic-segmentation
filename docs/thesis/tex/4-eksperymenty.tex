@@ -10,7 +10,7 @@ W pierwszej kolejności metody zostaną zbadane pod względem wymienionych wcze�
 Użycie makrośrednich metryk może być szczególnie ważne w scenariuszach, w których liczba instancji każdej klasy jest niezrównoważona lub gdy istnieje duża liczba klas. W takich przypadkach mikrośrednie metryki mogą być mylące, ponieważ mogą być pod silnym wpływem najbardziej powszechnych klas, podczas gdy zaniedbują te mniej powszechne. Zatem makro analiza pokaże generalne rezultaty oraz otworzy dyskusję do dalszych, bardziej pogłębionych badań na rozważanym problemem.
 
 \vspace{0.5cm}
-Rozpoczynając od segmentacji, rozważamy 3 scenariusze testowe. Pierwszym z nich jest uczenie wyłącznie klasyfikacji rozumianej jako uczenie enkodera i sieci segmentacyjnej z pominięciem cześć klasyfikacyjnej. Pozwoli to odpowiedzieć na pytanie, czy bardziej zaawansowane techniki uczenia polepszą, a może pogorszą działanie modelu. Drugim scenariuszem jest uczenie wielozadaniowe, gdzie cały model jest odmrożony, a błąd jest propagowany zarówno przez segmentację, jak i klasyfikację. Ostatnim eksperymentem jest sprawdzenie technik transferu wiedzy, a szczególne tak zwanego finetuningu. Model w pierwszym etapie uczy się przy zamożnym enkoderze, dopiero na koniec jest odmrażany w celu dostrojenia wyników.
+Rozpoczynając od segmentacji, rozważamy 3 scenariusze testowe. Pierwszym z nich jest uczenie wyłącznie klasyfikacji rozumianej jako uczenie enkodera i sieci segmentacyjnej z pominięciem cześć klasyfikacyjnej. Pozwoli to odpowiedzieć na pytanie, czy bardziej zaawansowane techniki uczenia polepszą, a może pogorszą działanie modelu. Drugim scenariuszem jest uczenie wielozadaniowe, gdzie cały model jest odmrożony, a błąd jest propagowany zarówno przez segmentację, jak i klasyfikację. Ostatnim eksperymentem jest sprawdzenie technik transferu wiedzy, a szczególne tak zwanego finetuningu. Model w~pierwszym etapie uczy się przy zamożnym enkoderze, dopiero na koniec jest odmrażany w celu dostrojenia wyników.
 
 \begin{figure}[ht!]
     \centering
@@ -43,7 +43,7 @@ Rysunek \ref{fig:classification-accuracy} przedstawia dokładność dla każdej 
     \caption{Porównanie dokładności klasyfikacji sceny z rozróżniem konkretnych klas.}
     \label{fig:classification-accuracy}
 \end{figure}
-Biorąc pod uwagę miarę F1 (rys. \ref{fig:classification-f1}) również nie jesteśmy w stanie wyróżnić faworyzowanej metody. W porównaniu z wcześniej analizowaną dokładnością widać, że uczenie wielozadaniowe utrzymuje w większości przypadków bardzo dobre rezultaty. Widać też, że wyniki w obrębie każdej z~klas mało różnią się między sobą.
+Biorąc pod uwagę miarę F1 (rys. \ref{fig:classification-f1}) również nie jesteśmy w stanie wyróżnić faworyzowanej metody. W porównaniu z wcześniej analizowaną dokładnością widać, że uczenie wielozadaniowe utrzymuje w~większości przypadków bardzo dobre rezultaty. Widać też, że wyniki w obrębie każdej z~klas mało różnią się między sobą.
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=\textwidth]{img/pl-res/Miara-F1-Klasyfikacja-Sceny.jpeg}
