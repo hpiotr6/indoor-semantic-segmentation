@@ -122,9 +122,9 @@ Porównanie czasu wnioskowania jest kluczowe z punktu widzenia korzystania z pot
 \end{table}
 
 \subsection{Analiza konkretnych przykładów}
-Analiza metryk, czy różnych miar jakości jest niezbędna do ewaluacji zadań uczenia maszynowego. Odpowiedni wybór tych miar gwarantuje pełen informacji wgląd, stanowiąc cenny wskazówki ewaluacyjne. Nie mniej nie wyklucza to istoty sprawdzenia rezultatów przez ludzkie oko. Mimo że trudno byłoby przeglądać i ewaluować wiele zdjęć w dużych zbiorach danych, przekrojowe sprawdzenie jest kluczowe w analizie. Dostarcza bowiem wielu cennych, nieujętych w matematycznych formułach obserwacji. W tym rozdziale przedstawione zostaną rezultaty na wybranych zdjęciach.
+Analiza metryk, czy różnych miar jakości jest niezbędna do ewaluacji zadań uczenia maszynowego. Odpowiedni wybór tych miar gwarantuje pełen informacji wgląd, stanowiąc cenny wskazówki ewaluacyjne. Nie mniej nie wyklucza to istoty sprawdzenia rezultatów przez ludzkie oko. Mimo że trudno byłoby przeglądać i ewaluować wiele zdjęć w dużych zbiorach danych, przekrojowe sprawdzenie jest kluczowe w analizie. Dostarcza bowiem wielu cennych, nieujętych w matematycznych formułach obserwacji. W tym podrozdziale przedstawione zostaną rezultaty na wybranych zdjęciach.
 \subsubsection{Segmentacja semantyczna}
-Segmentacja semantyczna jest zadanie niewątpliwie trudnym. Jednocześnie równie ciężko jest określić dobrą funkcję jakości, uwzględniającą takie właściwości jak gładkość, dokładność czy precyzja segmentacji. Można oczywiście korzystać z wielu funkcji jakości, jednak ostateczny werdykt warto przejrzeć ręcznie. W połączeniu z wiedzą dotyczącą między innymi trudności klasyfikacji danej grupy pikseli lub niejedoznacznością niektórych grup pikseli po obejrzeniu nawet kilkunastu zdjęć jesteśmy w stanie wykuć pewne wnioski.
+Segmentacja semantyczna jest zadaniem niewątpliwie trudnym. Jednocześnie równie ciężko jest określić dobrą funkcję jakości, uwzględniającą takie właściwości jak gładkość, dokładność czy precyzja segmentacji. Można oczywiście korzystać z wielu funkcji jakości, jednak ostateczny werdykt warto przejrzeć ręcznie. W połączeniu z wiedzą dotyczącą między innymi trudności klasyfikacji danej grupy pikseli lub niejedoznacznością niektórych grup pikseli po obejrzeniu nawet kilkunastu zdjęć jesteśmy w stanie wykuć pewne wnioski.
 
 \noindent
 \textbf{Łazienka}
@@ -161,7 +161,7 @@ Ostatnim obraz, przedstawiający łazienkę pokazuje rysunek \ref{fig:bathroom-p
 
 Salon jest najczęściej reprezentowany przez duży pokój, w którym znajdują się kanapa, stolik z przedmiotami, krzesła/fotele oraz ściany z zawieszonymi obrazkami. Nie brakuje tutaj mebli i wielu obiektów.
 
-Rysunek \ref{fig:living_room-pred-1} jest przykładem częstego problemu adnotacji zdjęć. Często okazuje się, że dana grupa pikseli przedstawia więcej niż jedną klasę. Obraz oczekiwany przedstawia regał z książkami jako mebel. Model stwierdził jednak wcale się nie myląc, że są to książki. Trudno się nie zgodzić z tą predykcją. Oznacza to, że zbiór jest poniekąd wewnętrznie sprzeczny w jakiejś części. Widać, że częstym kłopotem jest odróżnienie mebla od stołu. Zadowala fakt pierwszoplanowej kanapy, która bez poduszek została bardzo dobrze sklasyfikowana. Równie dobre rezultaty otrzymujemy dla klasy podłoga, sufit oraz obrazy. Dziwi natomiast fakt zaznaczenia fotela jako krzesła.
+Rysunek \ref{fig:living_room-pred-1} jest przykładem częstego problemu adnotacji zdjęć. Często okazuje się, że dana grupa pikseli przedstawia więcej niż jedną klasę. Obraz oczekiwany przedstawia regał z książkami jako mebel. Model stwierdził jednak wcale się nie myląc, że są to książki. Trudno się nie zgodzić z tą predykcją. Oznacza to, że zbiór jest poniekąd wewnętrznie sprzeczny w jakiejś części. Widać, że częstym kłopotem jest odróżnienie mebli od stołu. Zadowala fakt pierwszoplanowej kanapy, która bez poduszek została bardzo dobrze sklasyfikowana. Równie dobre rezultaty otrzymujemy dla klasy podłoga, sufit oraz obrazy. Dziwi natomiast fakt zaznaczenia fotela jako krzesła.
 
 \begin{figure}[ht!]
     \centering
@@ -222,7 +222,7 @@ Ostatni rysunek (rys. \ref{fig:bedroom-pred-3}) był większym wyzwaniem dla mod
 
 Obrazy związane z jadalnią to głównie sceny związane ze stołami oraz krzesłami.
 
-Taką sytuacją ma też miejsce na rysunku \ref{fig:dining_room-pred-1}. Właściwie trudno tutaj znaleźć coś szczególnie interesującego. Cały obraz został całkiem dobrze pogrupowany. Wątpliwości budzi jedynie przypisanie do żyrandola klasy obrazy. Prawdopodobnie obrazy znajdujące się obok miały na to wpływ.
+Taka sytuacja ma też miejsce na rysunku \ref{fig:dining_room-pred-1}. Właściwie trudno tutaj znaleźć coś szczególnie interesującego. Cały obraz został całkiem dobrze pogrupowany. Wątpliwości budzi jedynie przypisanie do żyrandola klasy obrazy. Prawdopodobnie obrazy znajdujące się obok miały na to wpływ.
 
 
 \begin{figure}[ht!]
@@ -255,7 +255,7 @@ Ostanim analizowany obraz w jadalni jest rysunek \ref{fig:dining_room-pred-3}. N
 
 Obrazy przedstawiające kuchnie to głównie zabudowa kuchni oraz sprzęt kuchenny. Czasen występuje tutaj na przykład stół z krzesłami.
 
-Obraz \ref{fig:kitchen-pred-1} nie wydaje się trudnym do klasyfikacji, jednak pojawiło się tutaj kilka kwestii ważnych omówienia. Oprócz problemów z klasyfikacją stołu z prawej strony, który bardziej wygląda jak szafki z blatem w kuchni, obserwujemy błędne przypisanie tapety naściennej do klasy obrazy. Poza tym drewniane drzwi model klasyfikuje jako bardziej mebel niż ścianę, co ze względu na teksturę nie jest aż tak złym wyborem. Reszta zdjęcia została pogrupowana poprawnie.
+Obraz \ref{fig:kitchen-pred-1} nie wydaje się trudnym do klasyfikacji, jednak pojawiło się tutaj kilka kwestii ważnych omówienia. Oprócz problemów z klasyfikacją stołu z prawej strony, który bardziej wygląda jak szafki z blatem w kuchni, obserwujemy błędne przypisanie tapety naściennej jako obrazy. Poza tym drewniane drzwi model klasyfikuje jako bardziej mebel niż ścianę, co ze względu na teksturę nie jest aż tak złym wyborem. Reszta zdjęcia została pogrupowana poprawnie.
 
 \begin{figure}[ht!]
     \centering
@@ -273,7 +273,7 @@ Na rysunku \ref{fig:kitchen-pred-2} widzimy typową wąską kuchnię. Rezultaty 
     \label{fig:kitchen-pred-2}
 \end{figure}
 
-Trzecim rysunkiem jest rys. \ref{fig:kitchen-pred-3}. Największe wyzwanie stanowią tutaj obiekty zlokalizowane w różnych miejscach. Cieszy fakt, że mimo iż autorzy błędnie ocenili krzesło jako obiekt, model i tak zaznaczył go poprawnie. Widzimy tutaj również próbę klasyfikacji stołu. Powraca wtedy dyskusja na temat czy stół jest meblem tak jak został zresztą zaklasyfikowany.
+Trzecim rysunkiem jest rys. \ref{fig:kitchen-pred-3}. Największe wyzwanie stanowią tutaj obiekty zlokalizowane w różnych miejscach. Cieszy fakt, że mimo iż autorzy błędnie ocenili krzesło jako obiekt, model i tak zaznaczył je poprawnie. Widzimy tutaj również próbę klasyfikacji stołu. Powraca wtedy dyskusja na temat czy stół jest meblem tak jak został zaklasyfikowany przez model.
 
 \begin{figure}[ht!]
     \centering
@@ -296,7 +296,7 @@ Na rysunku \ref{fig:office-pred-1} widać scenę przedstawiające pokój z druka
     \label{fig:office-pred-1}
 \end{figure}
 
-Rysunek \ref{fig:office-pred-2} przedstawia salę konferencyjną. Lewa strona obrazu została zaklasyfikowana całkiem poprawnie. Wyzwaniem dla modelu okazał się prawy dolny róg, gdzie nalezało przypisać klasę kolejno od lewej mebel, obiekt, ściana, co model uprościł do po prostu mebla. To zdecydowanie zła klasyfikacja.
+Rysunek \ref{fig:office-pred-2} przedstawia salę konferencyjną. Lewa strona obrazu została zaklasyfikowana całkiem poprawnie. Wyzwaniem dla modelu okazał się prawy dolny róg, gdzie należało przypisać klasy mebel, obiekt, ściana, co model uprościł do po prostu mebla. To zdecydowanie zła klasyfikacja.
 
 \begin{figure}[ht!]
     \centering
@@ -305,7 +305,7 @@ Rysunek \ref{fig:office-pred-2} przedstawia salę konferencyjną. Lewa strona ob
     \label{fig:office-pred-2}
 \end{figure}
 
-Ostanim rysunkiem {\ref{fig:office-pred-3}} jest pomiesczenie przedstawiające najprawdopodobniej biuro domowe. Klasyfikacja okan, podłogi oraz ściany była prawie bezbłędna. Gorzej model porawdził sobie z stołem, który po części sklasyfikował jako telewizor ze względu na bardzo ciemny oraz prostokąty charakter.
+Ostanim rysunkiem {\ref{fig:office-pred-3}} jest pomiesczenie przedstawiające najprawdopodobniej biuro domowe. Klasyfikacja okna, podłogi oraz ściany była prawie bezbłędna. Gorzej model porawdził sobie z stołem, który po części sklasyfikował jako telewizor ze względu na bardzo ciemny oraz prostokąty charakter.
 
 \begin{figure}[ht!]
     \centering
@@ -319,7 +319,7 @@ Ostanim rysunkiem {\ref{fig:office-pred-3}} jest pomiesczenie przedstawiające n
 
 Sceny związane z klasą inne pomieszczenia budzą najwięcej wątplości. Nie wiadomo bowiem, co dokładnie może się tam znaleźć.
 
-Na rysunku \ref{fig:other_indoor-pred-1} znajduje się wspólna przesztrzeń biurowa. Widzimy, że znajduje się tutaj wiele obszarów typu void, zatem model dokładnie nie wie co powinno się tam znaleźć. Dziwi to szczególnie w przypadku pierwszego krzesła po prawej stronie. Nie mniej jednak model dość dobrze zgaduję tę klasę. Jest zrozumiałym, że pokój otoczy ścianami. W gruncie rzeczy szklana szyba rzeczywiście jest ścianą w tym przypadku. Model niezbyt dobrze pogrupował klasę obikety. Jest tutaj wiele do poprawy.
+Na rysunku \ref{fig:other_indoor-pred-1} znajduje się wspólna przesztrzeń biurowa. Widzimy, że znajduje się tutaj wiele obszarów typu void, zatem model dokładnie nie wie co powinno się tam znaleźć. Dziwi to szczególnie w przypadku pierwszego krzesła po prawej stronie. Nie mniej jednak model dość dobrze zgaduję tę klasę. Jest zrozumiałym, że pokój otoczy ścianami. W gruncie rzeczy szklana szyba rzeczywiście jest ścianą w tym przypadku. Model niezbyt dobrze pogrupował klasę obiekty. Jest tutaj wiele do poprawy.
 
 \begin{figure}[ht!]
     \centering
@@ -338,7 +338,7 @@ Rysunek \ref{fig:other_indoor-pred-2} przedstawia pomieszczenie biurowe. Wszystk
 \end{figure}
 
 
-Ostatnim analizowany obraz w jadalni jest rysunek \ref{fig:dining_room-pred-3}. Na pewno klasyfikacja klas takich jak stół, krzesła czy okno jest tutaj poprawna. Co więcej, nie można tego do tego grona nie zaliczyć klasy podłoga oraz sufit. Jedyny problem z grupowaniem na tym zdjęciu dotyczy samego roku zdjęcia, gdzie nie przyporządkowano klasy mebel. Pozostałe instancje tej klasy są poprawnie sklasyfikowane.
+Ostatnim analizowanym obrazem w jadalni jest rysunek \ref{fig:dining_room-pred-3}. Na pewno klasyfikacja stółu, krzesła czy okna jest tutaj poprawna. Co więcej, nie można tego do tego grona nie zaliczyć klasy podłoga oraz sufit. Jedyny problem z grupowaniem na tym zdjęciu dotyczy samego rogu zdjęcia, gdzie nie przyporządkowano klasy mebel. Pozostałe instancje tej klasy są poprawnie sklasyfikowane.
 
 \begin{figure}[ht!]
     \centering
@@ -348,7 +348,7 @@ Ostatnim analizowany obraz w jadalni jest rysunek \ref{fig:dining_room-pred-3}. 
 \end{figure}
 
 \subsubsection{Klasyfikacja sceny}
-Podobnie jak w przypadku segmentacji semantycznej trudno jest czasem określić jednoznacznie jakość modelu, bazując wyłącznie na miarach jakości. W niniejszym rozdziale zostaną przytoczone wszystkie błędne klasyfikacje z podziałem na konkretne klasy. Pozwoli to wysnuć pewne obserwacje na temat podobieństw tych klas oraz pomoże wysunąć wnioski co do tych błędów. Co więcej, przedstawione zostaną statystyki błędnej klasyfikacji, aby lepiej zobrazować te błędy.
+Podobnie jak w przypadku segmentacji semantycznej czasem trudno jest jednoznacznie określić jakość modelu, bazując wyłącznie na miarach jakości. W niniejszym rozdziale zostaną przytoczone wszystkie błędne klasyfikacje z podziałem na konkretne klasy. Pozwoli to wysnuć pewne obserwacje na temat podobieństw tych klas oraz pomoże wysunąć wnioski co do tych błędów. Co więcej, przedstawione zostaną statystyki błędnej klasyfikacji, aby lepiej zobrazować te błędy.
 
 Na rysunku \ref{fig:bathroom-false-pred} przedstawiono 10 błędnych przypisań dla klasy łazienka. Dziewięć z dziesięciu błędów dotyczyło klasy kuchnia. Można doszukiwać się, że kuchnia, jak i łazienka ma poniekąd podobny schemat. Na pewno występuję te same klasy jak zlew czy meble. Tylko raz klasyfikator uznał, że sypialnia jest łazienką.
 \begin{figure}[ht!]

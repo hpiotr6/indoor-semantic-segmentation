@@ -57,6 +57,17 @@ Kolejną ważną pracą w dziedzinie segmentacji semantycznej jest ,,DeepLab: Se
 Podsumowując, segmentacja semantyczna jest zadaniem o dużym znaczeniu w wizji komputerowej, a głębokie CNN okazały się wysoce skuteczne w rozwiązywaniu tego zadania. Rozwój głębokich CNN do segmentacji semantycznej został oznaczony przez kilka ważnych kamieni milowych, w tym wprowadzenie FCN przez Long et al., U-Net przez Ronneberger et al. i DeepLab przez Chen et al. Te architektury wyznaczyły nowe standardy w segmentacji semantycznej i zostały szeroko przyjęte w różnych dziedzinach zastosowań.
 
 
+
+
+\subsection{DeepLabV3}
+Literatura uważa go za model lepszy od sieci U-Net czy FCN. Model DeepLabV3 (rys. \ref{fig:deeplabv3}) nie korzysta z połączeń pomijających. Informacje o kontekście w wielu skalach uzyskuje przez moduł Spatial Pyramid Pooling (SPP). Wykorzystuje on bloki Atrous Spatial Pyramid Pooling (ASPP) oraz klasyczny pooling. Bloki ASPP składają się ze splotu, normalizacji pakietowej oraz funkcji aktywacji ReLU. Sploty przyjmują różną postać. Pierwszy blok to splot o jądrze 1x1. Następne bloki korzystają z rozszerzonego splotu o dylatacji oraz wypełnieniu (padding) równemu współczynnikowi rozszerzenia (dilatation rate). Dla kolejnych 3 bloków wynosi on 12, 24, 36. Ostatni blok SPP to zwykły pooling. Bloki składające się na moduł SPP są następnie dodawane wzdłużnie i poddawane splotowi. Następnie egzekwuje się splot o wyjściowej liczbie kanałów równej ilości klas. Końcowy etap obejmuje upsampling do pożądanego wymiaru.
+\begin{figure}[ht!]
+\includegraphics[width=\textwidth]{deeplabv3-new.png}
+\caption{Klasyczna architektura DeepLabV3 z backbonem ResNet34.}
+\label{fig:deeplabv3}
+\end{figure}
+
+
 % \subsection{DeepLabV3}
 % Literatura uważa go za model lepszy od sieci U-Net czy FCN. Model DeepLabV3 (rys. \ref{fig:deeplabv3}) nie korzysta z połączeń pomijających. Informacje o kontekście w wielu skalach uzyskuje przez moduł Spatial Pyramid Pooling (SPP). Wykorzystuje on bloki Atrous Spatial Pyramid Pooling (ASPP) oraz klasyczny pooling. Bloki ASPP składają się ze splotu, normalizacji pakietowej oraz funkcji aktywacji ReLU. Sploty przyjmują różną postać. Pierwszy blok to splot o jądrze 1x1. Następne bloki korzystają z rozszerzonego splotu o dylatacji oraz wypełnieniu (padding) równemu współczynnikowi rozszerzenia (dilatation rate). Dla kolejnych 3 bloków wynosi on 12, 24, 36. Ostatni blok SPP to zwykły pooling. Bloki składające się na moduł SPP są następnie dodawane wzdłużnie i poddawane splotowi. Następnie egzekwuje się splot o wyjściowej liczbie kanałów równej ilości klas. Końcowy etap obejmuje upsampling do pożądanego wymiaru.
 % \begin{figure}[ht!]

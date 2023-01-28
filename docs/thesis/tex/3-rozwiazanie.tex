@@ -54,13 +54,6 @@ Najbliższym artykułem tej pracy inżynierskiej jest ,,Efficient Multi-Task RGB
 \end{figure}
 
 
-\subsubsection{DeepLabV3}
-Literatura uważa go za model lepszy od sieci U-Net czy FCN. Model DeepLabV3 nie korzysta z połączeń pomijających. Informacje o kontekście w wielu skalach uzyskuje przez moduł Spatial Pyramid Pooling (SPP). Wykorzystuje on bloki Atrous Spatial Pyramid Pooling (ASPP) oraz klasyczny pooling. Bloki ASPP składają się ze splotu, normalizacji pakietowej oraz funkcji aktywacji ReLU. Sploty przyjmują różną postać. Pierwszy blok to splot o jądrze 1x1. Następne bloki korzystają z rozszerzonego splotu o dylatacji oraz wypełnieniu (padding) równemu współczynnikowi rozszerzenia (dilatation rate). Dla kolejnych 3 bloków wynosi on 12, 24, 36. Ostatni blok SPP to zwykły pooling. Bloki składające się na moduł SPP są następnie dodawane wzdłużnie i poddawane splotowi. Następnie egzekwuje się splot o wyjściowej liczbie kanałów równej ilości klas. Końcowy etap obejmuje upsampling do pożądanego wymiaru.
-\begin{figure}[ht!]
-\includegraphics[width=\textwidth]{deeplabv3-new.png}
-\caption{Klasyczna architektura DeepLabV3 z backbonem ResNet34.}
-\label{fig:deeplabv3}
-\end{figure}
 \subsection{Rozwiązanie problemu}
 W tym podrozdziale zostaną przedstawione eksperymenty, które wykonano w celu zbadania uczenia wielozadaniowego segmentacji semantycznej oraz klasyfikacji sceny w domenie pomieszczeń. Pierwszym etapem, jakiego dokonano, było wyznaczenie punktu odniesienia. Z punktu widzenia pracy najłatwiej byłoby znaleźć gotowe wyniki segmentacji oraz klasyfikacji sceny na wybranym zbiorze danych. Niestety żadne z przytaczanych rozwiązań nie odpowiada w pełni zakresowi pracy. Postanowiono stworzyć taki punkt odniesienia samemu przez analogiczne trenowanie sieci segmentacyjnej oraz klasyfikacyjnej osobno.
 
