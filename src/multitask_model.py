@@ -24,7 +24,6 @@ class MultitaskNet(nn.Module):
             nn.BatchNorm1d(256),
             nn.Dropout(p=0.25),
             nn.Linear(in_features=256, out_features=scene_classes, bias=False),
-            nn.Softmax(dim=1),
         )
 
     def forward(self, x):
