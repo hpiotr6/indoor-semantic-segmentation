@@ -36,5 +36,5 @@ class MetricsHelper:
             ],
             prefix=f"{self.stage}/{self.name}/",
         )
-        self.macro_metrics.to("cuda")
-        self.nonaverage_metrics.to("cuda")
+        self.macro_metrics.to("cpu")
+        self.nonaverage_metrics.to("cpu")

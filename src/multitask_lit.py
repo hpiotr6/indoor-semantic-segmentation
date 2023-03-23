@@ -52,7 +52,7 @@ class LitMultitask(pl.LightningModule):
         )
         self.scene_metrics = metrics.MetricsHelper(
             metrics=[
-                classification.F1Score,
+                classification.MulticlassF1Score,
                 classification.MulticlassAccuracy,
             ],
             stage="test",
